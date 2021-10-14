@@ -16,6 +16,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 // Toastr
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PageRegistroComponent } from './components/page-registro/page-registro.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NavbarComponent,
     LoginComponent,
     HomeComponent,
-    RegistroComponent
+    RegistroComponent,
+    PageRegistroComponent
   ],
   imports: [
     BrowserModule,

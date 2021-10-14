@@ -1,3 +1,4 @@
+import { PageRegistroComponent } from './components/page-registro/page-registro.component';
 import { RegistroComponent } from './components/registro/registro.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
@@ -20,7 +21,7 @@ const routes: Routes = [
   },
   {
     path: 'registro',
-    component: RegistroComponent,
+    component: PageRegistroComponent,
   }
 
 ];

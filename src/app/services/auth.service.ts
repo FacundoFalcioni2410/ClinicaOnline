@@ -1,7 +1,10 @@
+import { Especialista } from './../models/especialista';
 import { ToastrService } from 'ngx-toastr';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 import { Router } from '@angular/router';
+import { FirestoreService } from './firestore.service';
+import { Paciente } from '../models/paciente';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +14,7 @@ export class AuthService {
   isLogged: any;
   loading =  false;
 
-  constructor(private auth: AngularFireAuth, private toaster: ToastrService, private router: Router) { }
+  constructor(private auth: AngularFireAuth, private firestore: FirestoreService, private toaster: ToastrService, private router: Router) { }
 
   mostrarToast(tipo: string, mensaje: string){
     if(tipo === 'success')
@@ -29,6 +32,8 @@ export class AuthService {
     this.loading = true;
     this.auth.signInWithEmailAndPassword(user.email, user.password)
     .then( (res: any) =>{
+      console.log(res);
+      this.isLogged = user;
       this.mostrarToast('success', 'Datos correctos');
       setTimeout( () =>{
       this.loading = false;
@@ -37,13 +42,13 @@ export class AuthService {
     })
     .catch((err: any) =>{
       this.mostrarToast('error', 'Datos incorrectos');
-      // setTimeout( () =>{
+      setTimeout( () =>{
         this.loading = false;
-      // },1500)
+      },1500)
     });;
   }
 
   signUp(user: any){
-    this.auth.createUserWithEmailAndPassword(user.email, user.password);
+    return this.auth.createUserWithEmailAndPassword(user.email, user.password);
   }
 }

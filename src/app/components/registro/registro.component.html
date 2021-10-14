@@ -1,10 +1,15 @@
 <div class="container">
+    <div *ngIf="this.auth.loading">
+        <svg class="spinner d-block m-auto mt-1" width="30px" height="30px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+         </svg>
+    </div>
     <form [formGroup]='form' (ngSubmit)='this.signUp()'>
         <div class="containerForm bg-dark text-white">
             <h1>Registro</h1>
             <p>Completa los siguientes datos para crear una cuenta</p>
 
-            <div class="row">
+           <div class="row">
                 <div class="col-12 col-sm-6">
                     <label for="email"><b>Email</b></label>
                     <input type="text" formControlName='email' name="email" required>
@@ -28,8 +33,7 @@
                     </div>
                 </div>
             </div>
-
-            <div class="row justify-content-center">
+             <div class="row justify-content-center">
                 <div class="col-md-4 col-12">
                     <label for="nombre"><b>Nombre</b></label>
                     <input type="text" formControlName='nombre' name="nombre" required>
@@ -65,13 +69,27 @@
                         Ingrese su edad
                     </div>
                 </div>
-                <div class="col-sm-6 col-12">
+                <div class="col-sm-6 col-12" *ngIf='this.tipoUser === "paciente"'>
                     <label for="obraSocial"><b>Obra social</b></label>
                     <input type="text" formControlName='obraSocial' name="obraSocial" required>
                     
                     <div class='text-danger p-1' *ngIf="form.get('obraSocial')?.touched && form.get('obraSocial')?.errors?.required">
                         Ingrese su obra social
                     </div>
+                </div>
+                <div class="col-sm-6 col-12" *ngIf='this.tipoUser === "especialista"'>
+                    <label for="especialidad"><b>Especialidad</b></label>
+                    <input type="text" formControlName='especialidad' name="especialidad" required>
+                    
+                    <div class='text-danger p-1' *ngIf="form.get('especialidad')?.touched && form.get('especialidad')?.errors?.required">
+                        Ingrese su especialidad
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <input type="file" formControlName='imagen' (change)="cambioArchivo($event)" *ngIf='this.tipoUser === "especialista"'>
+                    <input type="file" formControlName='imagenes' (change)="cambioArchivo($event)" multiple *ngIf='this.tipoUser === "paciente"'>
                 </div>
             </div>
         

@@ -4,7 +4,7 @@ export interface Paciente {
     nombre: string;
     apellido: string;
     edad: number;
-    DNI: number;
-    ObraSocial: string;
-    images: string[];
+    dni: number;
+    obraSocial: string;
+    imagenes?: string[];
 }

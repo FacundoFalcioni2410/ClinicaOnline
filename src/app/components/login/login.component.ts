@@ -28,10 +28,17 @@ export class LoginComponent implements OnInit {
     this.auth.signIn(this.form.value);
   }
 
-  signInRapido(){
-    this.form.get('email')?.setValue('rapido@rapido.com');
+  loginEspecialista(){
+    this.form.get('email')?.setValue('especialista@especialista.com');
     this.form.get('password')?.setValue('12345678');
     this.signIn();
   }
+
+  loginPaciente(){
+    this.form.get('email')?.setValue('paciente@paciente.com');
+    this.form.get('password')?.setValue('12345678');
+    this.signIn();
+  }
+
 
 }
