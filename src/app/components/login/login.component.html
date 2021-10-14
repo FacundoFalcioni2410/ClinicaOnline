@@ -1,0 +1,35 @@
+    <main class="form-signin">
+        <form [formGroup]="form" (ngSubmit)='this.signIn()'>
+          <div class="text-center">
+            <img class="mb-4" src="../../../assets/clinica.png" alt="" width="72" height="57">
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+          </div>
+      
+          <div class="form-floating text-left">
+            <input type="email" class="form-control" id="floatingInput" formControlName="email" placeholder="name@example.com">
+            <label for="floatingInput">Correo electronico</label>
+            <div class="text-danger ms-2" *ngIf="this.form.get('email')?.touched && this.form.get('email')?.errors?.required">
+                Debe ingresar el correo electronico
+            </div>
+            <div class="text-danger ms-2" *ngIf="this.form.get('email')?.touched && this.form.get('email')?.errors?.email">
+                Debe ingresar un correo electronico valido
+            </div>
+          </div>
+          <div class="form-floating mt-1">
+            <input type="password" class="form-control" id="floatingPassword" formControlName="password" placeholder="Password">
+            <label for="floatingPassword">Contraseña</label>
+            <div class="text-danger ms-2" *ngIf="this.form.get('password')?.touched && this.form.get('password')?.errors?.required">
+                Debe ingresar una contraseña
+            </div>
+            <div class="text-danger ms-2" *ngIf="this.form.get('password')?.touched && this.form.get('password')?.errors?.minlength">
+                La contraseña debe tener 8 caracteres o más
+            </div>
+          </div>      
+          <!-- <div class="checkbox mb-3">
+            <label>
+              <input type="checkbox" value="remember-me"> Remember me
+            </label>
+          </div> -->
+          <button class="w-100 btn btn-lg btn-primary" [disabled]='form.invalid' type="submit">Sign in</button>
+        </form>
+      </main>

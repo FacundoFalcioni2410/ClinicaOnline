@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "clinicaonline-ee233": {
+      "hosting": {
+        "ClinicaOnline": [
+          "clinicaonline-ee233"
+        ]
+      }
+    }
+  }
+}
