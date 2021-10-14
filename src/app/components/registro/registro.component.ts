@@ -17,11 +17,11 @@ export class RegistroComponent implements OnInit {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      phoneNumber: ['', Validators.required],
-      city: ['', Validators.required],
-      postalCode: ['', Validators.required],
+      nombre: ['', Validators.required],
+      apellido: ['', Validators.required],
       dni: ['', Validators.required],
-      address: ['', Validators.required],
+      obraSocial: ['', Validators.required],
+      edad: ['', Validators.required],
     })
   }
 

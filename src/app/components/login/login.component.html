@@ -1,35 +1,42 @@
-    <main class="form-signin">
-        <form [formGroup]="form" (ngSubmit)='this.signIn()'>
-          <div class="text-center">
-            <img class="mb-4" src="../../../assets/clinica.png" alt="" width="72" height="57">
-            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-          </div>
-      
-          <div class="form-floating text-left">
-            <input type="email" class="form-control" id="floatingInput" formControlName="email" placeholder="name@example.com">
-            <label for="floatingInput">Correo electronico</label>
-            <div class="text-danger ms-2" *ngIf="this.form.get('email')?.touched && this.form.get('email')?.errors?.required">
-                Debe ingresar el correo electronico
+<div class="container" style="min-height: 100vh !important;" >
+    <div *ngIf="this.auth.loading">
+        <svg class="spinner d-block m-auto mt-1" width="30px" height="30px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+         </svg>
+    </div>
+    <form [formGroup]='form' (ngSubmit)='this.signIn()'>
+        <div class="containerForm bg-dark text-white">
+            <h1>Login</h1>
+            <h3>Ingrese sus datos:</h3>
+
+            <div class="row">
+                <div class="col-12">
+                    <label for="email"><b>Email</b></label>
+                    <input type="text" formControlName='email' name="email" required>
+                    
+                    <div class='text-danger p-1 m-0' *ngIf="form.get('email')?.touched && form.get('email')?.errors?.required">
+                        Ingrese su email
+                    </div>
+                    <div class='text-danger p-1 m-0' *ngIf="form.get('email')?.touched && form.get('email')?.errors?.email">
+                        Ingrese un email valido
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label for="password"><b>Contraseña</b></label>
+                    <input type="password" formControlName='password' name="password" required>
+                    
+                    <div class='text-danger p-1' *ngIf="form.get('password')?.touched && form.get('password')?.errors?.required">
+                        Ingrese su contraseña
+                    </div>
+                    <div class='text-danger p-1' *ngIf="form.get('password')?.touched && form.get('password')?.errors?.minlength">
+                        La contraseña debe tener 8 caracteres o mas
+                    </div>
+                </div>
+            </div>        
+            <div class="clearfix">
+                <button type="submit" [disabled]='form.invalid' class="btn">Ingresar</button>
+                <button type="button" (click)='this.signInRapido()' class="btn">Ingreso rapido</button>
             </div>
-            <div class="text-danger ms-2" *ngIf="this.form.get('email')?.touched && this.form.get('email')?.errors?.email">
-                Debe ingresar un correo electronico valido
-            </div>
-          </div>
-          <div class="form-floating mt-1">
-            <input type="password" class="form-control" id="floatingPassword" formControlName="password" placeholder="Password">
-            <label for="floatingPassword">Contraseña</label>
-            <div class="text-danger ms-2" *ngIf="this.form.get('password')?.touched && this.form.get('password')?.errors?.required">
-                Debe ingresar una contraseña
-            </div>
-            <div class="text-danger ms-2" *ngIf="this.form.get('password')?.touched && this.form.get('password')?.errors?.minlength">
-                La contraseña debe tener 8 caracteres o más
-            </div>
-          </div>      
-          <!-- <div class="checkbox mb-3">
-            <label>
-              <input type="checkbox" value="remember-me"> Remember me
-            </label>
-          </div> -->
-          <button class="w-100 btn btn-lg btn-primary" [disabled]='form.invalid' type="submit">Sign in</button>
-        </form>
-      </main>
+        </div>
+    </form>
+</div>

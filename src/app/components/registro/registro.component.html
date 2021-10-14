@@ -1,77 +1,84 @@
 <div class="container">
     <form [formGroup]='form' (ngSubmit)='this.signUp()'>
-        <div class="containerForm">
-        <h1>Registro</h1>
-        <p>Completa los siguientes datos para crear una cuenta</p>
+        <div class="containerForm bg-dark text-white">
+            <h1>Registro</h1>
+            <p>Completa los siguientes datos para crear una cuenta</p>
 
-        <label for="email"><b>Email</b></label>
-        <input type="text" placeholder="Ingrese su correo electronico aqui" formControlName='email' name="email" required>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <label for="email"><b>Email</b></label>
+                    <input type="text" formControlName='email' name="email" required>
+                    
+                    <div class='text-danger p-1 m-0' *ngIf="form.get('email')?.touched && form.get('email')?.errors?.required">
+                        Ingrese su email
+                    </div>
+                    <div class='text-danger p-1 m-0' *ngIf="form.get('email')?.touched && form.get('email')?.errors?.email">
+                        Ingrese un email valido
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <label for="password"><b>Contraseña</b></label>
+                    <input type="password" formControlName='password' name="password" required>
+                    
+                    <div class='text-danger p-1' *ngIf="form.get('password')?.touched && form.get('password')?.errors?.required">
+                        Ingrese su contraseña
+                    </div>
+                    <div class='text-danger p-1' *ngIf="form.get('password')?.touched && form.get('password')?.errors?.minlength">
+                        La contraseña debe tener 8 caracteres o mas
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-4 col-12">
+                    <label for="nombre"><b>Nombre</b></label>
+                    <input type="text" formControlName='nombre' name="nombre" required>
+                    
+                    <div class='text-danger p-1' *ngIf="form.get('nombre')?.touched && form.get('nombre')?.errors?.required">
+                        Ingrese su nombre
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <label for="apellido"><b>Apellido</b></label>
+                    <input type="text" formControlName='apellido' name="apellido" required>
+                    
+                    <div class='text-danger p-1' *ngIf="form.get('apellido')?.touched && form.get('apellido')?.errors?.required">
+                        Ingrese su apellido
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <label for="dni"><b>DNI</b></label>
+                    <input type="number" name="dni" formControlName='dni' required>
+            
+                    <div class='text-danger p-1' *ngIf="form.get('dni')?.touched && form.get('dni')?.errors?.required">
+                        Ingrese su DNI
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 col-12">
+                    <label for="edad"><b>Edad</b></label>
+                    <input type="number" name="edad" formControlName='edad' required>
         
-        <div class='text-danger p-1 m-0' *ngIf="form.get('email')?.touched && form.get('email')?.errors?.required">
-            Ingrese su email
-        </div>
-        <div class='text-danger p-1 m-0' *ngIf="form.get('email')?.touched && form.get('email')?.errors?.email">
-            Ingrese un email valido
-        </div>
-
-        <label for="password"><b>Contraseña</b></label>
-        <input type="password" placeholder="Ingrese su contraseña" formControlName='password' name="password" required>
+                    <div class='text-danger p-1' *ngIf="form.get('edad')?.touched && form.get('edad')?.errors?.required">
+                        Ingrese su edad
+                    </div>
+                </div>
+                <div class="col-sm-6 col-12">
+                    <label for="obraSocial"><b>Obra social</b></label>
+                    <input type="text" formControlName='obraSocial' name="obraSocial" required>
+                    
+                    <div class='text-danger p-1' *ngIf="form.get('obraSocial')?.touched && form.get('obraSocial')?.errors?.required">
+                        Ingrese su obra social
+                    </div>
+                </div>
+            </div>
         
-        <div class='text-danger p-1' *ngIf="form.get('password')?.touched && form.get('password')?.errors?.required">
-            Ingrese su contraseña
-        </div>
-        <div class='text-danger p-1' *ngIf="form.get('password')?.touched && form.get('password')?.errors?.minlength">
-            La contraseña debe tener 8 caracteres o mas
-        </div>
-
-        <label for="dni"><b>DNI</b></label>
-        <input type="text" placeholder="Numero de documento, CUIL, CUIT, o Pasaporte" name="dni" formControlName='dni' required>
-
-        <div class='text-danger p-1' *ngIf="form.get('dni')?.touched && form.get('dni')?.errors?.required">
-            Ingrese su DNI
-        </div>
-
-        <!-- <label for=""><b>Numero de telefono</b></label>
-        <br>
-        <span>+54</span>
-        <input type="phone" name="phone" placeholder="Ingrese su numero de telefono aqui" formControlName='phoneNumber' required>
-    
-        <div class='text-danger p-1' *ngIf="form.get('phoneNumber')?.touched && form.get('phoneNumber')?.errors?.required">
-            Ingrese su numero de telefono
-        </div>
-
-        <label for="address"><b>Direccion</b></label>
-        <input type="text" placeholder="Ingrese su direccion" formControlName='address' name="address" required>
-
-        <div class='text-danger p-1' *ngIf="form.get('address')?.touched && form.get('address')?.errors?.required">
-            Ingrese su direccion
-        </div>
-
-
+            <div class="clearfix">
         
-        <label for="city">Ingrese su localidad: </label>
-        <select name="city" formControlName='city' required>
-            <option value="CABA">CABA</option>
-            <option value="Buenos aires">Buenos Aires</option>
-        </select>
-
-        <div class='text-danger p-1' *ngIf="form.get('city')?.touched && form.get('city')?.errors?.required">
-            Ingrese su localidad
-        </div>
-
-        <label for="cPostal"><b>Ingrese su codigo postal</b></label>
-        <input type="number" placeholder="Ingrese su direccion" name="postalCode" formControlName='postalCode' required>
-
-        <div class='text-danger p-1' *ngIf="form.get('postalCode')?.touched && form.get('postalCode')?.errors?.required">
-            Ingrese su codigo postal
-        </div> -->
-
-        <!-- <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p> -->
-    
-        <div class="clearfix">
-    
-            <button type="submit" [disabled]='form.invalid' class="btn">Registrarse</button>
-        </div>
+                <button type="submit" [disabled]='form.invalid' class="btn">Registrarse</button>
+            </div>
         </div>
     </form>
 </div>

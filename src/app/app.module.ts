@@ -15,6 +15,8 @@ import { AngularFireModule } from '@angular/fire/compat';
 
 // Toastr
 import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -30,11 +32,12 @@ import { ToastrModule } from 'ngx-toastr';
     ReactiveFormsModule,
     FormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 1500,
       positionClass: 'toast-bottom-center',
       preventDuplicates: true,
-    }),  
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
