@@ -18,7 +18,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageRegistroComponent } from './components/page-registro/page-registro.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
+// LazyLoading imagen
+import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyload-image';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,8 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
     HomeComponent,
     RegistroComponent,
     PageRegistroComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -42,8 +46,14 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
       positionClass: 'toast-bottom-center',
       preventDuplicates: true,
     }),
+    LazyLoadImageModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: LAZYLOAD_IMAGE_HOOKS,
+      useClass: ScrollHooks
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

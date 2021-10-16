@@ -1,8 +1,8 @@
 <div class="container">
     <div *ngIf="this.auth.loading">
-        <svg class="spinner d-block m-auto mt-1" width="30px" height="30px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-            <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
-         </svg>
+        <div *ngIf="this.auth.loading">
+            <app-spinner></app-spinner>
+        </div>
     </div>
     <form [formGroup]='form' (ngSubmit)='this.signUp()'>
         <div class="containerForm bg-dark text-white">
@@ -88,8 +88,8 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <input type="file" formControlName='imagen' (change)="cambioArchivo($event)" *ngIf='this.tipoUser === "especialista"'>
-                    <input type="file" formControlName='imagenes' (change)="cambioArchivo($event)" multiple *ngIf='this.tipoUser === "paciente"'>
+                    <input type="file" formControlName='imagen' (change)="cambioArchivo($event)" *ngIf='this.tipoUser !== "paciente"'>
+                    <input type="file" formControlName='imagenes' (change)="cambioArchivo($event)" multiple *ngIf='this.tipoUser === "paciente";'>
                 </div>
             </div>
         

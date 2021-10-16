@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsuariosComponent implements OnInit {
 
+  defaultImage = '../../../assets/spinnerImage.gif';
+  registroAdministrador: boolean = false;
   usuarios: any = null;
   mostrarPacientes: boolean = true;
   mostrarEspecialistas: boolean = false;
@@ -29,6 +31,7 @@ export class UsuariosComponent implements OnInit {
       setTimeout(()=>{
         this.pacientes = pacientes;
         this.usuarios = pacientes;
+        console.log(this.usuarios);
       },1000)
     });
     this.firestore.getEspecialistas().subscribe(especialistas =>{
@@ -41,6 +44,7 @@ export class UsuariosComponent implements OnInit {
 
   cambiarTipoUser(tipo: string){
     this.tipoUser = tipo
+    this.registroAdministrador = false;
     if(this.tipoUser === 'Pacientes')
     {
       this.usuarios = null;
@@ -62,5 +66,16 @@ export class UsuariosComponent implements OnInit {
         this.usuarios = this.administradores;
       },800)
     }
+  }
+
+  getAdmins(){
+    this.firestore.getAdmins().subscribe( admins =>{
+      this.usuarios = admins;
+    })
+  }
+
+  recibirEstado(value: any){
+    this.registroAdministrador = value;
+    this.cambiarTipoUser('Administradores');
   }
 }

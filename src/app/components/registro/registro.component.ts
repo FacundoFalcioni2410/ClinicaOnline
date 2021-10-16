@@ -1,6 +1,6 @@
 import { ToastrService } from 'ngx-toastr';
 import { Paciente } from './../../models/paciente';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Especialista } from 'src/app/models/especialista';
@@ -15,6 +15,8 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 })
 export class RegistroComponent implements OnInit {
 
+  @Output() finalizado: EventEmitter<any> = new EventEmitter();
+
   form: FormGroup;
   formData: FormData;
   tipoUser: string = '';
@@ -28,9 +30,13 @@ export class RegistroComponent implements OnInit {
     {
       this.registroPaciente();
     }
-    else
+    else if(value === "especialista")
     {
       this.registroEspecialista();
+    }
+    else
+    {
+      this.registroAdmin();
     }
   }
 
@@ -69,6 +75,18 @@ export class RegistroComponent implements OnInit {
     });
   }
 
+  registroAdmin(){
+    this.form = this.formBuilder.group({
+      nombre: ['',[Validators.required]],
+      apellido: ['',[Validators.required]],
+      edad: ['',[Validators.required]],
+      dni: ['',[Validators.required]],
+      email: ['',[Validators.required,Validators.email]],
+      password: ['',[Validators.required,Validators.minLength(8)]],
+      imagen: [null,[Validators.required]],
+    });
+  }
+
   cambioArchivo(event: any)
   {
     if (event.target.files.length > 0) 
@@ -94,6 +112,7 @@ export class RegistroComponent implements OnInit {
     let archivo1 = this.formData.get('archivo1');
     this.nombreArchivo0 = Date.now() + this.nombreArchivo0;
     this.nombreArchivo1 = Date.now() + this.nombreArchivo1;
+    console.log(this.nombreArchivo0);
     let referencia0 = this.firebaseStorage.referenciaCloudStorage(this.nombreArchivo0);
     let referencia1 = this.firebaseStorage.referenciaCloudStorage(this.nombreArchivo1);
     await this.firebaseStorage.tareaCloudStorage(this.nombreArchivo0, archivo0);
@@ -104,6 +123,11 @@ export class RegistroComponent implements OnInit {
       {
         this.user.imagen = url0;
         this.firestore.addEspecialista(this.user);
+      }
+      else if(this.tipoUser === 'Administradores')
+      {
+        this.user.imagen = url0;
+        this.firestore.addAdmin(this.user);
       }
       else
       {
@@ -145,7 +169,7 @@ export class RegistroComponent implements OnInit {
       }
       this.registrar();
     }
-    else
+    else if(this.tipoUser === "especialista")
     {
       this.user = {
         email: this.form.get('email')?.value,
@@ -159,6 +183,19 @@ export class RegistroComponent implements OnInit {
       }
       this.registrar();
     }
+    else
+    {
+      this.user = {
+        email: this.form.get('email')?.value,
+        nombre: this.form.get('nombre')?.value,
+        apellido: this.form.get('apellido')?.value,
+        dni: this.form.get('dni')?.value,
+        edad: this.form.get('edad')?.value,
+        password: this.form.get('password')?.value,
+        perfil: "admin",
+      }
+      this.registrar();
+    }
   }
 
   registrar(){
@@ -166,12 +203,20 @@ export class RegistroComponent implements OnInit {
     .then(async res =>{
       this.auth.loading = true;
       this.auth.isLogged = this.user;
-      this.auth.mostrarToast('success', 'Datos correctos');
       await this.subirArchivo();
+      this.auth.mostrarToast('success', 'Datos correctos');
       this.auth.loading = false;
-      this.router.navigate(['/home']);
+      if(this.tipoUser !== 'Administradores')
+      {
+        this.router.navigate(['/home']);
+      }
+      else
+      {
+        this.finalizado.emit(false);
+      }
     })
     .catch((err: any) =>{
+      this.finalizado.emit(true);
       this.mostrarToast('error', 'Datos incorrectos');
       setTimeout( () =>{
         this.auth.loading = false;

@@ -44,7 +44,7 @@ export class FirestoreService {
   }
 
   addAdmin(admin: any){
-    this.adminCollectionReference.add(admin)
+    this.adminCollectionReference.add({...admin})
   }
 
   addEspecialista(especialista: Especialista)
