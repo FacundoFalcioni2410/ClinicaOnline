@@ -1,0 +1,150 @@
+<!-- <div class="container">
+    <div *ngFor='let usuario of usuarios'>
+        <div *ngIf="usuario?.perfil === 'paciente'">
+            <div class="card img-fluid" style="width: 15rem;">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item" *ngFor='let image of usuario?.imagenes; first as isFirst;' [ngClass]="{'active': isFirst}">
+                            <img [src]="image" alt="" class="d-block m-auto" height="200px" width="200px">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                      <span class="fas fa-chevron-left" style='color:black;' aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                      <span class="fas fa-chevron-right" style='color:black;' aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+            </div>
+            
+        </div>
+    </div>
+</div> -->
+<div class="container text-white">
+    <ul class="nav nav-pills nav-fill">
+        <li class="nav-item mx-2 my-1 noselect">
+          <a class="nav-link bg-info text-dark" (click)='cambiarTipoUser("Pacientes")'>Pacientes</a>
+        </li>
+        <li class="nav-item mx-2 my-1 noselect">
+          <a class="nav-link bg-info text-dark" (click)='cambiarTipoUser("Especialistas")'>Especialistas</a>
+        </li>
+        <li class="nav-item mx-2 mt-1 mb-2 noselect">
+          <a class="nav-link bg-info text-dark" (click)='cambiarTipoUser("Administradores")'>Administradores</a>
+        </li>
+      </ul>
+	<div class="row">
+        <div *ngIf="this.usuarios !== null;else loading">
+            <h2>{{tipoUser}}</h2>
+            <div *ngFor='let usuario of usuarios'>
+               <div class="col-md-7 ">
+                <div class="panel panel-default">
+                <div class="panel-heading">{{usuario?.nombre}} {{usuario?.apellido}}</div>
+                <div class="panel-body">
+                    <div class="box box-info">
+                        <div class="box-body">
+                            <div class="col-sm-6">
+                                <div  align="center">
+                                    <div *ngIf="usuario?.perfil === 'paciente'">
+                                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                                <div class="carousel-inner">
+                                                    <div class="carousel-item" *ngFor='let image of usuario?.imagenes; first as isFirst;' [ngClass]="{'active': isFirst}">
+                                                        <img [src]="image" alt="" class="img-circle img-responsive profile-image">
+                                                    </div>
+                                                </div>
+                                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                                <span class="fas fa-chevron-left" style='color:white;' aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                                </button>
+                                                
+                                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                                <span class="fas fa-chevron-right" style='color:white;' aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                                </button>
+                                            </div>
+                                        </div>   
+                                    </div>
+                                    <div *ngIf="usuario?.perfil === 'especialista' || usuario?.perfil === 'admin'">
+                                            <img [src]='usuario?.imagen' alt="" class="img-circle img-responsive profile-image d-block m-auto">
+                                    </div>   
+                                    </div>
+                                </div>
+                                    <br>
+                                </div>
+                                <div class="clearfix"></div>
+                                <hr style="margin:5px 0 5px 0;">
+                                <div class="col-sm-5 col-xs-6 title " >
+                                    Nombre:
+                                </div>
+                                <div class="col-sm-7 col-xs-6 ">
+                                    {{usuario?.nombre}}
+                                </div>
+    
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+    
+                                <div class="col-sm-5 col-xs-6 title">
+                                    Apellido:
+                                </div>
+                                <div class="col-sm-7">
+                                    {{usuario?.apellido}}
+                                </div>
+    
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+    
+                                <div *ngIf="usuario?.perfil !== 'admin'">
+                                    <div class="col-sm-5 col-xs-6 title " >
+                                        Edad:
+                                    </div>
+                                    <div class="col-sm-7">
+                                        {{usuario?.edad}}
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="bot-border"></div>
+                                </div>
+    
+                                <div *ngIf="usuario?.perfil === 'paciente'">
+                                    <div class="col-sm-5 col-xs-6 title " >
+                                        Obra social:
+                                    </div>
+                                    <div class="col-sm-7">
+                                        {{usuario?.obraSocial}}
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="bot-border"></div>
+                                </div>
+
+                                <div *ngIf="usuario?.perfil === 'especialista'">
+                                    <div class="col-sm-5 col-xs-6 title " >
+                                        Especialidad:
+                                    </div>
+                                    <div class="col-sm-7">
+                                        {{usuario?.especialidad}}
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="bot-border"></div>
+                                </div>
+                                
+                                <div class="col-sm-5 col-xs-6 title">
+                                    Correo electronico:
+                                </div>
+                                <div class="col-sm-7">
+                                    {{usuario?.email}}
+                                </div>
+                                    
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                            </div>
+                        </div>            
+                    </div> 
+            </div>
+        </div>
+        <ng-template #loading>
+            <svg class="spinner d-block m-auto mt-1" width="30px" height="30px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+             </svg>
+        </ng-template>
+</div>

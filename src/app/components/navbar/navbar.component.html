@@ -17,6 +17,12 @@
           <li class="nav-item">
             <a class="nav-link text-white" [routerLink]="['/registro']" >Registrarse</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" [routerLink]="['/usuarios']" *ngIf='this.firestore.usuarioActual?.perfil === "admin"' >Usuarios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white noselect">{{this.firestore.usuarioActual?.email}}</a>
+          </li>
         </ul>
       </div>
     </div>

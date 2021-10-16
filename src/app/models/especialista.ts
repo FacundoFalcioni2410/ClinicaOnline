@@ -5,6 +5,7 @@ export interface Especialista {
     dni: number;
     especialidad: string;
     email: string;
+    perfil: string;
     password: string;
     imagen?: string;
 }

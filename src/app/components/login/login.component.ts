@@ -30,13 +30,19 @@ export class LoginComponent implements OnInit {
 
   loginEspecialista(){
     this.form.get('email')?.setValue('especialista@especialista.com');
-    this.form.get('password')?.setValue('12345678');
+    this.form.get('password')?.setValue('especialista');
     this.signIn();
   }
 
   loginPaciente(){
     this.form.get('email')?.setValue('paciente@paciente.com');
-    this.form.get('password')?.setValue('12345678');
+    this.form.get('password')?.setValue('paciente');
+    this.signIn();
+  }
+
+  loginAdmin(){
+    this.form.get('email')?.setValue('admin@admin.com');
+    this.form.get('password')?.setValue('adminadmin');
     this.signIn();
   }
 

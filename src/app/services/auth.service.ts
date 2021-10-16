@@ -4,14 +4,13 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 import { Router } from '@angular/router';
 import { FirestoreService } from './firestore.service';
-import { Paciente } from '../models/paciente';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  isLogged: any;
+  isLogged: any = false;
   loading =  false;
 
   constructor(private auth: AngularFireAuth, private firestore: FirestoreService, private toaster: ToastrService, private router: Router) { }
@@ -31,10 +30,11 @@ export class AuthService {
   signIn(user: any){
     this.loading = true;
     this.auth.signInWithEmailAndPassword(user.email, user.password)
-    .then( (res: any) =>{
+    .then( async (res: any) =>{
       console.log(res);
-      this.isLogged = user;
+      this.firestore.getUser(user.email);
       this.mostrarToast('success', 'Datos correctos');
+      this.isLogged = true;
       setTimeout( () =>{
       this.loading = false;
         this.router.navigate(['/home']);
@@ -45,7 +45,7 @@ export class AuthService {
       setTimeout( () =>{
         this.loading = false;
       },1500)
-    });;
+    });
   }
 
   signUp(user: any){

@@ -1,3 +1,5 @@
+import { AdminGuard } from './guards/admin.guard';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { PageRegistroComponent } from './components/page-registro/page-registro.component';
 import { RegistroComponent } from './components/registro/registro.component';
 import { HomeComponent } from './components/home/home.component';
@@ -22,6 +24,11 @@ const routes: Routes = [
   {
     path: 'registro',
     component: PageRegistroComponent,
+  },
+  {
+    path: 'usuarios',
+    component: UsuariosComponent,
+    canActivate: [AdminGuard]
   }
 
 ];

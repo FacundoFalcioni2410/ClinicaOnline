@@ -29,6 +29,7 @@ input[type=text], input[type=password], input[type=number], input[type=file] {
   margin-top: 5px;
   display: inline-block;
   border: none;
+  color: #fff;
   background: #232323;
   font-family: Montserrat,Arial, Helvetica, sans-serif;
 }
@@ -42,17 +43,8 @@ select {
   font-family: Montserrat,Arial, Helvetica, sans-serif;
 }
 
-input[type=phone] {
-  width: 81%;
-  padding: 15px;
-  margin-top: 5px;
-  display: inline-block;
-  border: none;
-  background: #f7f7f7;
-}
-
 input[type=text]:focus, input[type=password]:focus, input[type=number]:focus, select:focus {
-  background-color: rgb(136, 124, 124);
+  background-color: rgb(101, 101, 191);
   outline: none;
 }
 

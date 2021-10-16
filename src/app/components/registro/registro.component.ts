@@ -63,7 +63,7 @@ export class RegistroComponent implements OnInit {
       edad: ['',[Validators.required]],
       dni: ['',[Validators.required]],
       email: ['',[Validators.required,Validators.email]],
-      password: ['',[Validators.required,Validators.minLength(6)]],
+      password: ['',[Validators.required,Validators.minLength(8)]],
       especialidad: ['',[Validators.required]],
       imagen: [null,[Validators.required]],
     });
@@ -140,6 +140,7 @@ export class RegistroComponent implements OnInit {
         edad: this.form.get('edad')?.value,
         obraSocial: this.form.get('obraSocial')?.value,
         password: this.form.get('password')?.value,
+        perfil: this.tipoUser,
         imagenes: [],
       }
       this.registrar();
@@ -154,6 +155,7 @@ export class RegistroComponent implements OnInit {
         edad: this.form.get('edad')?.value,
         especialidad: this.form.get('especialidad')?.value,
         password: this.form.get('password')?.value,
+        perfil: this.tipoUser,
       }
       this.registrar();
     }
