@@ -3,7 +3,8 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Paciente } from '../models/paciente';
-
+import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
+import { take } from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'
@@ -52,46 +53,19 @@ export class FirestoreService {
     this.especialistaCollectionReference.add({...especialista});
   }
 
-  getUser(email: string){
+  async getUser(email: string){
     console.log(email);
-    let pacientes: any = [];
-    let especialistas: any = [];
-    let admins: any = [];
 
-    this.getEspecialistas().subscribe( value =>{
-      especialistas = value;
-
-      for(let item of especialistas)
-      {
-        if(item.email === email)
-        {
-          this.usuarioActual = item;
-        }
-      }
-    });
-
-    this.getPacientes().subscribe( value =>{
-      pacientes = value;
-
-      for(let item of pacientes)
-      {
-        if(item.email === email)
-        {
-          this.usuarioActual = item;
-        }
-      }
-    });
-
-    this.getAdmins().subscribe( value =>{
-      admins = value;
-
-      for(let item of admins)
-      {  
-        if(item.email === email)
-        {
-          this.usuarioActual = item;
-        }
-      }
-    });
+    this.usuarioActual = await this.af.collection('administradores', ref => ref.where('email', '==', email).limit(1)).valueChanges().pipe(take(1)).toPromise();
+    if(this.usuarioActual.length === 0)
+    {
+      this.usuarioActual = await this.af.collection('pacientes', ref => ref.where('email', '==', email).limit(1)).valueChanges().pipe(take(1)).toPromise();
+    }
+    if(this.usuarioActual.length === 0)
+    {
+      this.usuarioActual = await this.af.collection('especialistas', ref => ref.where('email', '==', email).limit(1)).valueChanges().pipe(take(1)).toPromise();
+    }
+    
+    return this.usuarioActual;
   }
 }

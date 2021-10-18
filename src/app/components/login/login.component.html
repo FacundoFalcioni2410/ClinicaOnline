@@ -1,4 +1,4 @@
-<div class="container" style="min-height: 100vh !important;" >
+<div class="container" style="max-height: 100vh !important;" >
     <div *ngIf="this.auth.loading">
         <app-spinner></app-spinner>
     </div>
@@ -31,11 +31,19 @@
                     </div>
                 </div>
             </div>        
-            <div class="clearfix">
-                <button type="submit" [disabled]='form.invalid' class="btn">Ingresar</button>
-                <button type="button" (click)='this.loginEspecialista()' class="btn">Ingreso rapido especialista</button>
-                <button type="button" (click)='this.loginPaciente()' class="btn">Ingreso rapido paciente</button>
-                <button type="button" (click)='this.loginAdmin()' class="btn">Ingreso rapido admin</button>
+            <div class="row">
+                <div class="col-12">
+                    <button type="submit" [disabled]='form.invalid' class="btn">Ingresar</button>
+                </div>
+                <div class="col-md-4 col-12">
+                    <button type="button" (click)='this.loginEspecialista()' class="btn">Ingreso especialista</button>
+                </div>
+                <div class="col-md-4 col-12">
+                    <button type="button" (click)='this.loginPaciente()' class="btn">Ingreso paciente</button>
+                </div>
+                <div class="col-md-4 col-12">
+                    <button type="button" (click)='this.loginAdmin()' class="btn">Ingreso admin</button>
+                </div>
             </div>
         </div>
     </form>

@@ -17,7 +17,9 @@ export class UsuariosComponent implements OnInit {
   pacientes: any;
   especialistas: any;
   administradores: any;
-  tipoUser: string = 'Pacientes ';
+  tipoUser: string = 'Pacientes';
+  detalle = false;
+  botonDetalle = `Ver ${this.tipoUser} en detalle`;
 
   constructor(private firestore: FirestoreService) {
     this.getUsers();
@@ -43,6 +45,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   cambiarTipoUser(tipo: string){
+    console.log(this.especialistas);
     this.tipoUser = tipo
     this.registroAdministrador = false;
     if(this.tipoUser === 'Pacientes')
@@ -77,5 +80,17 @@ export class UsuariosComponent implements OnInit {
   recibirEstado(value: any){
     this.registroAdministrador = value;
     this.cambiarTipoUser('Administradores');
+  }
+
+  toggleDetalle(){
+    this.detalle = !this.detalle;
+    if(!this.detalle)
+    {
+      this.botonDetalle = `Ver ${this.tipoUser} en detalle`;
+    }
+    else
+    {
+      this.botonDetalle = `Ver ${this.tipoUser} en formato reducido`;
+    }
   }
 }

@@ -1,4 +1,5 @@
 export interface Especialista {
+    uid: string;
     nombre: string;
     apellido: string;
     edad: number;

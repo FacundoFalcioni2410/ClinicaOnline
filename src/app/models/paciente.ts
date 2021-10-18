@@ -1,4 +1,5 @@
 export interface Paciente {
+    uid: string;
     email: string;
     password: string;
     nombre: string;

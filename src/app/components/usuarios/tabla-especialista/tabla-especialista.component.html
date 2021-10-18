@@ -1,0 +1,25 @@
+<div class="container">
+        <div class="table-responsive text-center">
+            <table class="table table-dark">
+                <thead>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Edad</th>
+                    <th>DNI</th>
+                    <th>Especialidad</th>
+                    <th>Email</th>
+                    <th>Habilitado</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let especialista of especialistas">
+                    <td>{{especialista?.nombre}}</td>
+                    <td>{{especialista?.apellido}}</td>
+                    <td>{{especialista?.edad}}</td>
+                    <td>{{especialista?.dni}}</td>
+                    <td>{{especialista?.especialidad}}</td>
+                    <td>{{especialista?.email}}</td>
+                    <td [ngClass]="{'bi-check-lg': especialista?.habilitado === true, 'bi-x-lg': especialista?.habilitado === false}" (click)="actualizarEstado(especialista)"><i class="bi "></i></td>
+                </tbody>
+        </table>
+    </div>
+</div>

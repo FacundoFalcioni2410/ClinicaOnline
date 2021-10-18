@@ -102,7 +102,7 @@ export class RegistroComponent implements OnInit {
           this.nombreArchivo1 = event.target.files[i].name;
         }
         this.formData.delete(`archivo${i}`);
-        this.formData.append(`archivo${i}`, event.target.files[i], event.target.files[i].name)
+        this.formData.append(`archivo${i}`, event.target.files[i], event.target.files[i].name);
       }
     }
   }
@@ -110,13 +110,18 @@ export class RegistroComponent implements OnInit {
   async subirArchivo(){
     let archivo0 = this.formData.get('archivo0');
     let archivo1 = this.formData.get('archivo1');
-    this.nombreArchivo0 = Date.now() + this.nombreArchivo0;
-    this.nombreArchivo1 = Date.now() + this.nombreArchivo1;
+    console.log(archivo1);
+    this.nombreArchivo0 = Date.now().toString() + this.nombreArchivo0;
+    this.nombreArchivo1 = Date.now().toString() + this.nombreArchivo1;
     console.log(this.nombreArchivo0);
     let referencia0 = this.firebaseStorage.referenciaCloudStorage(this.nombreArchivo0);
-    let referencia1 = this.firebaseStorage.referenciaCloudStorage(this.nombreArchivo1);
     await this.firebaseStorage.tareaCloudStorage(this.nombreArchivo0, archivo0);
-    await this.firebaseStorage.tareaCloudStorage(this.nombreArchivo1, archivo1);
+    let referencia1: any = null;
+    if(archivo1)
+    {
+      referencia1 = this.firebaseStorage.referenciaCloudStorage(this.nombreArchivo1);
+      await this.firebaseStorage.tareaCloudStorage(this.nombreArchivo1, archivo1);
+    }
     
     referencia0.getDownloadURL().subscribe((url0: any) => {
       if(this.tipoUser === 'especialista')
@@ -134,10 +139,16 @@ export class RegistroComponent implements OnInit {
         this.user.imagenes.push(url0);
         console.log(this.user.imagenes);
 
-        referencia1.getDownloadURL().subscribe((url1: any) =>{
-          this.user.imagenes.push(url1);
-          this.firestore.addPaciente(this.user);
-        });
+        if(referencia1)
+        {
+          referencia1.getDownloadURL().subscribe((url1: any) =>{
+            this.user.imagenes.push(url1);
+            this.firestore.addPaciente(this.user);
+          });
+  
+          this.nombreArchivo0 = '';
+          this.nombreArchivo1 = '';
+        }
      }
     });
   }
@@ -180,6 +191,7 @@ export class RegistroComponent implements OnInit {
         especialidad: this.form.get('especialidad')?.value,
         password: this.form.get('password')?.value,
         perfil: this.tipoUser,
+        habilitado: true
       }
       this.registrar();
     }
@@ -198,16 +210,19 @@ export class RegistroComponent implements OnInit {
     }
   }
 
+
   registrar(){
     this.auth.signUp(this.user)
     .then(async res =>{
       this.auth.loading = true;
       this.auth.isLogged = this.user;
+      this.user.uid = res?.user?.uid;
       await this.subirArchivo();
       this.auth.mostrarToast('success', 'Datos correctos');
       this.auth.loading = false;
       if(this.tipoUser !== 'Administradores')
       {
+        this.auth.enviarVerificacionEmail();
         this.router.navigate(['/home']);
       }
       else

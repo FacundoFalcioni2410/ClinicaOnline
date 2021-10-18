@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
 
   loginEspecialista(){
     this.form.get('email')?.setValue('especialista@especialista.com');
-    this.form.get('password')?.setValue('especialista');
+    this.form.get('password')?.setValue('especialistaespecialista');
     this.signIn();
   }
 

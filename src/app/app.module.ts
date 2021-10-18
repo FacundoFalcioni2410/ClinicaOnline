@@ -14,14 +14,15 @@ import { RegistroComponent } from './components/registro/registro.component';
 import { AngularFireModule } from '@angular/fire/compat';
 
 // Toastr
+// import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageRegistroComponent } from './components/page-registro/page-registro.component';
-import { UsuariosComponent } from './components/usuarios/usuarios.component';
-import { SpinnerComponent } from './components/spinner/spinner.component';
 
 // LazyLoading imagen
 import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyload-image';
+import { SharedModule } from './modules/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -29,10 +30,7 @@ import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyl
     NavbarComponent,
     LoginComponent,
     HomeComponent,
-    RegistroComponent,
     PageRegistroComponent,
-    UsuariosComponent,
-    SpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +44,9 @@ import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyl
       positionClass: 'toast-bottom-center',
       preventDuplicates: true,
     }),
-    LazyLoadImageModule
+    LazyLoadImageModule,
+    SharedModule
+    // SweetAlert2Module.forRoot()
   ],
   providers: [
     {
