@@ -7,6 +7,7 @@ import { Especialista } from 'src/app/models/especialista';
 import { FotosService } from 'src/app/services/fotos.service';
 import { Router } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-registro',
@@ -23,6 +24,7 @@ export class RegistroComponent implements OnInit {
   nombreArchivo0: string = '';
   nombreArchivo1: string = '';
   user: any;
+  especialidades: any;
 
   @Input() set tipo(value: any){
     this.tipoUser = value;
@@ -43,10 +45,17 @@ export class RegistroComponent implements OnInit {
   constructor(public auth: AuthService, private formBuilder: FormBuilder, private firebaseStorage: FotosService, private router: Router, private toaster: ToastrService, private firestore: FirestoreService) {
     this.form = this.formBuilder.group({});
     this.formData = new FormData();
+    this.getEspecialidades();
   }
 
 
   ngOnInit(): void {
+  }
+
+  getEspecialidades(){
+    this.firestore.especialidadesObs.subscribe( value =>{
+      this.especialidades = value;
+    })
   }
 
   registroPaciente(){
@@ -218,11 +227,15 @@ export class RegistroComponent implements OnInit {
       this.auth.isLogged = this.user;
       this.user.uid = res?.user?.uid;
       await this.subirArchivo();
-      this.auth.mostrarToast('success', 'Datos correctos');
       this.auth.loading = false;
-      if(this.tipoUser !== 'Administradores')
+      if(this.tipoUser === 'especialista')
       {
+        this.firestore.addEspecialidad(this.user.especialidad);
+      }
+      if(this.tipoUser !== 'Administradores')
+      {      
         this.auth.enviarVerificacionEmail();
+        Swal.fire({text: "Datos correctos, se ha enviado un mail para validar su cuenta", timer:2000, timerProgressBar: true, icon: "success", toast:true, position: 'bottom'});
         this.router.navigate(['/home']);
       }
       else
@@ -232,7 +245,7 @@ export class RegistroComponent implements OnInit {
     })
     .catch((err: any) =>{
       this.finalizado.emit(true);
-      this.mostrarToast('error', 'Datos incorrectos');
+      Swal.fire({text: "Datos incorrectos", timer:1500, timerProgressBar: true, icon: "error", toast:true, position: 'bottom'});
       setTimeout( () =>{
         this.auth.loading = false;
       },1500);

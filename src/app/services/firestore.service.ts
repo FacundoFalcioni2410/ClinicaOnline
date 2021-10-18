@@ -15,6 +15,8 @@ export class FirestoreService {
   pacientesObs: Observable<Paciente>;
   especialistaCollectionReference: any;
   especialistasObs: Observable<Especialista>;
+  especialidadesCollectionReference: any;
+  especialidadesObs: Observable<any>;
   adminCollectionReference: any;
   adminObs: Observable<any>;
   usuarioActual: any;
@@ -26,6 +28,8 @@ export class FirestoreService {
     this.especialistasObs = this.especialistaCollectionReference.valueChanges({idField: 'id'});
     this.adminCollectionReference = this.af.collection('administradores');
     this.adminObs = this.adminCollectionReference.valueChanges({idField: 'id'});
+    this.especialidadesCollectionReference = this.af.collection('especialidades');
+    this.especialidadesObs = this.especialidadesCollectionReference.valueChanges({idField: 'id'});
   }
 
   getPacientes(){
@@ -42,6 +46,11 @@ export class FirestoreService {
 
   addPaciente(paciente: Paciente){
     this.pacienteCollectionReference.add({...paciente})
+  }
+
+  addEspecialidad(especialidad: any)
+  {
+    this.especialidadesCollectionReference.add({especialidad: especialidad});
   }
 
   addAdmin(admin: any){

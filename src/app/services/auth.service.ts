@@ -64,7 +64,7 @@ export class AuthService {
       
     })
     .catch((err: any) =>{
-      this.mostrarToast('error', 'Datos incorrectos');
+      Swal.fire({text: "Datos incorrectos", timer:1500, timerProgressBar: true, icon: "error", toast:true, position: 'bottom'});
       setTimeout( () =>{
         this.loading = false;
       },1500)

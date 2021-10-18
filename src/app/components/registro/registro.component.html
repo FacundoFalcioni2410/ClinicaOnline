@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-md-4 col-12">
                     <label for="dni"><b>DNI</b></label>
-                    <input type="number" name="dni" formControlName='dni' required>
+                    <input type="number" name="dni" autocomplete="off" formControlName='dni' required>
             
                     <div class='text-danger p-1' *ngIf="form.get('dni')?.touched && form.get('dni')?.errors?.required">
                         Ingrese su DNI
@@ -79,8 +79,12 @@
                 </div>
                 <div class="col-sm-6 col-12" *ngIf='this.tipoUser === "especialista"'>
                     <label for="especialidad"><b>Especialidad</b></label>
-                    <input type="text" formControlName='especialidad' name="especialidad" required>
+                    <input type="text" formControlName='especialidad' autocomplete="off" name="especialidad" list="especialidades" required>
                     
+                    <datalist id="especialidades">
+                        <option *ngFor='let especialidad of especialidades' value="{{especialidad.especialidad}}"></option>
+                    </datalist>
+
                     <div class='text-danger p-1' *ngIf="form.get('especialidad')?.touched && form.get('especialidad')?.errors?.required">
                         Ingrese su especialidad
                     </div>
