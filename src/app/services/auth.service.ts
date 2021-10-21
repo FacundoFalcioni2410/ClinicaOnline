@@ -45,17 +45,16 @@ export class AuthService {
     this.loading = true;
     this.auth.signInWithEmailAndPassword(user.email, user.password)
     .then( async (res: any) =>{
-      console.log(res);
       let userF = await this.emailValido(user, res);
-      console.log(userF[0]);
-      if(userF[0]?.especialidad && userF[0]?.habilitado === false)
+      console.log(userF);
+      if(userF?.especialidad && userF?.habilitado === false)
       {
           Swal.fire({text: "El usuario ha sido deshabilitado, contactese con un administrador para saber mas al respecto", timer:2500, timerProgressBar: true, icon: "error", toast:true, position: 'bottom'});
           this.loading = false;
       }
       else
       {
-        this.firestore.usuarioActual = userF[0];
+        this.firestore.usuarioActual = userF;
         console.log('usuario actual: ', this.firestore.usuarioActual);
         Swal.fire({text: "Datos correctos", timer:1500, timerProgressBar: true, icon: "success", toast:true, position: 'bottom'});
         this.loading = false;
@@ -75,6 +74,13 @@ export class AuthService {
     return this.auth.createUserWithEmailAndPassword(user.email, user.password);
   }
 
+  logOut(){
+    this.auth.signOut()
+    .then( res =>{
+      this.firestore.usuarioActual = null;
+      this.router.navigate(['/login']);
+    });
+  }
   
   async enviarVerificacionEmail(){
     return (await this.auth.currentUser)?.sendEmailVerification();

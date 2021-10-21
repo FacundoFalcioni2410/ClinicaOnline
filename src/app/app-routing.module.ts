@@ -6,6 +6,9 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PacienteGuard } from './guards/paciente.guard';
+import { SinPermisosComponent } from './components/sin-permisos/sin-permisos.component';
+import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
 
 const routes: Routes = [
   {
@@ -26,9 +29,21 @@ const routes: Routes = [
     component: PageRegistroComponent,
   },
   {
+    path: 'turnos',
+    loadChildren: () => import('./components/turnos/turnos.module').then(m => m.TurnosModule),
+  },
+  {
     path: 'usuarios',
     loadChildren: () => import('./components/usuarios/usuarios.module').then(m => m.UsuariosModule),
     canActivate: [AdminGuard]
+  },
+  {
+    path: 'sin-permisos',
+    component: SinPermisosComponent,
+  },
+  {
+    path: 'mi-perfil',
+    component: MiPerfilComponent,
   }
 
 ];

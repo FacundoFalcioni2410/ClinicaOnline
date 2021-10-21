@@ -23,6 +23,9 @@ import { PageRegistroComponent } from './components/page-registro/page-registro.
 // LazyLoading imagen
 import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyload-image';
 import { SharedModule } from './modules/shared/shared.module';
+import { SinPermisosComponent } from './components/sin-permisos/sin-permisos.component';
+import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
+import { MisHorariosComponent } from './components/mis-horarios/mis-horarios.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +34,9 @@ import { SharedModule } from './modules/shared/shared.module';
     LoginComponent,
     HomeComponent,
     PageRegistroComponent,
+    SinPermisosComponent,
+    MiPerfilComponent,
+    MisHorariosComponent,
   ],
   imports: [
     BrowserModule,

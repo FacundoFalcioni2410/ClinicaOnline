@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" [routerLink]="['/']">
+        <a class="navbar-brand noselect" [routerLink]="['/']">
             <img src="../../../assets/favicon.ico" alt="" width="30" height="30" class="d-inline-block align-text-top">
         </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,21 +9,32 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active text-white" aria-current="page" [routerLink]="['/']">Bienvenido</a>
+            <a class="nav-link active text-white noselect" aria-current="page" [routerLink]="['/']">Bienvenido</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" [routerLink]="['/login']" *ngIf='!this.firestore.usuarioActual'>Login</a>
+            <a class="nav-link text-white noselect" [routerLink]="['/login']" *ngIf='!this.firestore.usuarioActual'>Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" [routerLink]="['/registro']" *ngIf='!this.firestore.usuarioActual'>Registrarse</a>
+            <a class="nav-link text-white noselect" [routerLink]="['/registro']" *ngIf='!this.firestore.usuarioActual'>Registrarse</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" [routerLink]="['/usuarios']" *ngIf='this.firestore.usuarioActual?.perfil === "admin"' >Usuarios</a>
+            <a class="nav-link text-white noselect" [routerLink]="['/mi-perfil']" *ngIf='this.firestore.usuarioActual'>Mi perfil</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link text-white noselect" [routerLink]="['/usuarios']" *ngIf='this.firestore.usuarioActual?.perfil === "admin"' >Usuarios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white noselect" [routerLink]="['/turnos/mis-turnos']" *ngIf='this.firestore.usuarioActual?.perfil === "paciente"' >Mis turnos</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
           <li class="nav-item">
             <a class="nav-link text-white noselect">{{this.firestore.usuarioActual?.email}}</a>
           </li>
-        </ul>
+          <li class="nav-item">
+            <a class="nav-link text-white noselect" *ngIf="this.firestore?.usuarioActual" (click)="this.auth.logOut()">Cerrar sesión</a>
+          </li>
+      </ul>
       </div>
     </div>
   </nav>

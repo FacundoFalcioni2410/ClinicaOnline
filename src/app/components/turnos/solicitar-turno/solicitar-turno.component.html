@@ -1,0 +1,30 @@
+<div class="container">
+    <div>
+        <form (ngSubmit)="solicitarTurno()">
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    <select class="form-select" aria-label="Default select example" name="especialidad" [(ngModel)]="especialidadActual" (ngModelChange)="cambioEspecialidad()">
+                        <option selected>Open this select menu</option>
+                        <option [value]="item.especialidad" *ngFor="let item of especialidades">{{item.especialidad}}</option>
+                      </select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Open this select menu</option>
+                        <option [value]="item.especialidad" *ngFor="let item of array">{{item.nombre}} {{item.apellido}}</option>
+                      </select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    <input type="text" >
+                </div>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary">Solicitar turno </button>
+            </div>
+        </form>
+    </div>
+</div>

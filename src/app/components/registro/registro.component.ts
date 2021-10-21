@@ -4,10 +4,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Especialista } from 'src/app/models/especialista';
-import { FotosService } from 'src/app/services/fotos.service';
 import { Router } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import Swal from 'sweetalert2'
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 @Component({
   selector: 'app-registro',
@@ -42,7 +42,7 @@ export class RegistroComponent implements OnInit {
     }
   }
 
-  constructor(public auth: AuthService, private formBuilder: FormBuilder, private firebaseStorage: FotosService, private router: Router, private toaster: ToastrService, private firestore: FirestoreService) {
+  constructor(public auth: AuthService, private formBuilder: FormBuilder, private firebaseStorage: AngularFireStorage, private router: Router, private toaster: ToastrService, private firestore: FirestoreService) {
     this.form = this.formBuilder.group({});
     this.formData = new FormData();
     this.getEspecialidades();
@@ -123,13 +123,13 @@ export class RegistroComponent implements OnInit {
     this.nombreArchivo0 = Date.now().toString() + this.nombreArchivo0;
     this.nombreArchivo1 = Date.now().toString() + this.nombreArchivo1;
     console.log(this.nombreArchivo0);
-    let referencia0 = this.firebaseStorage.referenciaCloudStorage(this.nombreArchivo0);
-    await this.firebaseStorage.tareaCloudStorage(this.nombreArchivo0, archivo0);
+    let referencia0 = this.firebaseStorage.ref(this.nombreArchivo0);
+    await this.firebaseStorage.upload(this.nombreArchivo0, archivo0);
     let referencia1: any = null;
     if(archivo1)
     {
-      referencia1 = this.firebaseStorage.referenciaCloudStorage(this.nombreArchivo1);
-      await this.firebaseStorage.tareaCloudStorage(this.nombreArchivo1, archivo1);
+      referencia1 = this.firebaseStorage.ref(this.nombreArchivo1);
+      await this.firebaseStorage.upload(this.nombreArchivo1, archivo1);
     }
     
     referencia0.getDownloadURL().subscribe((url0: any) => {

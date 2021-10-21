@@ -1,0 +1,130 @@
+<div class="container text-white">
+    <div *ngIf="usuario !== undefined; else block">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10">
+                <button class="btn btn-primary mt-2" (click)="verHorarios()">{{verHorariosBtn}}</button>
+                <div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">{{usuario?.nombre}} {{usuario?.apellido}}</div>
+                        <div class="panel-body">
+                            <div class="box box-info">
+                                <div class="box-body">
+                                    <div class="col-sm-6">
+                                        <div align="center">
+                                            <div *ngIf="usuario?.perfil === 'paciente'">
+                                                <div id="carouselExampleIndicators" class="carousel slide"
+                                                    data-bs-ride="carousel">
+                                                    <div class="carousel-inner">
+                                                        <div class="carousel-item active">
+                                                            <img [defaultImage]="defaultImage"
+                                                                [lazyLoad]="usuario.imagenes[0]" alt=""
+                                                                class="img-circle img-responsive profile-image">
+                                                        </div>
+                                                        <div class="carousel-item">
+                                                            <img [src]="usuario.imagenes[1]" alt=""
+                                                                class="img-circle img-responsive profile-image noselect">
+                                                        </div>
+                                                    </div>
+                                                    <button class="carousel-control-prev" type="button"
+                                                        data-bs-target="#carouselExampleIndicators"
+                                                        data-bs-slide="prev">
+                                                        <span class="fas fa-chevron-left" style='color:white;'
+                                                            aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Previous</span>
+                                                    </button>
+
+                                                    <button class="carousel-control-next" type="button"
+                                                        data-bs-target="#carouselExampleIndicators"
+                                                        data-bs-slide="next">
+                                                        <span class="fas fa-chevron-right" style='color:white;'
+                                                            aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Next</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="usuario?.perfil !== 'paciente'">
+                                            <img [defaultImage]="defaultImage" [lazyLoad]='usuario?.imagen' alt=""
+                                                class="img-circle img-responsive profile-image d-block m-auto noselect">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                            <div class="clearfix"></div>
+                            <hr style="margin:5px 0 5px 0;">
+                            <div class="col-sm-5 col-xs-6 title ">
+                                Nombre:
+                            </div>
+                            <div class="col-sm-7 col-xs-6 ">
+                                {{usuario?.nombre}}
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+                            <div class="col-sm-5 col-xs-6 title">
+                                Apellido:
+                            </div>
+                            <div class="col-sm-7">
+                                {{usuario?.apellido}}
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+
+                            <div>
+                                <div class="col-sm-5 col-xs-6 title ">
+                                    Edad:
+                                </div>
+                                <div class="col-sm-7">
+                                    {{usuario?.edad}}
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                            </div>
+
+                            <div *ngIf="usuario?.perfil === 'paciente'">
+                                <div class="col-sm-5 col-xs-6 title ">
+                                    Obra social:
+                                </div>
+                                <div class="col-sm-7">
+                                    {{usuario?.obraSocial}}
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                            </div>
+
+                            <div *ngIf="usuario?.perfil === 'especialista'">
+                                <div class="col-sm-5 col-xs-6 title ">
+                                    Especialidad:
+                                </div>
+                                <div class="col-sm-7">
+                                    {{usuario?.especialidad}}
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                            </div>
+
+                            <div class="col-sm-5 col-xs-6 title">
+                                Correo electronico:
+                            </div>
+                            <div class="col-sm-7">
+                                {{usuario?.email}}
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <div class="bot-border"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-2 mt-5" *ngIf="this.horarios">
+                <app-mis-horarios></app-mis-horarios>
+            </div>
+        </div>
+    </div>
+    <ng-template #block>
+        <app-spinner></app-spinner>
+    </ng-template>
+</div>

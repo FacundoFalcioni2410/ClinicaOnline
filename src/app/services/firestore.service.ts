@@ -5,6 +5,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Paciente } from '../models/paciente';
 import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
 import { take } from 'rxjs/operators'
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,14 @@ export class FirestoreService {
   adminObs: Observable<any>;
   usuarioActual: any;
 
-  constructor(private af: AngularFirestore) {
+  constructor(private af: AngularFirestore, private auth: AngularFireAuth) {
+    this.auth.authState.subscribe( async res =>{
+      if(res?.uid)
+      {
+        await this.getUser(res?.email!);
+      }
+    });
+
     this.pacienteCollectionReference = this.af.collection<Paciente>('pacientes');
     this.pacientesObs = this.pacienteCollectionReference.valueChanges({idField: 'id'});
     this.especialistaCollectionReference = this.af.collection<Especialista>('especialistas');
@@ -63,18 +71,18 @@ export class FirestoreService {
   }
 
   async getUser(email: string){
-    console.log(email);
 
-    this.usuarioActual = await this.af.collection('administradores', ref => ref.where('email', '==', email).limit(1)).valueChanges().pipe(take(1)).toPromise();
-    if(this.usuarioActual.length === 0)
+    let usuario = await this.af.collection('administradores', ref => ref.where('email', '==', email).limit(1)).valueChanges().pipe(take(1)).toPromise();
+    if(usuario.length === 0)
     {
-      this.usuarioActual = await this.af.collection('pacientes', ref => ref.where('email', '==', email).limit(1)).valueChanges().pipe(take(1)).toPromise();
+      usuario = await this.af.collection('pacientes', ref => ref.where('email', '==', email).limit(1)).valueChanges().pipe(take(1)).toPromise();
     }
-    if(this.usuarioActual.length === 0)
+    if(usuario.length === 0)
     {
-      this.usuarioActual = await this.af.collection('especialistas', ref => ref.where('email', '==', email).limit(1)).valueChanges().pipe(take(1)).toPromise();
+      usuario = await this.af.collection('especialistas', ref => ref.where('email', '==', email).limit(1)).valueChanges().pipe(take(1)).toPromise();
     }
+    this.usuarioActual = usuario[0];
     
-    return this.usuarioActual;
+    return usuario[0];
   }
 }
