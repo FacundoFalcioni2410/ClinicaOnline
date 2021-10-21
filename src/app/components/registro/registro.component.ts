@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import Swal from 'sweetalert2'
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { ReCaptchaV3Service } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-registro',
@@ -42,7 +43,7 @@ export class RegistroComponent implements OnInit {
     }
   }
 
-  constructor(public auth: AuthService, private formBuilder: FormBuilder, private firebaseStorage: AngularFireStorage, private router: Router, private toaster: ToastrService, private firestore: FirestoreService) {
+  constructor(public auth: AuthService, private formBuilder: FormBuilder, private firebaseStorage: AngularFireStorage, private router: Router, private toaster: ToastrService, private firestore: FirestoreService, private recaptchaV3Service: ReCaptchaV3Service) {
     this.form = this.formBuilder.group({});
     this.formData = new FormData();
     this.getEspecialidades();
@@ -250,5 +251,10 @@ export class RegistroComponent implements OnInit {
         this.auth.loading = false;
       },1500);
     });
+  }
+
+  executeImportantAction(): void {
+    this.recaptchaV3Service.execute('importantAction')
+      .subscribe((token) => console.log(token));
   }
 }

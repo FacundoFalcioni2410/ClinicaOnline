@@ -26,6 +26,9 @@ import { SharedModule } from './modules/shared/shared.module';
 import { SinPermisosComponent } from './components/sin-permisos/sin-permisos.component';
 import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
 import { MisHorariosComponent } from './components/mis-horarios/mis-horarios.component';
+import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
+import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from "ng-recaptcha";
+
 
 @NgModule({
   declarations: [
@@ -51,14 +54,19 @@ import { MisHorariosComponent } from './components/mis-horarios/mis-horarios.com
       preventDuplicates: true,
     }),
     LazyLoadImageModule,
-    SharedModule
+    SharedModule,
+    RecaptchaModule,
+    RecaptchaV3Module,
     // SweetAlert2Module.forRoot()
   ],
   providers: [
     {
       provide: LAZYLOAD_IMAGE_HOOKS,
       useClass: ScrollHooks
-    }
+    },
+    {
+      provide: RECAPTCHA_V3_SITE_KEY,
+      useValue: "6LfHsOUcAAAAAOmlfLmi2XN9CN1khhahwkEwAUkr" }
   ],
   bootstrap: [AppComponent]
 })
