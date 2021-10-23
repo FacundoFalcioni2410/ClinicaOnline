@@ -1,47 +1,46 @@
 <div class="container text-white">
     Seleccione los horarios disponibles
     <div class="row">
-        <div class="col-12">
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                <label class="form-check-label noselect" for="flexSwitchCheckDefault">Lunes</label>
+       <form [formGroup]="form" (ngSubmit)="actualizarHorarios()">
+            <div class="col-12">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" formControlName="lunes" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">Lunes</label>
+                </div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                <label class="form-check-label noselect" for="flexSwitchCheckDefault">Martes</label>
+            <div class="col-12">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" formControlName="martes" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">Martes</label>
+                </div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                <label class="form-check-label noselect" for="flexSwitchCheckDefault">Miercoles</label>
+            <div class="col-12">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" formControlName="miercoles" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">Miercoles</label>
+                </div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                <label class="form-check-label noselect" for="flexSwitchCheckDefault">Jueves</label>
+            <div class="col-12">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" formControlName="jueves" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">Jueves</label>
+                </div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                <label class="form-check-label noselect" for="flexSwitchCheckDefault">Viernes</label>
+            <div class="col-12">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" formControlName="viernes" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">Viernes</label>
+                </div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                <label class="form-check-label noselect" for="flexSwitchCheckDefault">Sabados</label>
+            <div class="col-12">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" formControlName="sabado" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">Sabado</label>
+                </div>
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                <label class="form-check-label noselect" for="flexSwitchCheckDefault">Domingos</label>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary mt-2">Actualizar horarios</button>
             </div>
-        </div>
+       </form>
     </div>
 </div>

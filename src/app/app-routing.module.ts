@@ -29,13 +29,13 @@ const routes: Routes = [
     component: PageRegistroComponent,
   },
   {
-    path: 'turnos',
-    loadChildren: () => import('./components/turnos/turnos.module').then(m => m.TurnosModule),
-  },
-  {
     path: 'usuarios',
     loadChildren: () => import('./components/usuarios/usuarios.module').then(m => m.UsuariosModule),
     canActivate: [AdminGuard]
+  },
+  {
+    path: 'turnos',
+    loadChildren: () => import('./components/turnos/turnos.module').then(m => m.TurnosModule),
   },
   {
     path: 'sin-permisos',

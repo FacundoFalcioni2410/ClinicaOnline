@@ -4,6 +4,7 @@ import { AdminPacienteGuard } from 'src/app/guards/admin-paciente.guard';
 import { PacienteGuard } from 'src/app/guards/paciente.guard';
 import { MisTurnosComponent } from './mis-turnos/mis-turnos.component';
 import { SolicitarTurnoComponent } from './solicitar-turno/solicitar-turno.component';
+import { TurnosComponent } from './turnos.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'solicitar-turno',
     component: SolicitarTurnoComponent
+  },
+  {
+    path: '',
+    component: TurnosComponent
   }
 ];
 

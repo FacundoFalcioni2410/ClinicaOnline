@@ -22,6 +22,9 @@ import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyl
     UsuariosRoutingModule,
     SharedModule,
     LazyLoadImageModule,
+  ],
+  exports: [
+    TablaPacienteComponent
   ]
 })
 export class UsuariosModule { }

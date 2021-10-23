@@ -1,30 +1,49 @@
 <div class="container">
+    <div *ngIf="this.firestore?.usuarioActual?.perfil === 'admin'">
+        <app-tabla-paciente *ngIf="this.pacientes !== undefined; else spinner" [pacientes]='pacientes'
+            (enviar)="recibirPaciente($event)"></app-tabla-paciente>
+    </div>
     <div>
         <form (ngSubmit)="solicitarTurno()">
-            <div class="col-12 col-sm-6">
-                <div class="form-group">
-                    <select class="form-select" aria-label="Default select example" name="especialidad" [(ngModel)]="especialidadActual" (ngModelChange)="cambioEspecialidad()">
-                        <option selected>Open this select menu</option>
-                        <option [value]="item.especialidad" *ngFor="let item of especialidades">{{item.especialidad}}</option>
-                      </select>
-                </div>
+            <div class="col-12 col-sm-6 text-light">
+                <span *ngIf="this.paciente">Turno para el paciente {{paciente.nombre}} {{paciente.apellido}} con DNI:
+                    {{paciente.dni}}</span>
+
             </div>
             <div class="col-12 col-sm-6">
-                <div class="form-group">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
-                        <option [value]="item.especialidad" *ngFor="let item of array">{{item.nombre}} {{item.apellido}}</option>
-                      </select>
-                </div>
+                <span *ngFor="let item of especialidades" (click)="cambioEspecialidad(item.especialidad)"
+                    class="badge rounded-pill bg-info text-dark mt-2 m-1 noselect p-2">{{item?.especialidad}}</span>
             </div>
             <div class="col-12 col-sm-6">
-                <div class="form-group">
-                    <input type="text" >
+                <span *ngFor="let item of array" class="badge rounded-pill bg-dark text-light m-1 mt-2 p-2 noselect"
+                    (click)="cambiarEspecialista(item)">{{item?.nombre}} {{item?.apellido}}</span>
+                <span *ngIf="this.fechaSeleccionada" class="badge rounded-pill bg-warning text-dark m-1 mt-2 p-2 noselect">
+                    {{this.fechaSeleccionada?.dia}}
+                </span>
+            </div>
+            <div class="col-12 mt-2">
+                <div class="row" *ngIf="!fechaSeleccionada">
+                    <div class="col-4" *ngFor="let item of fechasEspecialistaActual">
+                        <div (click)="seleccionarFecha(item)">
+                            <span class="badge rounded-pill bg-dark text-light m-1 mt-2 p-2 noselect">
+                                {{item.dia}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="fechaSeleccionada">
+                    <div class="col-2" *ngFor="let hora of fechaSeleccionada?.turnosDelDia">
+                        <span class="badge rounded-pill bg-dark text-light p-2 noselect" (click)="seleccionarHora(hora)">{{hora}}</span>
+                    </div>
+                    <button class="btn btn-info mt-2" (click)="fechaSeleccionada = undefined">Volver atras</button>
                 </div>
             </div>
-            <div class="col-12">
-                <button class="btn btn-primary">Solicitar turno </button>
+            <div class="col-12 mt-2">
+                <button type="submit" class="btn btn-primary">Solicitar turno</button>
             </div>
         </form>
     </div>
+    <ng-template #spinner>
+        <app-spinner></app-spinner>
+    </ng-template>
 </div>

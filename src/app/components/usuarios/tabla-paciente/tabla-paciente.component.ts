@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-tabla-paciente',
@@ -8,10 +8,14 @@ import { Component, Input, OnInit } from '@angular/core';
 export class TablaPacienteComponent implements OnInit {
 
   @Input() pacientes: any;
+  @Output() enviar: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  enviarPaciente(paciente: any){
+    this.enviar.emit(paciente);
+  }
 }

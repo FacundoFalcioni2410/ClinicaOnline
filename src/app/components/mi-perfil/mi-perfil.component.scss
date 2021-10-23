@@ -16,13 +16,3 @@ input.hidden {
     border-bottom:1px #f8f8f8 solid;
     margin:5px 0  5px 0;
 }
-
-.noselect {
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none;
-    cursor: pointer;
-}

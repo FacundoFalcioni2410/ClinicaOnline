@@ -1,8 +1,8 @@
 <div class="container text-white">
-    <div *ngIf="usuario !== undefined; else block">
+    <div *ngIf="usuario !== undefined; else spinner">
         <div class="row justify-content-center">
-            <div class="col-12 col-sm-10">
-                <button class="btn btn-primary mt-2" (click)="verHorarios()">{{verHorariosBtn}}</button>
+            <div class="col-12 col-sm-10 col-md-8">
+                <button *ngIf="this.firestore?.usuarioActual?.perfil === 'especialista'" class="btn btn-primary mt-2" (click)="verHorarios()">{{verHorariosBtn}}</button>
                 <div>
                     <div class="panel panel-default">
                         <div class="panel-heading">{{usuario?.nombre}} {{usuario?.apellido}}</div>
@@ -119,12 +119,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-2 mt-5" *ngIf="this.horarios">
+            <div class="col-12 col-sm-6 col-md-4 mt-5" *ngIf="this.horarios">
                 <app-mis-horarios></app-mis-horarios>
             </div>
         </div>
     </div>
-    <ng-template #block>
+    <ng-template #spinner>
         <app-spinner></app-spinner>
     </ng-template>
 </div>
