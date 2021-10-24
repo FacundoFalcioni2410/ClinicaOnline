@@ -23,12 +23,11 @@
                             <td>{{turno.pacienteCompleto?.nombre}} {{turno.pacienteCompleto?.apellido}} -
                                 {{turno.pacienteCompleto?.dni}}</td>
                             <td>{{turno.estado | uppercase}}</td>
-                            <td>
-                                <i *ngIf="turno.estado !== 'aceptado' || turno.estado !== 'realizado' || turno.estado !== 'rechazado'" class="bi bi-x-square-fill" title="Cancelar turno"></i>
-                                <i *ngIf="turno.estado !== 'aceptado' || turno.estado !== 'realizado' || turno.estado !== 'rechazado'"  class="bi bi-x-lg ms-1" title="Rechazar turno"></i>
-                                <i *ngIf="turno.estado !== 'realizado' || turno.estado !== 'cancelado' || turno.estado !== 'rechazado'" class="bi bi-check-circle ms-1" title="Aceptar turno"></i>
-                                <i *ngIf="turno.estado !== 'aceptado'" class="bi bi-check-square-fill ms-1" title="Finalizar turno"></i>
-                                <i *ngIf="turno.comentario" class="bi bi-layout-text-sidebar-reverse ms-1" title="Ver reseña"></i>
+                            <td *ngIf="turno.estado !== 'aceptado' && turno.estado !== 'realizado' && turno.estado !== 'rechazado' && turno.estado !== 'cancelado'">
+                                <i
+                                    class="bi bi-x-square-fill" title="Cancelar turno"
+                                    (click)="motivoCancelar(turno)">
+                                </i>
                             <td>
                     </tbody>
                 </table>

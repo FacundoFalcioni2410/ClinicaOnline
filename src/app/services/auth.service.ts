@@ -30,9 +30,9 @@ export class AuthService {
   async emailValido(user: any,res: any): Promise<any>{
     if(user.email !== "admin@admin.com" && user.email !== "especialista@especialista.com" && user.email !== "paciente@paciente.com")
     {
-      if(!res.user.emailVerifed)
+      if(!res.user.emailVerified)
       {
-        this.mostrarToast('error', 'Para ingresar debe validar su email');
+        Swal.fire({text: "Para ingresar debe validar el mail", timer:2500, timerProgressBar: true, icon: "error", toast:true, position: 'bottom'});
         this.loading = false;
         return '';
       }
@@ -47,6 +47,7 @@ export class AuthService {
     .then( async (res: any) =>{
       let userF = await this.emailValido(user, res);
       console.log(userF);
+      localStorage.setItem('usuario', JSON.stringify(userF));
       if(userF?.especialidad && userF?.habilitado === false)
       {
           Swal.fire({text: "El usuario ha sido deshabilitado, contactese con un administrador para saber mas al respecto", timer:2500, timerProgressBar: true, icon: "error", toast:true, position: 'bottom'});

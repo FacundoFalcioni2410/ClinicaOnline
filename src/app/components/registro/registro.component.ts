@@ -25,6 +25,7 @@ export class RegistroComponent implements OnInit {
   nombreArchivo1: string = '';
   user: any;
   especialidades: any;
+  especialidadActual: any = [];
 
   @Input() set tipo(value: any){
     this.tipoUser = value;
@@ -49,12 +50,42 @@ export class RegistroComponent implements OnInit {
   }
 
 
+  agregarEspecialidad(especialidad: any){
+    let index = this.especialidadActual.indexOf(especialidad);
+    if(index === -1)
+    {
+      this.especialidadActual.push(especialidad);
+      this.form.controls.especialidad?.setValue(this.especialidadActual);
+      console.log(this.form.controls.especialidad.value);
+      return true;
+    }
+
+    return false;
+  }
+
+  agregarNuevaEspecialidad(){
+    let especialidad = this.form.controls.nuevaEspecialidad?.value;
+    if(this.agregarEspecialidad(especialidad))
+    {
+      this.firestore.addEspecialidad(especialidad);
+    }
+  }
+
+  borrarEspecialidad(especialidad: any){
+    let index = this.especialidadActual.indexOf(especialidad);
+    if(index !== -1)
+    {
+      this.especialidadActual.splice(index, 1);
+    }
+  }
+
   ngOnInit(): void {
   }
 
   getEspecialidades(){
     this.firestore.especialidadesObs.subscribe( value =>{
       this.especialidades = value;
+      console.log(this.especialidades);
     })
   }
 
@@ -79,7 +110,8 @@ export class RegistroComponent implements OnInit {
       dni: ['',[Validators.required]],
       email: ['',[Validators.required,Validators.email]],
       password: ['',[Validators.required,Validators.minLength(8)]],
-      especialidad: ['',[Validators.required]],
+      especialidad: ['', [Validators.required]],
+      nuevaEspecialidad: [''],
       imagen: [null,[Validators.required]],
     });
   }
@@ -228,10 +260,6 @@ export class RegistroComponent implements OnInit {
       this.user.uid = res?.user?.uid;
       await this.subirArchivo();
       this.auth.loading = false;
-      if(this.tipoUser === 'especialista')
-      {
-        this.firestore.addEspecialidad(this.user.especialidad);
-      }
       if(this.tipoUser !== 'Administradores')
       {      
         this.auth.enviarVerificacionEmail();

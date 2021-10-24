@@ -90,6 +90,10 @@ export class FirestoreService {
     this.especialistaCollectionReference.add({...especialista});
   }
 
+  modificarEstadoTurno(turno: any){
+    this.turnosCollectionReference.doc(turno.id).update({estado: turno.estado});
+  }
+
   async getUser(email: string){
 
     let usuario = await this.af.collection('administradores', ref => ref.where('email', '==', email).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();

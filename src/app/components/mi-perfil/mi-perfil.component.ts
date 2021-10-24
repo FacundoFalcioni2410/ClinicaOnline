@@ -13,9 +13,7 @@ export class MiPerfilComponent implements OnInit {
   verHorariosBtn: string = 'Ver horarios';
   defaultImage = '../../../assets/spinnerImage.gif';
 
-  constructor(public firestore: FirestoreService) {
-    console.log(this.usuario);
-    
+  constructor(public firestore: FirestoreService) {    
   }
 
   ngOnInit(): void {
