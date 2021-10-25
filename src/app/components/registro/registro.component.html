@@ -78,8 +78,8 @@
                     </div>
                 </div>
                 <div class="col-sm-6 col-12 p-0" *ngIf='this.tipoUser === "especialista"'>
+                    <label for="especialidad" class="d-block"><b>Especialidad</b></label>
                     <div style="display: none;">
-                        <label for="especialidad" class="d-block"><b>Especialidad</b></label>
                         <input type="text" formControlName='especialidad' style="width: 60%;" autocomplete="off" name="especialidad" required>
                     </div>
                     <input type="text" formControlName="nuevaEspecialidad" style="width: 60%;" autocomplete="off" name="nuevaEspecialidad" required>
@@ -92,11 +92,12 @@
                             {{item}}
                         </div>
                     </div>
-
-                    <div class="form-check text-light" *ngFor="let item of especialidades">
-                        <label class="form-check-label badge rounded-pill bg-info text-dark noselect" for="especialidades" (click)="agregarEspecialidad(item.especialidad)">
-                            {{item?.especialidad}}
-                        </label>
+                    <div class="d-flex flex-wrap justify-content-center">
+                        <div *ngFor="let item of especialidades">
+                            <label class="ms-1 mt-1 badge rounded-pill bg-info text-dark noselect" for="especialidades" (click)="agregarEspecialidad(item.especialidad)">
+                                {{item?.especialidad}}
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>

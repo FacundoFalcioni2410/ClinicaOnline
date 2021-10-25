@@ -10,16 +10,41 @@ import Swal from 'sweetalert2';
 export class TurnosComponent implements OnInit {
 
   turnos: any;
+  turnosMostrar: any;
+
   paciente: any;
+  
   especialistas: any;
+  especialista: any;
+
+  especialidades: any;
+  especialidad: any;
+
+  mensaje: string = '';
 
   constructor(public firestore: FirestoreService) { 
     this.firestore.turnosObs.subscribe( async value =>{
       this.turnos = value;
+      this.especialidades = [];
+      let index;
+
+      for(let item of this.turnos)
+      {
+        index = this.especialidades.indexOf(item.especialidad);
+        if(index === -1)
+        {
+          this.especialidades.push(item.especialidad)
+        }
+
+      }
+
+
       await this.getPacientes();
       await this.getEspecialistas();
+      // await this.getEspecialistas();
 
       console.log(this.turnos);
+      this.turnosMostrar = this.turnos;
     })
   }
 
@@ -33,11 +58,90 @@ export class TurnosComponent implements OnInit {
 
   async getEspecialistas(){    
     
+    let index = 0;
+    this.especialistas = [];
+      let especialista: any;
+      for(let turno of this.turnos)
+      {
+        especialista = await this.firestore.getEspecialista(turno.especialista);
+        turno.especialistaCompleto = especialista;
+        this.especialistas.push(especialista);
+      }
+  
+      this.especialistas = this.eliminarObjetosDuplicados(this.especialistas, 'dni');
+      console.log(this.especialistas);
+  }
+
+  limpiarFiltros(){
+    this.mensaje = '';
+    this.turnosMostrar = this.turnos;
+  }
+
+  seleccionarEspecialista(especialista: any){
+    this.turnosMostrar = [];
+    this.especialista = especialista;
     for(let turno of this.turnos)
     {
-      turno.especialistaCompleto = await this.firestore.getEspecialista(turno.especialista);
+      if(turno.especialista === especialista.dni)
+      {
+        this.turnosMostrar.push(turno);
+        // this.especialistas.push(turno.especialistaCompleto);
+      }
+    }
+
+    if(this.turnosMostrar.length === 0)
+    {
+      this.mensaje = "No hay turnos con el especialista seleccionado";
     }
   }
+
+  seleccionarEspecialidad(especialidad: any){
+    this.mensaje = '';
+    this.turnosMostrar = [];
+    this.especialidad = especialidad;
+    for(let turno of this.turnos)
+    {
+      if(turno.especialidad === especialidad)
+      {
+        this.turnosMostrar.push(turno);
+      }
+    }
+
+    if(this.turnosMostrar.length === 0)
+    {
+      this.mensaje = "No hay turnos con la especialidad seleccionada";
+    }
+  }
+
+  // async getEspecialistas(){
+  //   let index = 0;
+  //   let especialista: any;
+  //   for(let turno of this.turnos)
+  //   {
+  //     especialista = await this.firestore.getEspecialista(turno.especialista);
+  //     turno.especialistaCompleto = especialista;
+  //     this.especialistas.push(especialista);
+  //   }
+
+  //   this.especialistas = this.eliminarObjetosDuplicados(this.especialistas, 'dni');
+  //   console.log(this.especialistas);
+  // }
+
+  eliminarObjetosDuplicados(arr: any, prop: any) {
+    var nuevoArray: any = [];
+    var lookup: any  = {};
+
+    for (let i in arr) {
+        lookup[arr[i][prop]] = arr[i];
+    }
+
+    for (let i in lookup) {
+        nuevoArray.push(lookup[i]);
+    }
+
+    return nuevoArray;
+  }
+
 
   aceptarTurno(turno: any){
     turno.estado = "aceptado";
