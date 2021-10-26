@@ -6,12 +6,12 @@ Visita la clinica desde [aqui](https://falcioni-clinica-online.herokuapp.com)
 #### Pagina Principal (Sin estar logeado)
 Pagina de ingreso a la app
 
-!(./src/assets/clinicaFotos/home.png?raw=true)
+![IngresoSeccion](./src/assets/clinicaFotos/home.png?raw=true)
 
 #### Pagina Principal (Estando logeado)
 Pagina de ingreso a la app
 
-![IngresoSeccion](./src/assets/clinicaFotos/homelogeado.png?raw=true)
+![IngresoSeccionLogeado](./src/assets/clinicaFotos/homelogeado.png?raw=true)
 
 #### Login
 Desde aqui se va a poder ingresar si es que se tiene una cuenta  
