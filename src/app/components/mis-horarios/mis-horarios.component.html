@@ -7,11 +7,27 @@
                     <input class="form-check-input" formControlName="lunes" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                     <label class="form-check-label noselect" for="flexSwitchCheckDefault">Lunes</label>
                 </div>
+                <div *ngIf="this.form.controls.lunes?.value === true" class="form-check form-switch ms-3">
+                    <input class="form-check-input" formControlName="lunesM" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">08:00 a 13:00</label>
+                </div>
+                <div *ngIf="this.form.controls.lunes?.value === true" class="form-check form-switch ms-3">
+                    <input class="form-check-input" formControlName="lunesT" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">13:00 a 19:00</label>
+                </div>
             </div>
             <div class="col-12">
                 <div class="form-check form-switch">
                     <input class="form-check-input" formControlName="martes" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                     <label class="form-check-label noselect" for="flexSwitchCheckDefault">Martes</label>
+                </div>
+                <div *ngIf="this.form.controls.martes?.value === true" class="form-check form-switch ms-3">
+                    <input class="form-check-input" formControlName="martesM" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">08:00 a 13:00</label>
+                </div>
+                <div *ngIf="this.form.controls.martes?.value === true" class="form-check form-switch ms-3">
+                    <input class="form-check-input" formControlName="martesT" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">13:00 a 19:00</label>
                 </div>
             </div>
             <div class="col-12">
@@ -19,11 +35,27 @@
                     <input class="form-check-input" formControlName="miercoles" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                     <label class="form-check-label noselect" for="flexSwitchCheckDefault">Miercoles</label>
                 </div>
+                <div *ngIf="this.form.controls.miercoles?.value === true" class="form-check form-switch ms-3">
+                    <input class="form-check-input" formControlName="miercolesM" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">08:00 a 13:00</label>
+                </div>
+                <div *ngIf="this.form.controls.miercoles?.value === true" class="form-check form-switch ms-3">
+                    <input class="form-check-input" formControlName="miercolesT" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">13:00 a 19:00</label>
+                </div>
             </div>
             <div class="col-12">
                 <div class="form-check form-switch">
                     <input class="form-check-input" formControlName="jueves" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                     <label class="form-check-label noselect" for="flexSwitchCheckDefault">Jueves</label>
+                </div>
+                <div *ngIf="this.form.controls.jueves?.value === true" class="form-check form-switch ms-3">
+                    <input class="form-check-input" formControlName="juevesM" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">08:00 a 13:00</label>
+                </div>
+                <div *ngIf="this.form.controls.jueves?.value === true" class="form-check form-switch ms-3">
+                    <input class="form-check-input" formControlName="juevesT" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">13:00 a 19:00</label>
                 </div>
             </div>
             <div class="col-12">
@@ -31,11 +63,23 @@
                     <input class="form-check-input" formControlName="viernes" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                     <label class="form-check-label noselect" for="flexSwitchCheckDefault">Viernes</label>
                 </div>
+                <div *ngIf="this.form.controls.viernes?.value === true" class="form-check form-switch ms-3">
+                    <input class="form-check-input" formControlName="viernesM" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">08:00 a 13:00</label>
+                </div>
+                <div *ngIf="this.form.controls.viernes?.value === true" class="form-check form-switch ms-3">
+                    <input class="form-check-input" formControlName="juevesT" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">13:00 a 19:00</label>
+                </div>
             </div>
             <div class="col-12">
                 <div class="form-check form-switch">
                     <input class="form-check-input" formControlName="sabado" type="checkbox" role="switch" id="flexSwitchCheckDefault">
                     <label class="form-check-label noselect" for="flexSwitchCheckDefault">Sabado</label>
+                </div>
+                <div *ngIf="this.form.controls.sabado?.value === true" class="form-check form-switch ms-3">
+                    <input class="form-check-input" formControlName="sabadoM" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label noselect" for="flexSwitchCheckDefault">08:00 a 14:00</label>
                 </div>
             </div>
             <div class="col-12">

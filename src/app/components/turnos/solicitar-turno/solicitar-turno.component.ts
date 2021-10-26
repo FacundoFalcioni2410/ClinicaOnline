@@ -19,8 +19,11 @@ export class SolicitarTurnoComponent implements OnInit {
   //Especialiades | Turnos
   array: any = [];
   especialidades: any;
+
   turnos: any = [];
-  
+  turnosM: any = [];
+  turnosT: any = [];
+
   //Fecha
   fechas: any = [];
   fechasEspecialistaActual: any = [];
@@ -32,7 +35,9 @@ export class SolicitarTurnoComponent implements OnInit {
   recibido = false;
   
   constructor(public firestore: FirestoreService, private datePipe: DatePipe) {
-    this.turnos = ["08:00","08:30", "09:00","09:30","10:00","10:30","11:00","11:30", "12:00","12:30","13:00","13:30","14:00","14:30", "15:00","15:30","16:00","16:30","17:00","17:30", "18:00", "18:30"];
+    this.turnosM = ["08:00","08:30", "09:00","09:30","10:00","10:30","11:00","11:30", "12:00","12:30"];
+    this.turnosT = ["13:00","13:30","14:00","14:30", "15:00","15:30","16:00","16:30","17:00","17:30", "18:00", "18:30"];
+    this.turnos = ["08:00","08:30", "09:00","09:30","10:00","10:30","11:00","11:30", "12:00","12:30", "13:00","13:30","14:00","14:30", "15:00","15:30","16:00","16:30","17:00","17:30", "18:00", "18:30"];
     
     this.getEspecialidades();
     this.getEspecialistas();
@@ -75,20 +80,40 @@ export class SolicitarTurnoComponent implements OnInit {
         {
           let turnoDia: any;
 
-          if(item.getDay() === horario)
+          if(item.getDay() === horario.dia)
           {
+
             if(item.getDay() !== 6)
             {
-              turnoDia = {
-                dia: this.datePipe.transform(item, 'dd/MM/yyyy'),
-                turnosDelDia: this.turnos.map((item: any) => item),
+              if(horario.turno === 'T-M')
+              {
+                turnoDia = {
+                  dia: this.datePipe.transform(item, 'dd/MM/yyyy'),
+                  turnosDelDia: this.turnos.map((item: any) => item)
+                }
+
+                console.log(turnoDia.turnosDelDia);
+              }
+              else if(horario.turno === 'M')
+              {
+                turnoDia = {
+                  dia: this.datePipe.transform(item, 'dd/MM/yyyy'),
+                  turnosDelDia: this.turnosM.map((item: any) => item),
+                }
+              }
+              else
+              {
+                turnoDia = {
+                  dia: this.datePipe.transform(item, 'dd/MM/yyyy'),
+                  turnosDelDia: this.turnosT.map((item: any) => item),
+                }
               }
             }
             else
             {
               turnoDia = {
                 dia: this.datePipe.transform(item, 'dd/MM/yyyy'),
-                turnosDelDia: this.turnos.map((item: any, index: any) =>{
+                turnosDelDia: this.turnosM.map((item: any, index: any) =>{
                   if(index < 13)
                   {
                     return item;
@@ -112,6 +137,7 @@ export class SolicitarTurnoComponent implements OnInit {
                 }
               }
             }
+            console.log(turnoDia);
             this.fechasEspecialistaActual.push(turnoDia);
           }
         }
@@ -152,7 +178,17 @@ export class SolicitarTurnoComponent implements OnInit {
     this.fechaSeleccionada = null;
     this.especialidadActual = especialidad;
     this.array = this.especialistas.filter( (item: any) =>{
-      return item.especialidad === especialidad ? item : null;
+      let flag = false;
+      for(let aux of item.especialidad)
+      {
+        if(especialidad === aux)
+        {
+          flag = true;
+          break;
+        }
+      }
+      
+      return flag ? item : null;
     });
   }
 
