@@ -112,7 +112,7 @@ export class FirestoreService {
     {
       usuario = await this.af.collection('especialistas', ref => ref.where('email', '==', email).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();
     }
-      
+    this.usuarioActual = usuario[0];
     return usuario[0];
   }
 

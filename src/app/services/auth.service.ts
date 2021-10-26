@@ -51,10 +51,10 @@ export class AuthService {
         this.loading = false;
         this.auth.signOut();
         this.firestore.usuarioActual = null;
+        console.log(this.firestore.usuarioActual); 
       }
       else
       {
-        this.firestore.usuarioActual = userF;
         localStorage.setItem('usuario', JSON.stringify(userF));
         if(userF?.especialidad && userF?.habilitado === false)
         {
