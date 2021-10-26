@@ -23,12 +23,18 @@ export class FirestoreService {
   turnosCollectionReference: any;
   turnosObs: Observable<any>;
   usuarioActual: any;
+  isLogged = false;
 
   constructor(private af: AngularFirestore, private auth: AngularFireAuth) {
-    this.auth.authState.subscribe( async res =>{
+    this.auth.user.subscribe( async res =>{
       if(res?.uid)
       {
         await this.getUser(res?.email!);
+      }
+
+      if(res === null)
+      {
+        this.usuarioActual = null;
       }
     });
 
@@ -103,17 +109,24 @@ export class FirestoreService {
 
   async getUser(email: string){
 
-    let usuario = await this.af.collection('administradores', ref => ref.where('email', '==', email).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();
-    if(usuario.length === 0)
+    if(this.isLogged)
     {
-      usuario = await this.af.collection('pacientes', ref => ref.where('email', '==', email).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();
+      let usuario = await this.af.collection('administradores', ref => ref.where('email', '==', email).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();
+      if(usuario.length === 0)
+      {
+        usuario = await this.af.collection('pacientes', ref => ref.where('email', '==', email).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();
+      }
+      if(usuario.length === 0)
+      {
+        usuario = await this.af.collection('especialistas', ref => ref.where('email', '==', email).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();
+      }
+
+      this.usuarioActual = usuario[0];
+
+      return usuario[0];
     }
-    if(usuario.length === 0)
-    {
-      usuario = await this.af.collection('especialistas', ref => ref.where('email', '==', email).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();
-    }
-    this.usuarioActual = usuario[0];
-    return usuario[0];
+
+    return null;
   }
 
   async getPaciente(dni: number){

@@ -36,7 +36,7 @@ export class AuthService {
         return '';
       }
     }
-
+    this.firestore.isLogged = true;
     return await this.firestore.getUser(user.email);
   }
 
@@ -47,6 +47,7 @@ export class AuthService {
       let userF = await this.emailValido(user, res);
       if(userF === '')
       {
+        this.firestore.isLogged = false;
         Swal.fire({text: "Para ingresar debe validar el mail", timer:2500, timerProgressBar: true, icon: "error", toast:true, position: 'bottom'});
         this.loading = false;
         this.auth.signOut();

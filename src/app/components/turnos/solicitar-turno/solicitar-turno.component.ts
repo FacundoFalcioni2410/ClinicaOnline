@@ -54,7 +54,6 @@ export class SolicitarTurnoComponent implements OnInit {
     if(this.firestore.usuarioActual?.perfil === "paciente" && !this.paciente)
     {
       this.paciente = this.firestore.usuarioActual;
-      console.log(this.paciente);
     }
 
     if(this.especialista !== especialista)
@@ -93,7 +92,6 @@ export class SolicitarTurnoComponent implements OnInit {
                   turnosDelDia: this.turnos.map((item: any) => item)
                 }
 
-                console.log(turnoDia.turnosDelDia);
               }
               else if(horario.turno === 'M')
               {
@@ -133,12 +131,10 @@ export class SolicitarTurnoComponent implements OnInit {
                   if(index !== -1)
                   {
                     let borrado = turnoDia.turnosDelDia.splice(index,1);
-                    console.log(borrado[0]);
                   }
                 }
               }
             }
-            console.log(turnoDia);
             this.fechasEspecialistaActual.push(turnoDia);
           }
         }
@@ -147,13 +143,11 @@ export class SolicitarTurnoComponent implements OnInit {
     else
     {
       this.mensaje = "El especialista no tiene disponibilidad horaria";
-      console.log(this.mensaje);
     }
   }
 
   seleccionarHora(hora: any){
     this.hora = hora;
-    console.log('El turno es el dia: ', this.fechaSeleccionada.dia, ' a la hora: ', this.hora);
   }
 
   getEspecialidades(){
@@ -194,7 +188,6 @@ export class SolicitarTurnoComponent implements OnInit {
   }
 
   solicitarTurno(){
-    console.log(this.paciente);
     let turno = {
       fecha: this.fechaSeleccionada.dia,
       hora: this.hora,

@@ -115,20 +115,6 @@ export class TurnosComponent implements OnInit {
     }
   }
 
-  // async getEspecialistas(){
-  //   let index = 0;
-  //   let especialista: any;
-  //   for(let turno of this.turnos)
-  //   {
-  //     especialista = await this.firestore.getEspecialista(turno.especialista);
-  //     turno.especialistaCompleto = especialista;
-  //     this.especialistas.push(especialista);
-  //   }
-
-  //   this.especialistas = this.eliminarObjetosDuplicados(this.especialistas, 'dni');
-  //   console.log(this.especialistas);
-  // }
-
   eliminarObjetosDuplicados(arr: any, prop: any) {
     var nuevoArray: any = [];
     var lookup: any  = {};

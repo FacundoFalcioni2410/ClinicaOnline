@@ -42,7 +42,6 @@ export class MisTurnosPacienteComponent implements OnInit {
         }
       }   
       await this.getEspecialista();
-      console.log(this.especialidades);
       this.turnosMostrar = this.turnos;
     })
   }
@@ -67,7 +66,6 @@ export class MisTurnosPacienteComponent implements OnInit {
     }
 
     this.especialistas = this.eliminarObjetosDuplicados(this.especialistas, 'dni');
-    console.log(this.especialistas);
   }
 
   eliminarObjetosDuplicados(arr: any, prop: any) {
