@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FirestoreService } from 'src/app/services/firestore.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-mis-horarios',
@@ -139,5 +140,6 @@ export class MisHorariosComponent implements OnInit {
     }
     console.log(horarios);
     this.firestore.updateEspecialista(horarios, this.firestore.usuarioActual?.id);
+    Swal.fire({text: 'Horarios actualizados con exito', timer: 2000,timerProgressBar: true, icon: 'success', toast: true, position: 'bottom'});
   }
 }

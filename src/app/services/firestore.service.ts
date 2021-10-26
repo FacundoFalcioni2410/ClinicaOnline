@@ -91,7 +91,14 @@ export class FirestoreService {
   }
 
   modificarEstadoTurno(turno: any){
-    this.turnosCollectionReference.doc(turno.id).update({estado: turno.estado});
+    if(turno.razon)
+    {
+      this.turnosCollectionReference.doc(turno.id).update({estado: turno.estado, razon: turno.razon});
+    }
+    else if(turno.comentario)
+    {
+      this.turnosCollectionReference.doc(turno.id).update({estado: turno.estado, comentario: turno.comentario});
+    }
   }
 
   async getUser(email: string){
@@ -105,8 +112,7 @@ export class FirestoreService {
     {
       usuario = await this.af.collection('especialistas', ref => ref.where('email', '==', email).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();
     }
-    this.usuarioActual = usuario[0];
-    
+      
     return usuario[0];
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { DatePipe } from '@angular/common';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-solicitar-turno',
@@ -229,6 +230,8 @@ export class SolicitarTurnoComponent implements OnInit {
     objeto.estado = 'pendiente';
 
     this.firestore.addTurno(objeto);
+
+    Swal.fire({text: 'Turno sacado con exito', timer: 2000,timerProgressBar: true, icon: 'success', toast: true, position: 'bottom'});
   }
 
   obtenerProximosDias(fecha: any, dias: number){

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FirestoreService } from 'src/app/services/firestore.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-mis-turnos-paciente',
@@ -21,7 +22,6 @@ export class MisTurnosPacienteComponent implements OnInit {
   especialidad: any;
 
   mensaje: string = '';
-
   
   constructor(public firestore: FirestoreService) { 
     this.firestore.turnosObs.subscribe( async (value: any) =>{
@@ -119,30 +119,52 @@ export class MisTurnosPacienteComponent implements OnInit {
       this.mensaje = "No hay turnos con la especialidad seleccionada";
     }
   }
-  
-  aceptarTurno(turno: any){
-    turno.estado = "aceptado";
-    this.firestore.modificarEstadoTurno(turno);
-  }
 
-  rechazarTurno(turno: any){
+  async cancelarTurno(turno: any){
+    const { value: razon } = await Swal.fire({
+      title: 'Cancelación de turno',
+      input: 'text',
+      inputLabel: 'Motivo de cancelación',
+      inputValue: '',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return 'Debe especificar el motivo de la cancelación'
+        }
+        else
+        {
+          return '';
+        }
+      },
+      inputAttributes: {
+        required: "true"
+      },
+    });
 
-  }
-
-  cancelarTurno(turno: any){
-    
-  }
-
-  finalizarTurno(turno: any){
-
+    if(razon)
+    {
+      turno.estado = 'cancelado';
+      turno.razon = razon;
+      this.firestore.modificarEstadoTurno(turno);
+    }
+    else
+    {
+      Swal.fire({text: 'El turno no ha podido ser cancelado. Motivo: Debe especificar una razon', timer: 2500, timerProgressBar: true, icon: 'error', position: 'bottom', toast: true});
+    }
   }
 
   verComentario(turno: any){
-
+    if(turno?.comentario)
+    {
+      Swal.fire({title: 'Comentario sobre el turno',text: turno.comentario});
+    }
+    else if(turno?.razon)
+    {
+      Swal.fire({title: 'Motivo de cancelacion/rechazo del turno',text: turno.razon});
+    }
   }
 
-  enviarTurno(turno: any){
-
+  verEncuesta(){
   }
-
 }
+

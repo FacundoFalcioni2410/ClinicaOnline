@@ -20,7 +20,7 @@
                         <th scope='col-2'>Accion</th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let turno of turnosMostrar" (click)="enviarTurno(turno)">
+                        <tr *ngFor="let turno of turnosMostrar">
                             <td>{{turno.fecha}}</td>
                             <td>{{turno.hora}}</td>
                             <td>{{turno.especialidad}}</td>
@@ -30,19 +30,13 @@
                                 {{this.paciente?.dni}}</td>
                             <td>{{turno.estado | uppercase}}</td>
                             <td>
-                                <i *ngIf="turno.estado !== 'aceptado' || turno.estado !== 'realizado' || turno.estado !== 'rechazado'"
+                                <i *ngIf="turno.estado !== 'aceptado' && turno.estado !== 'cancelado' && turno.estado !== 'rechazado'"
                                 class="bi bi-x-square-fill" title="Cancelar turno"
                                 (click)="cancelarTurno(turno)"></i>
-                                <i *ngIf="turno.estado === 'aceptado' || turno.estado === 'realizado' || turno.estado === 'rechazado'"
-                                    class="bi bi-x-lg ms-1" title="Rechazar turno" (click)="rechazarTurno(turno)"></i>
-                                <i *ngIf="turno.estado === 'realizado' || turno.estado === 'cancelado' || turno.estado === 'rechazado'"
-                                    class="bi bi-check-circle ms-1" title="Aceptar turno"
-                                    (click)="aceptarTurno(turno)"></i>
-                                <i *ngIf="turno.estado === 'aceptado'" class="bi bi-check-square-fill ms-1"
-                                    title="Finalizar turno" (click)="finalizarTurno(turno)"></i>
-                                <i *ngIf="turno.comentario" class="bi bi-layout-text-sidebar-reverse ms-1"
+                                <i *ngIf="turno?.comentario || turno?.razon" class="bi bi-layout-text-sidebar-reverse ms-1"
                                    title="Ver reseña"
                                   (click)="verComentario(turno)"></i>
+                                <i class="bi bi-ui-checks ms-2" (click)="verEncuesta()"></i>
                             <td>
                     </tbody>
                 </table>

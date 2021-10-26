@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FirestoreService } from 'src/app/services/firestore.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-mis-turnos-especialista',
@@ -26,23 +27,25 @@ export class MisTurnosEspecialistaComponent implements OnInit {
   constructor(public firestore: FirestoreService) { 
     this.firestore.turnosObs.subscribe( async value =>{
       this.especialista = JSON.parse(localStorage.getItem('usuario') as string);
+      this.turnos = [];
+      let index = 0;
+      this.especialidades = [];
       for(let item of value)
       {
         if(item.especialista === this.especialista.dni)
         {
           this.turnos.push(item);
+          index = this.especialidades.indexOf(item.especialidad);
+          if(index === -1)
+          {
+            this.especialidades.push(item.especialidad);
+          }
         }
       }
-
-      this.turnosMostrar = this.turnos;
-      
       await this.getPacientes();
-      this.firestore.especialidadesObs.subscribe(value =>{
-        this.especialidades = value;
-      });
-
-      console.log(this.turnos);
-    })
+      this.turnosMostrar = this.turnos;
+      // console.log(this.especialidades);
+    });
   }
 
   ngOnInit(): void {
@@ -121,24 +124,59 @@ export class MisTurnosEspecialistaComponent implements OnInit {
     this.firestore.modificarEstadoTurno(turno);
   }
 
-  rechazarTurno(turno: any){
+  async rechazarTurno(turno: any){
+    const { value: razon } = await Swal.fire({
+      title: 'Finalizar turno',
+      input: 'text',
+      inputLabel: 'Ingrese un la razon por la que rechaza el turno: ',
+    });
 
+    if(razon)
+    {
+      turno.estado = "rechazado";
+      turno.razon = razon;
+      this.firestore.modificarEstadoTurno(turno);
+    }
   }
 
-  cancelarTurno(turno: any){
-    
+  async cancelarTurno(turno: any){
+    const { value: razon } = await Swal.fire({
+      title: 'Finalizar turno',
+      input: 'text',
+      inputLabel: 'Ingrese la razon por la que cancela el turno: ',
+    });
+
+    if(razon)
+    {
+      turno.estado = "cancelado";
+      turno.razon = razon;
+      this.firestore.modificarEstadoTurno(turno);
+    }
   }
 
-  finalizarTurno(turno: any){
+  async finalizarTurno(turno: any){
+    const { value: comentario } = await Swal.fire({
+      title: 'Finalizar turno',
+      input: 'text',
+      inputLabel: 'Ingrese un comentario sobre el turno: ',
+    });
 
+    if(comentario)
+    {
+      turno.estado = "realizado";
+      turno.comentario = comentario;
+      this.firestore.modificarEstadoTurno(turno);
+    }
   }
 
   verComentario(turno: any){
-
+    if(turno?.comentario)
+    {
+      Swal.fire({title: 'Comentario sobre el turno',text: turno.comentario});
+    }
+    else if(turno?.razon)
+    {
+      Swal.fire({title: 'Motivo de cancelacion/rechazo del turno',text: turno.razon});
+    }
   }
-
-  enviarTurno(turno: any){
-
-  }
-
 }

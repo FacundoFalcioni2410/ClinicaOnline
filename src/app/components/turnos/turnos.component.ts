@@ -45,7 +45,10 @@ export class TurnosComponent implements OnInit {
 
       console.log(this.turnos);
       this.turnosMostrar = this.turnos;
-    })
+    });
+  }
+
+  ngOnInit(): void {
   }
 
   async getPacientes(){    
@@ -85,7 +88,6 @@ export class TurnosComponent implements OnInit {
       if(turno.especialista === especialista.dni)
       {
         this.turnosMostrar.push(turno);
-        // this.especialistas.push(turno.especialistaCompleto);
       }
     }
 
@@ -143,29 +145,7 @@ export class TurnosComponent implements OnInit {
   }
 
 
-  aceptarTurno(turno: any){
-    turno.estado = "aceptado";
-    this.firestore.modificarEstadoTurno(turno);
-  }
-
-  rechazarTurno(turno: any){
-
-  }
-
-  cancelarTurno(turno: any){
-    
-  }
-
-  finalizarTurno(turno: any){
-
-  }
-
-  verComentario(turno: any){
-
-  }
-
-
-  async motivoCancelar(turno: any){
+  async cancelarTurno(turno: any){
     const { value: razon } = await Swal.fire({
       title: 'Cancelación de turno',
       input: 'text',
@@ -198,14 +178,14 @@ export class TurnosComponent implements OnInit {
     }
   }
 
-
-
-
-  ngOnInit(): void {
+  verComentario(turno: any){
+    if(turno?.comentario)
+    {
+      Swal.fire({title: 'Comentario sobre el turno',text: turno.comentario});
+    }
+    else if(turno?.razon)
+    {
+      Swal.fire({title: 'Motivo de cancelacion/rechazo del turno',text: turno.razon});
+    }
   }
-
-  enviarTurno(turno: any){
-
-  }
-
 }

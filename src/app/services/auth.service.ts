@@ -30,10 +30,9 @@ export class AuthService {
   async emailValido(user: any,res: any): Promise<any>{
     if(user.email !== "admin@admin.com" && user.email !== "especialista@especialista.com" && user.email !== "paciente@paciente.com")
     {
+      console.log(res);
       if(!res.user.emailVerified)
       {
-        Swal.fire({text: "Para ingresar debe validar el mail", timer:2500, timerProgressBar: true, icon: "error", toast:true, position: 'bottom'});
-        this.loading = false;
         return '';
       }
     }
@@ -46,22 +45,31 @@ export class AuthService {
     this.auth.signInWithEmailAndPassword(user.email, user.password)
     .then( async (res: any) =>{
       let userF = await this.emailValido(user, res);
-      console.log(userF);
-      localStorage.setItem('usuario', JSON.stringify(userF));
-      if(userF?.especialidad && userF?.habilitado === false)
+      if(userF === '')
       {
-          Swal.fire({text: "El usuario ha sido deshabilitado, contactese con un administrador para saber mas al respecto", timer:2500, timerProgressBar: true, icon: "error", toast:true, position: 'bottom'});
-          this.loading = false;
+        Swal.fire({text: "Para ingresar debe validar el mail", timer:2500, timerProgressBar: true, icon: "error", toast:true, position: 'bottom'});
+        this.loading = false;
+        this.auth.signOut();
+        this.firestore.usuarioActual = null;
       }
       else
       {
         this.firestore.usuarioActual = userF;
-        console.log('usuario actual: ', this.firestore.usuarioActual);
-        Swal.fire({text: "Datos correctos", timer:1500, timerProgressBar: true, icon: "success", toast:true, position: 'bottom'});
-        this.loading = false;
-        this.router.navigate(['/home']);
-      }
-      
+        localStorage.setItem('usuario', JSON.stringify(userF));
+        if(userF?.especialidad && userF?.habilitado === false)
+        {
+            Swal.fire({text: "El usuario ha sido deshabilitado, contactese con un administrador para saber mas al respecto", timer:2500, timerProgressBar: true, icon: "error", toast:true, position: 'bottom'});
+            this.loading = false;
+        }
+        else
+        {
+          this.firestore.usuarioActual = userF;
+          console.log('usuario actual: ', this.firestore.usuarioActual);
+          Swal.fire({text: "Datos correctos", timer:1500, timerProgressBar: true, icon: "success", toast:true, position: 'bottom'});
+          this.loading = false;
+          this.router.navigate(['/home']);
+        }
+      } 
     })
     .catch((err: any) =>{
       Swal.fire({text: "Datos incorrectos", timer:1500, timerProgressBar: true, icon: "error", toast:true, position: 'bottom'});
