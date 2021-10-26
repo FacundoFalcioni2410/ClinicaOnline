@@ -100,7 +100,6 @@ export class RegistroComponent implements OnInit {
   getEspecialidades(){
     this.firestore.especialidadesObs.subscribe( value =>{
       this.especialidades = value;
-      console.log(this.especialidades);
     })
   }
 
@@ -166,10 +165,8 @@ export class RegistroComponent implements OnInit {
   async subirArchivo(){
     let archivo0 = this.formData.get('archivo0');
     let archivo1 = this.formData.get('archivo1');
-    console.log(archivo1);
     this.nombreArchivo0 = Date.now().toString() + this.nombreArchivo0;
     this.nombreArchivo1 = Date.now().toString() + this.nombreArchivo1;
-    console.log(this.nombreArchivo0);
     let referencia0 = this.firebaseStorage.ref(this.nombreArchivo0);
     await this.firebaseStorage.upload(this.nombreArchivo0, archivo0);
     let referencia1: any = null;
@@ -193,7 +190,6 @@ export class RegistroComponent implements OnInit {
       else
       {
         this.user.imagenes.push(url0);
-        console.log(this.user.imagenes);
 
         if(referencia1)
         {
@@ -268,6 +264,7 @@ export class RegistroComponent implements OnInit {
 
 
   registrar(){
+    this.form.reset();
     if(this.loadingFinished)
     {
       this.auth.signUp(this.user)

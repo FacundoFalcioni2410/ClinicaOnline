@@ -30,9 +30,11 @@ export class AuthService {
   async emailValido(user: any,res: any): Promise<any>{
     if(user.email !== "admin@admin.com" && user.email !== "especialista@especialista.com" && user.email !== "paciente@paciente.com")
     {
-      console.log(res);
       if(!res.user.emailVerified)
       {
+        this.auth.signOut().then( res =>{
+          localStorage.removeItem('usuario');
+        });
         return '';
       }
     }
@@ -47,12 +49,9 @@ export class AuthService {
       let userF = await this.emailValido(user, res);
       if(userF === '')
       {
-        this.firestore.isLogged = false;
         Swal.fire({text: "Para ingresar debe validar el mail", timer:2500, timerProgressBar: true, icon: "error", toast:true, position: 'bottom'});
         this.loading = false;
-        this.auth.signOut();
         this.firestore.usuarioActual = null;
-        console.log(this.firestore.usuarioActual); 
       }
       else
       {
@@ -65,7 +64,6 @@ export class AuthService {
         else
         {
           this.firestore.usuarioActual = userF;
-          console.log('usuario actual: ', this.firestore.usuarioActual);
           Swal.fire({text: "Datos correctos", timer:1500, timerProgressBar: true, icon: "success", toast:true, position: 'bottom'});
           this.loading = false;
           this.router.navigate(['/home']);
@@ -87,6 +85,7 @@ export class AuthService {
   logOut(){
     this.auth.signOut()
     .then( res =>{
+      localStorage.removeItem('usuario');
       this.firestore.usuarioActual = null;
       this.router.navigate(['/login']);
     });

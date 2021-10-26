@@ -1,2 +1,40 @@
-<div class="container">
-</div>
+<main>
+    <div class="container py-4">
+
+        <div class="py-5 mb-4 bg-light rounded-3 text-center bg">
+            <div class="container-fluid py-5" style="text-shadow: 1px 1px 1px rgb(0, 0, 0);">
+                <h1 class="display-5 fw-bold">Clinica Online</h1>
+                <h4 class="fs-4">Bienvenido a la Clinica Online</h4>
+                <div *ngIf='!this.firestore.usuarioActual' (click)="test()">
+                    <button type="button" class="btn btn-primary px-4 mx-2 gap-3" [routerLink]="['/login']">Iniciar sesión</button>
+                    <button type="button" class="btn btn-primary px-4 mx-2 gap-3" [routerLink]="['/registro']">Registrarse</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-between align-items-md-stretch gap-3" *ngIf="this.firestore.usuarioActual">
+            <div class="col-md-5 bgT" *ngIf="this.firestore.usuarioActual?.perfil !== 'admin'">
+                <div class="h-100 p-5 text-dark rounded-3">
+                    <h2>Mis turnos</h2>
+                    <p>Ver mis turnos</p>
+                    <button *ngIf="this.firestore.usuarioActual?.perfil === 'especialista'" class="btn btn-primary" type="button" [routerLink]="['/turnos/mis-turnos/especialista']">Ir a mis turnos</button>
+                    <button *ngIf="this.firestore.usuarioActual?.perfil === 'paciente'" class="btn btn-primary" type="button" [routerLink]="['/turnos/mis-turnos/paciente']">Ir a mis turnos</button>
+                </div>
+            </div>
+            <div class="col-md-5 bgU" *ngIf="this.firestore.usuarioActual?.perfil === 'admin'">
+                <div class="h-100 p-5 text-dark rounded-3" style="text-shadow: 1px 1px 1px rgb(0, 0, 0);">
+                    <h2>Ver usuarios</h2>
+                    <h4>En esta sección se encuentran todos los usuarios de la clinica en detalle</h4>
+                    <button class="btn btn-primary" type="button" [routerLink]="['/usuarios']">Ir a Usuarios</button>
+                </div>
+            </div>
+            <div class="col-md-5 mp">
+                <div class="h-100 p-5 text-dark rounded-3" style="text-shadow: 1px 1px 1px rgb(0, 0, 0);">
+                    <h2>Mi perfil</h2>
+                    <p>Ir a 'Mi Perfil', aqui se encuentran todos tus datos</p>
+                    <button class="btn btn-primary" type="button" [routerLink]="['/mi-perfil']">Ir a mi perfil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

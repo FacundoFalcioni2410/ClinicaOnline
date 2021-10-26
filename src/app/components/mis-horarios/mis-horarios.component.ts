@@ -138,7 +138,6 @@ export class MisHorariosComponent implements OnInit {
       }
       horarios.push(horario);
     }
-    console.log(horarios);
     this.firestore.updateEspecialista(horarios, this.firestore.usuarioActual?.id);
     Swal.fire({text: 'Horarios actualizados con exito', timer: 2000,timerProgressBar: true, icon: 'success', toast: true, position: 'bottom'});
   }

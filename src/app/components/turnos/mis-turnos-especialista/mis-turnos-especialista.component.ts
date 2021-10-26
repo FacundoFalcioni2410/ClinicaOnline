@@ -44,7 +44,6 @@ export class MisTurnosEspecialistaComponent implements OnInit {
       }
       await this.getPacientes();
       this.turnosMostrar = this.turnos;
-      // console.log(this.especialidades);
     });
   }
 

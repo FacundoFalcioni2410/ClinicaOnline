@@ -33,7 +33,6 @@ export class UsuariosComponent implements OnInit {
       setTimeout(()=>{
         this.pacientes = pacientes;
         this.usuarios = pacientes;
-        console.log(this.usuarios);
       },1000)
     });
     this.firestore.getEspecialistas().subscribe(especialistas =>{
@@ -45,7 +44,6 @@ export class UsuariosComponent implements OnInit {
   }
 
   cambiarTipoUser(tipo: string){
-    console.log(this.especialistas);
     this.tipoUser = tipo
     this.registroAdministrador = false;
     if(this.tipoUser === 'Pacientes')

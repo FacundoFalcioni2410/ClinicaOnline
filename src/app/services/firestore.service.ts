@@ -26,17 +26,25 @@ export class FirestoreService {
   isLogged = false;
 
   constructor(private af: AngularFirestore, private auth: AngularFireAuth) {
-    this.auth.user.subscribe( async res =>{
-      if(res?.uid)
-      {
-        await this.getUser(res?.email!);
-      }
-
-      if(res === null)
-      {
-        this.usuarioActual = null;
-      }
-    });
+    // this.auth.authState.subscribe( async res =>{
+    //   if(res?.uid)
+    //   {
+    //     await this.getUser(res?.email!);
+    //   }
+    //   else
+    //   {
+    //     console.log('test');
+    //     this.usuarioActual = null;
+    //   }
+    // });
+    let usuario = JSON.parse(localStorage.getItem('usuario') as string);
+    if(usuario)
+    {
+      console.log(usuario);
+      this.auth.signInWithEmailAndPassword(usuario.email, usuario.password).then(async res =>{
+        await this.getUser(usuario.email);
+      });
+    }
 
     this.pacienteCollectionReference = this.af.collection<Paciente>('pacientes');
     this.pacientesObs = this.pacienteCollectionReference.valueChanges({idField: 'id'});
@@ -109,24 +117,18 @@ export class FirestoreService {
 
   async getUser(email: string){
 
-    if(this.isLogged)
+    let usuario = await this.af.collection('administradores', ref => ref.where('email', '==', email).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();
+    if(usuario.length === 0)
     {
-      let usuario = await this.af.collection('administradores', ref => ref.where('email', '==', email).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();
-      if(usuario.length === 0)
-      {
-        usuario = await this.af.collection('pacientes', ref => ref.where('email', '==', email).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();
-      }
-      if(usuario.length === 0)
-      {
-        usuario = await this.af.collection('especialistas', ref => ref.where('email', '==', email).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();
-      }
-
-      this.usuarioActual = usuario[0];
-
-      return usuario[0];
+      usuario = await this.af.collection('pacientes', ref => ref.where('email', '==', email).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();
     }
+    if(usuario.length === 0)
+    {
+      usuario = await this.af.collection('especialistas', ref => ref.where('email', '==', email).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();
+    }
+    this.usuarioActual = usuario[0];
 
-    return null;
+    return usuario[0];
   }
 
   async getPaciente(dni: number){
