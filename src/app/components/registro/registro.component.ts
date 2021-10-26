@@ -18,6 +18,9 @@ export class RegistroComponent implements OnInit {
 
   @Output() finalizado: EventEmitter<any> = new EventEmitter();
 
+  mostrarCaptcha = false;
+  loadingCaptcha = false;
+  loadingFinished = false;
   form: FormGroup;
   formData: FormData;
   tipoUser: string = '';
@@ -56,7 +59,6 @@ export class RegistroComponent implements OnInit {
     {
       this.especialidadActual.push(especialidad);
       this.form.controls.especialidad?.setValue(this.especialidadActual);
-      console.log(this.form.controls.especialidad.value);
       return true;
     }
 
@@ -67,7 +69,20 @@ export class RegistroComponent implements OnInit {
     let especialidad = this.form.controls.nuevaEspecialidad?.value;
     if(this.agregarEspecialidad(especialidad))
     {
-      this.firestore.addEspecialidad(especialidad);
+      let flag = false;
+      for(let item of this.especialidades)
+      {
+        if(item.especialidad === especialidad)
+        {
+          flag = true;
+          break;
+        }
+      }
+
+      if(!flag)
+      {
+        this.firestore.addEspecialidad(especialidad);
+      }
     }
   }
 
@@ -253,30 +268,46 @@ export class RegistroComponent implements OnInit {
 
 
   registrar(){
-    this.auth.signUp(this.user)
-    .then(async res =>{
-      this.auth.loading = true;
-      this.auth.isLogged = this.user;
-      this.user.uid = res?.user?.uid;
-      await this.subirArchivo();
-      this.auth.loading = false;
-      if(this.tipoUser !== 'Administradores')
-      {      
-        this.auth.enviarVerificacionEmail();
-        Swal.fire({text: "Datos correctos, se ha enviado un mail para validar su cuenta", timer:2000, timerProgressBar: true, icon: "success", toast:true, position: 'bottom'});
-        this.router.navigate(['/home']);
-      }
-      else
-      {
-        this.finalizado.emit(false);
-      }
-    })
-    .catch((err: any) =>{
-      this.finalizado.emit(true);
-      Swal.fire({text: "Datos incorrectos", timer:1500, timerProgressBar: true, icon: "error", toast:true, position: 'bottom'});
-      setTimeout( () =>{
+    if(this.loadingFinished)
+    {
+      this.auth.signUp(this.user)
+      .then(async res =>{
+        this.auth.loading = true;
+        this.auth.isLogged = this.user;
+        this.user.uid = res?.user?.uid;
+        await this.subirArchivo();
         this.auth.loading = false;
-      },1500);
-    });
+        if(this.tipoUser !== 'Administradores')
+        {      
+          this.auth.enviarVerificacionEmail();
+          Swal.fire({text: "Datos correctos, se ha enviado un mail para validar su cuenta", timer:2000, timerProgressBar: true, icon: "success", toast:true, position: 'bottom'});
+          this.router.navigate(['/home']);
+        }
+        else
+        {
+          this.finalizado.emit(false);
+        }
+      })
+      .catch((err: any) =>{
+        this.finalizado.emit(true);
+        Swal.fire({text: "Datos incorrectos", timer:1500, timerProgressBar: true, icon: "error", toast:true, position: 'bottom'});
+        setTimeout( () =>{
+          this.auth.loading = false;
+        },1500);
+      });
+    }
+    else
+    {
+      Swal.fire({text: "Debe completar el captcha", timer:1500, timerProgressBar: true, icon: "error", toast:true, position: 'bottom'});
+    }
+
+  }
+  
+  captcha(){
+    this.mostrarCaptcha = true;
+    setTimeout((() =>{
+      this.loadingCaptcha = true;
+      this.loadingFinished = true;
+    }),1500)
   }
 }

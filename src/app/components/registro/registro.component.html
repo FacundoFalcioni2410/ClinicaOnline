@@ -80,9 +80,9 @@
                 <div class="col-sm-6 col-12 p-0" *ngIf='this.tipoUser === "especialista"'>
                     <label for="especialidad" class="d-block"><b>Especialidad</b></label>
                     <div style="display: none;">
-                        <input type="text" formControlName='especialidad' style="width: 60%;" autocomplete="off" name="especialidad" required>
+                        <input type="text" formControlName='especialidad' style="width: 60%;" autocomplete="off" name="especialidad">
                     </div>
-                    <input type="text" formControlName="nuevaEspecialidad" style="width: 60%;" autocomplete="off" name="nuevaEspecialidad" required>
+                    <input type="text" formControlName="nuevaEspecialidad" style="width: 60%;" autocomplete="off" name="nuevaEspecialidad">
                     <button type="button" class="btn btn-primary btn-sm d-inline ms-2" style="width: 36%;" (click)="agregarNuevaEspecialidad()">Agregar</button>
 
                     <div *ngIf="this.especialidadActual.length">
@@ -107,10 +107,21 @@
                     <input type="file" formControlName='imagenes' (change)="cambioArchivo($event)" multiple *ngIf='this.tipoUser === "paciente";'>
                 </div>
             </div>
-        
+            <div class="row justify-content-center align-items-center text-center">
+                <div class="col-sm-4 col-6">
+                    <button id="toggle" type="button" class="btn btn-success" (click)="captcha()">No soy un robot</button>
+                </div>
+                <div class="col-" style="height:50px;width: 50px;" *ngIf="mostrarCaptcha">
+                    <div class="circle-loader" [ngClass]="{'load-complete': loadingCaptcha}">
+                        <div class="checkmark draw" *ngIf="this.loadingFinished"></div>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="clearfix">
         
-                <button type="submit" [disabled]='form.invalid ' class="btn">Registrarse</button>
+                <button type="submit" [disabled]='form.invalid' class="btn">Registrarse</button>
             </div>
         </div>
     </form>
