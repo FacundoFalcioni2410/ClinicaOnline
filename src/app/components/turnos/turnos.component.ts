@@ -43,7 +43,6 @@ export class TurnosComponent implements OnInit {
       await this.getEspecialistas();
       // await this.getEspecialistas();
 
-      console.log(this.turnos);
       this.turnosMostrar = this.turnos;
     });
   }
@@ -72,7 +71,6 @@ export class TurnosComponent implements OnInit {
       }
   
       this.especialistas = this.eliminarObjetosDuplicados(this.especialistas, 'dni');
-      console.log(this.especialistas);
   }
 
   limpiarFiltros(){
@@ -148,7 +146,8 @@ export class TurnosComponent implements OnInit {
         }
       },
       inputAttributes: {
-        required: "true"
+        required: "true",
+        autocomplete: 'off',
       },
     });
 

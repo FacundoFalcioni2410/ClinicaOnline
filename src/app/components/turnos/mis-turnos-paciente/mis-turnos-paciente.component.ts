@@ -10,7 +10,7 @@ import Swal from 'sweetalert2'
 export class MisTurnosPacienteComponent implements OnInit {
 
   turnos: any = [];
-  turnosMostrar: any;
+  turnosMostrar: any = [];
 
   pacientes: any = [];
   paciente: any;
@@ -22,9 +22,14 @@ export class MisTurnosPacienteComponent implements OnInit {
   especialidad: any;
 
   mensaje: string = '';
-  
+  test: any;
+
   constructor(public firestore: FirestoreService) { 
     this.firestore.turnosObs.subscribe( async (value: any) =>{
+      this.turnosMostrar = [];
+      this.turnos = [];
+      this.especialidades = [];
+      this.especialistas = [];
       this.paciente = JSON.parse(localStorage.getItem('usuario') as string);
       
       let index = 0;
@@ -135,7 +140,8 @@ export class MisTurnosPacienteComponent implements OnInit {
         }
       },
       inputAttributes: {
-        required: "true"
+        required: "true",
+        autocomplete: 'off'
       },
     });
 
@@ -160,6 +166,46 @@ export class MisTurnosPacienteComponent implements OnInit {
     {
       Swal.fire({title: 'Motivo de cancelacion/rechazo del turno',text: turno.razon});
     }
+    else if(turno.atencion)
+    {
+      Swal.fire({title: 'Atencion del especialista',text: 'Comentario sobre la atencion: ' + turno.atencion + " - satisfaccion: " + turno.satisfaccion});
+    }
+  }
+
+  async satisfaccion(turno: any){
+    const { value: satisfaccion } = await Swal.fire({
+      title: 'Satisfaccion',
+      input: 'range',
+      inputAttributes: {
+        min: '1',
+        max: '10',
+        step: '1',
+      },
+      inputLabel: 'Ingrese su nivel de satisfaccion: ',
+    });
+
+    if(satisfaccion)
+    {
+      turno.satisfaccion = satisfaccion;
+      turno.atencion = await this.atencion();
+      if(turno.atencion)
+      {
+        this.firestore.modificarEstadoTurno(turno);
+      }
+    }
+  }
+
+  async atencion(){
+    const { value: atencion } = await Swal.fire({
+      title: 'Atencion del especialista',
+      input: 'text',
+      inputLabel: 'Ingrese un comentario sobre la atencion del especialista: ',
+      inputAttributes:{
+        autocomplete: 'off'
+      }
+    });
+
+    return atencion;
   }
 
   verEncuesta(){

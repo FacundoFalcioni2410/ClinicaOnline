@@ -26,6 +26,7 @@ import { SharedModule } from './modules/shared/shared.module';
 import { SinPermisosComponent } from './components/sin-permisos/sin-permisos.component';
 import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
 import { MisHorariosComponent } from './components/mis-horarios/mis-horarios.component';
+import { EncuestaComponent } from './components/encuesta/encuesta.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { MisHorariosComponent } from './components/mis-horarios/mis-horarios.com
     SinPermisosComponent,
     MiPerfilComponent,
     MisHorariosComponent,
+    EncuestaComponent,
   ],
   imports: [
     BrowserModule,

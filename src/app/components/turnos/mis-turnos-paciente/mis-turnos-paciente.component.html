@@ -1,5 +1,5 @@
 <div class="container">
-    <div *ngIf='this.turnosMostrar; else spinner'>
+    <div *ngIf='this.turnosMostrar.length else spinner'>
             <h2 class="text-center text-light">Listado de mis turnos</h2>
             <i (click)="limpiarFiltros()" class="bi bi-funnel-fill text-info noselect">Limpiar filtros</i>
             <div class="col-12 col-sm-6">
@@ -33,10 +33,11 @@
                                 <i *ngIf="turno.estado !== 'aceptado' && turno.estado !== 'cancelado' && turno.estado !== 'rechazado'"
                                 class="bi bi-x-square-fill" title="Cancelar turno"
                                 (click)="cancelarTurno(turno)"></i>
-                                <i *ngIf="turno?.comentario || turno?.razon" class="bi bi-layout-text-sidebar-reverse ms-1"
+                                <i *ngIf="turno?.comentario || turno?.razon || turno?.atencion" class="bi bi-layout-text-sidebar-reverse ms-1"
                                    title="Ver reseña"
                                   (click)="verComentario(turno)"></i>
-                                <i class="bi bi-ui-checks ms-2" (click)="verEncuesta()"></i>
+                                <i class="bi bi-ui-checks ms-2" *ngIf="turno.estado === 'realizado' && turno?.comentario" (click)="verEncuesta()"></i>
+                                <i class="bi bi-emoji-smile ms-2" title="Calificar atención" *ngIf='turno.estado === "realizado"' (click)="satisfaccion(turno)"></i>
                             <td>
                     </tbody>
                 </table>

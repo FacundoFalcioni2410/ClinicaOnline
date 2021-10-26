@@ -113,6 +113,10 @@ export class FirestoreService {
     {
       this.turnosCollectionReference.doc(turno.id).update({estado: turno.estado, comentario: turno.comentario});
     }
+    else if(turno.satisfaccion && turno.atencion)
+    {
+      this.turnosCollectionReference.doc(turno.id).update({satisfaccion: turno.satisfaccion, atencion: turno.atencion});
+    }
   }
 
   async getUser(email: string){
