@@ -1,27 +1,44 @@
-# ClinicaOnline
+# Clinica Online
+Visita la clinica desde [aqui](https://falcioni-clinica-online.herokuapp.com)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.2.
+## Imagenes de la clinica
 
-## Development server
+#### Pagina Principal (Sin estar logeado)
+Pagina de ingreso a la app
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+!(./src/assets/clinicaFotos/home.png)
 
-## Code scaffolding
+#### Pagina Principal (Estando logeado)
+Pagina de ingreso a la app
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+!(./src/assets/clinicaFotos/homelogeado.png)
 
-## Build
+#### Login
+Desde aqui se va a poder ingresar si es que se tiene una cuenta
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+!(./src/assets/clinicaFotos/login.png)
 
-## Running unit tests
+#### Registro
+Aca podremos crear una cuenta si es que no la tenemos
+!(./src/assets/clinicaFotos/registro.png)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+#### Mi Perfil
+Aqui podremos ver todos nuestros datos
+!(./src/assets/clinicaFotos/miperfil.png)
 
-## Running end-to-end tests
+#### Usuarios
+El administrador desde esta seccion puede ver todos los distintos tipos de usuarios
+!(./src/assets/clinicaFotos/usuarios.png)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+#### UsuariosDetalle
+Lo mismo que la sección anterior pero en mas detalle y con la foto de los usuarios
+!(./src/assets/clinicaFotos/usuariosDetalle.png)
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+#### Solicitar Turno
+Desde aqui podremos solicitar un turno con un especialista
+!(./src/assets/clinicaFotos/solicitarTurno.png)
+
+#### Mis turnos
+Aqui podremos ver nuestros turnos
+!(./src/assets/clinicaFotos/misTurnos.png)
