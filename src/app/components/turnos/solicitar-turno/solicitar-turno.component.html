@@ -24,7 +24,7 @@
                 </span>
             </div>
             <div class="col-12 mt-2">
-                <div class="row" *ngIf="!fechaSeleccionada && mensaje === ''">
+                <div class="row" *ngIf="!fechaSeleccionada && mensaje === '' && especialista">
                     <div class="col-4" *ngFor="let item of fechasEspecialistaActual">
                         <div (click)="seleccionarFecha(item)">
                             <span class="badge rounded-pill bg-dark text-light m-1 mt-2 p-2 noselect">

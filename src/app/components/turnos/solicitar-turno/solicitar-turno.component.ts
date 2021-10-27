@@ -159,6 +159,13 @@ export class SolicitarTurnoComponent implements OnInit {
   getEspecialistas(){
     this.firestore.especialistasObs.subscribe( value =>{
       this.especialistas = value;
+      for(let item of this.especialistas)
+      {
+        if(item.habilitado === false)
+        {
+          this.especialistas.splice(this.especialistas.indexOf(item), 1);
+        }
+      }
     });
   }
 
@@ -170,6 +177,7 @@ export class SolicitarTurnoComponent implements OnInit {
 
   cambioEspecialidad(especialidad: any){
     this.hora = '';
+    this.especialista = null;
     this.fechaSeleccionada = null;
     this.especialidadActual = especialidad;
     this.array = this.especialistas.filter( (item: any) =>{

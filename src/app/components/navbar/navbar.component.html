@@ -27,10 +27,10 @@
             <a class="nav-link text-white noselect" [routerLink]="['/turnos/solicitar-turno']" *ngIf='this.firestore?.usuarioActual && this.firestore.usuarioActual?.perfil !== "especialista"' >Solicitar turno</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white noselect" [routerLink]="['/turnos/mis-turnos/paciente']" *ngIf='this.firestore?.usuarioActual && this.firestore.usuarioActual?.perfil === "paciente"' >Mis turnos</a>
+            <a class="nav-link text-white noselect" [routerLink]="['/turnos/mis-turnos/paciente']" *ngIf='this.firestore?.usuarioActual && this.firestore.usuarioActual?.perfil === "paciente"'>Mis turnos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white noselect" [routerLink]="['/turnos/mis-turnos/especialista']" *ngIf='this.firestore?.usuarioActual && this.firestore.usuarioActual?.perfil === "especialista"' >Mis turnos</a>
+            <a class="nav-link text-white noselect" [routerLink]="['/turnos/mis-turnos/especialista']" *ngIf='this.firestore?.usuarioActual && this.firestore.usuarioActual?.perfil === "especialista"'>Mis turnos</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-white noselect" [routerLink]="['/turnos']" *ngIf='this.firestore?.usuarioActual && this.firestore.usuarioActual?.perfil === "admin"' >Turnos</a>

@@ -9,7 +9,11 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(public firestore: FirestoreService, public auth: AuthService) { }
+  usuario: any
+
+  constructor(public firestore: FirestoreService, public auth: AuthService) {
+    this.usuario = JSON.parse(localStorage.getItem('usuario') as string);
+  }
 
   ngOnInit(): void {
   }

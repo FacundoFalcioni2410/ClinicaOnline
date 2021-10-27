@@ -32,13 +32,13 @@ export class MisTurnosEspecialistaComponent implements OnInit {
       this.especialidades = [];
       for(let item of value)
       {
-        if(item.especialista === this.especialista.dni)
+        if(item.especialista === this?.especialista?.dni)
         {
           this.turnos.push(item);
-          index = this.especialidades.indexOf(item.especialidad);
+          index = this.especialidades.indexOf(item?.especialidad);
           if(index === -1)
           {
-            this.especialidades.push(item.especialidad);
+            this.especialidades.push(item?.especialidad);
           }
         }
       }
