@@ -7,13 +7,17 @@ import { FirestoreService } from '../services/firestore.service';
   providedIn: 'root'
 })
 export class AdminPacienteGuard implements CanActivate {
-  constructor(private firestore: FirestoreService, private router: Router){
+  usuario: any;
+  
+  constructor(private router: Router){
+    this.usuario = JSON.parse(localStorage.getItem('usuario') as string);
   }
   
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(this.firestore.usuarioActual?.perfil === 'paciente' || this.firestore.usuarioActual?.perfil === 'admin')
+
+      if(this.usuario?.perfil === 'paciente' || this.usuario?.perfil === 'admin')
       {
         return true;
       }
@@ -21,5 +25,4 @@ export class AdminPacienteGuard implements CanActivate {
       this.router.navigate(['/sin-permisos']);
       return false;
   }
-  
 }

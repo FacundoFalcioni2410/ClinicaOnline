@@ -28,26 +28,7 @@ export class FirestoreService {
   encuestaObs: any;
 
   constructor(private af: AngularFirestore, private auth: AngularFireAuth) {
-    // this.auth.authState.subscribe( async res =>{
-    //   if(res?.uid)
-    //   {
-    //     await this.getUser(res?.email!);
-    //   }
-    //   else
-    //   {
-    //     console.log('test');
-    //     this.usuarioActual = null;
-    //   }
-    // });
-    let usuario = JSON.parse(localStorage.getItem('usuario') as string);
-    if(usuario)
-    {
-      console.log(usuario);
-      this.auth.signInWithEmailAndPassword(usuario.email, usuario.password).then(async res =>{
-        await this.getUser(usuario.email);
-      });
-    }
-
+    
     this.pacienteCollectionReference = this.af.collection<Paciente>('pacientes');
     this.pacientesObs = this.pacienteCollectionReference.valueChanges({idField: 'id'});
     this.especialistaCollectionReference = this.af.collection<Especialista>('especialistas');

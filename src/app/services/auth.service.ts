@@ -78,6 +78,12 @@ export class AuthService {
     });
   }
 
+  signInReload(user: any){
+    this.auth.signInWithEmailAndPassword(user.email, user.password).then( async res =>{
+      await this.emailValido(user, res);
+    })
+  }
+
   signUp(user: any){
     return this.auth.createUserWithEmailAndPassword(user.email, user.password);
   }
