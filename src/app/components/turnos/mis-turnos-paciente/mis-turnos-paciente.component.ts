@@ -11,6 +11,7 @@ export class MisTurnosPacienteComponent implements OnInit {
 
   turnos: any = [];
   turnosMostrar: any = [];
+  turnoEncuesta: any;
 
   pacientes: any = [];
   paciente: any;
@@ -166,49 +167,54 @@ export class MisTurnosPacienteComponent implements OnInit {
     {
       Swal.fire({title: 'Motivo de cancelacion/rechazo del turno',text: turno.razon});
     }
-    else if(turno.atencion)
-    {
-      Swal.fire({title: 'Atencion del especialista',text: 'Comentario sobre la atencion: ' + turno.atencion + " - satisfaccion: " + turno.satisfaccion});
-    }
   }
 
-  async satisfaccion(turno: any){
-    const { value: satisfaccion } = await Swal.fire({
-      title: 'Satisfaccion',
-      input: 'range',
-      inputAttributes: {
-        min: '1',
-        max: '10',
-        step: '1',
-      },
-      inputLabel: 'Ingrese su nivel de satisfaccion: ',
-    });
-
+  async satisfaccion(){
+    console.log(this.turnoEncuesta);
+    let satisfaccion = (document.getElementById("satisfaccion") as HTMLInputElement).value;
+    (document.getElementById("satisfaccion") as HTMLInputElement).value = '';
+    let atencion: any;
     if(satisfaccion)
     {
-      turno.satisfaccion = satisfaccion;
-      turno.atencion = await this.atencion();
-      if(turno.atencion)
+      atencion = (document.getElementById("atencion") as HTMLInputElement).value;
+      (document.getElementById("atencion") as HTMLInputElement).value = '';
+      
+      this.turnoEncuesta.satisfaccion = satisfaccion;
+      
+      if(atencion)
       {
-        this.firestore.modificarEstadoTurno(turno);
+        this.turnoEncuesta.atencion = atencion;
+        this.firestore.addSatisfaccionAtencion(this.turnoEncuesta);
       }
     }
   }
 
-  async atencion(){
-    const { value: atencion } = await Swal.fire({
-      title: 'Atencion del especialista',
-      input: 'text',
-      inputLabel: 'Ingrese un comentario sobre la atencion del especialista: ',
-      inputAttributes:{
-        autocomplete: 'off'
+  enviarEncuesta(){
+    console.log(this.turnoEncuesta);
+    let tiempo = (document.getElementById("tiempo") as HTMLInputElement).value;
+    (document.getElementById("tiempo") as HTMLInputElement).value = '';
+    let consulta: any;
+    if(tiempo)
+    {
+      consulta = (document.getElementById("preguntas") as HTMLInputElement).checked;
+      let encuesta = {
+        paciente: this.paciente.dni,
+        especialidad: this.turnoEncuesta.especialidad,
+        especialista: this.turnoEncuesta.especialista,
+        datos: {
+          tiempoEspera: tiempo,
+          consultas: consulta
+        }
+      };
+
+      let datosEncuesta = {
+        tiempoEspera: tiempo,
+        consultas: consulta
       }
-    });
 
-    return atencion;
-  }
-
-  verEncuesta(){
+      this.firestore.addEncuesta(encuesta);
+      this.firestore.addEncuestaTurno(this.turnoEncuesta, datosEncuesta);
+    }
   }
 }
 

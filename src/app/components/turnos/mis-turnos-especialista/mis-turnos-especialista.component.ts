@@ -128,6 +128,9 @@ export class MisTurnosEspecialistaComponent implements OnInit {
       title: 'Finalizar turno',
       input: 'text',
       inputLabel: 'Ingrese un la razon por la que rechaza el turno: ',
+      inputAttributes:{
+        autocomplete: 'off'
+      }
     });
 
     if(razon)
@@ -143,6 +146,9 @@ export class MisTurnosEspecialistaComponent implements OnInit {
       title: 'Finalizar turno',
       input: 'text',
       inputLabel: 'Ingrese la razon por la que cancela el turno: ',
+      inputAttributes:{
+        autocomplete: 'off'
+      }
     });
 
     if(razon)
@@ -158,6 +164,9 @@ export class MisTurnosEspecialistaComponent implements OnInit {
       title: 'Finalizar turno',
       input: 'text',
       inputLabel: 'Ingrese un comentario sobre el turno: ',
+      inputAttributes:{
+        autocomplete: 'off'
+      }
     });
 
     if(comentario)
@@ -169,9 +178,9 @@ export class MisTurnosEspecialistaComponent implements OnInit {
   }
 
   verComentario(turno: any){
-    if(turno?.comentario)
+    if(turno?.satisfaccion)
     {
-      Swal.fire({title: 'Comentario sobre el turno',text: turno.comentario});
+      Swal.fire({title: 'Comentario sobre el turno',text: `Satisfaccion del paciente: ${turno.satisfaccion}, comentario del paciente: ${turno.atencion}`});
     }
     else if(turno?.razon)
     {

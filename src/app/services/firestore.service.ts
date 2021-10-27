@@ -24,6 +24,8 @@ export class FirestoreService {
   turnosObs: Observable<any>;
   usuarioActual: any;
   isLogged = false;
+  encuestasCollectionReference: any;
+  encuestaObs: any;
 
   constructor(private af: AngularFirestore, private auth: AngularFireAuth) {
     // this.auth.authState.subscribe( async res =>{
@@ -56,6 +58,8 @@ export class FirestoreService {
     this.especialidadesObs = this.especialidadesCollectionReference.valueChanges({idField: 'id'});
     this.turnosCollectionReference = this.af.collection('turnos');
     this.turnosObs = this.turnosCollectionReference.valueChanges({idField: 'id'});
+    this.encuestasCollectionReference = this.af.collection('encuestas');
+    this.encuestaObs = this.encuestasCollectionReference.valueChanges({idField: 'id'});
   }
 
   getPacientes(){
@@ -104,6 +108,10 @@ export class FirestoreService {
     this.especialistaCollectionReference.add({...especialista});
   }
 
+  addEncuesta(encuesta: any){
+    this.encuestasCollectionReference.add(encuesta);
+  }
+
   modificarEstadoTurno(turno: any){
     if(turno.razon)
     {
@@ -113,10 +121,18 @@ export class FirestoreService {
     {
       this.turnosCollectionReference.doc(turno.id).update({estado: turno.estado, comentario: turno.comentario});
     }
-    else if(turno.satisfaccion && turno.atencion)
+    else
     {
-      this.turnosCollectionReference.doc(turno.id).update({satisfaccion: turno.satisfaccion, atencion: turno.atencion});
+      this.turnosCollectionReference.doc(turno.id).update({estado: turno.estado});
     }
+  }
+
+  addSatisfaccionAtencion(turno: any){
+    this.turnosCollectionReference.doc(turno.id).update({satisfaccion: turno.satisfaccion, atencion: turno.atencion});
+  }
+
+  addEncuestaTurno(turno: any, encuesta: any){
+    this.turnosCollectionReference.doc(turno.id).update({encuesta: encuesta});
   }
 
   async getUser(email: string){

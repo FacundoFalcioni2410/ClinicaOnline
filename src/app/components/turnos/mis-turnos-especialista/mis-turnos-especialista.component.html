@@ -30,7 +30,7 @@
                               {{turno.pacienteCompleto?.dni}}</td>
                           <td>{{turno.estado | uppercase}}</td>
                           <td>
-                              <i *ngIf="turno.estado !== 'aceptado' && turno.estado !== 'cancelado' && turno.estado !== 'rechazado'"
+                              <i *ngIf="turno.estado !== 'aceptado' && turno.estado !== 'cancelado' && turno.estado !== 'rechazado' && turno.estado !== 'realizado'"
                               class="bi bi-x-square-fill" title="Cancelar turno"
                               (click)="cancelarTurno(turno)"></i>
                               <i *ngIf="turno.estado !== 'aceptado' && turno.estado !== 'realizado' && turno.estado !== 'rechazado' && turno.estado !== 'cancelado'"
@@ -40,7 +40,7 @@
                                   (click)="aceptarTurno(turno)"></i>
                               <i *ngIf="turno.estado === 'aceptado'" class="bi bi-check-square-fill ms-1"
                                   title="Finalizar turno" (click)="finalizarTurno(turno)"></i>
-                              <i *ngIf="turno?.comentario || turno?.razon" class="bi bi-layout-text-sidebar-reverse ms-1"
+                              <i *ngIf="(turno?.atencion || turno?.razon) || turno?.satisfaccion" class="bi bi-layout-text-sidebar-reverse ms-1"
                                  title="Ver reseña"
                                 (click)="verComentario(turno)"></i>
                           <td>
