@@ -61,7 +61,7 @@ export class FirestoreService {
 
   addEspecialidad(especialidad: any)
   {
-    this.especialidadesCollectionReference.add({especialidad: especialidad});
+    this.especialidadesCollectionReference.add(especialidad);
   }
 
   updateEspecialista(horarios: any, id: string){
@@ -132,6 +132,10 @@ export class FirestoreService {
     return usuario[0];
   }
 
+  async getGenerico(coleccion: any, campo: any, valor: any){
+    return await this.af.collection(coleccion, ref => ref.where(campo, '==', valor).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();
+  }
+  
   async getPaciente(dni: number){
     let paciente = await this.af.collection('pacientes', ref => ref.where('dni', '==', dni).limit(1)).valueChanges({idField: 'id'}).pipe(take(1)).toPromise();
 

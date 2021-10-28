@@ -100,4 +100,12 @@ export class AuthService {
   async enviarVerificacionEmail(){
     return (await this.auth.currentUser)?.sendEmailVerification();
   }
+
+  async deleteCurrentUser(){
+    let user = await this.auth.currentUser;
+
+    user!.delete().then( () =>{
+      console.log('deleted');
+    });
+  }
 }

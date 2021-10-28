@@ -1,23 +1,17 @@
 <div class="container">
-    <div class="table-responsive text-center">
-        <table class="table table-dark table-hover noselect">
-            <thead>
-                <th scope='col'>Nombre</th>
-                <th scope='col'>Apellido</th>
-                <th scope='col'>Edad</th>
-                <th scope='col'>DNI</th>
-                <th scope='col'>Obra social</th>
-                <th scope='col'>Email</th>
-            </thead>
-            <tbody>
-                <tr *ngFor="let paciente of pacientes" (click)="enviarPaciente(paciente)">
-                <td>{{paciente.nombre}}</td>
-                <td>{{paciente.apellido}}</td>
-                <td>{{paciente.edad}}</td>
-                <td>{{paciente.dni}}</td>
-                <td>{{paciente.obraSocial}}</td>
-                <td>{{paciente.email}}</td>
-            </tbody>
-        </table>
+    <div class="row justify-content-around text-dark">
+        <div class="col-3 row bg-light rounded" *ngFor="let paciente of pacientes" (click)="enviarPaciente(paciente)">
+            <div class="col-6">
+                <h6>{{paciente.nombre}}</h6>
+                <h6>{{paciente.apellido}}</h6>
+                <h6>{{paciente.edad}}</h6>
+                <h6>{{paciente.dni}}</h6>
+                <h6>{{paciente.obraSocial}}</h6>
+                <h6>{{paciente.email}}</h6>
+            </div>
+            <div class="col-6">
+                <img [src]="paciente.imagenes[0]" alt="" width="100%">
+            </div>
+        </div>
     </div>
 </div>

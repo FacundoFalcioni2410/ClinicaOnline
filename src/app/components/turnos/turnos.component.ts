@@ -13,123 +13,120 @@ export class TurnosComponent implements OnInit {
   turnosMostrar: any;
 
   paciente: any;
-  
+
   especialistas: any;
   especialista: any;
 
   especialidades: any;
   especialidad: any;
+  array: any = [];
 
   mensaje: string = '';
 
-  constructor(public firestore: FirestoreService) { 
-    this.firestore.turnosObs.subscribe( async value =>{
-      this.turnos = value;
-      this.especialidades = [];
-      let index;
+  constructor(public firestore: FirestoreService) {
+    this.firestore.especialidadesObs.subscribe(res => {
+      this.especialidades = res;
+      this.firestore.turnosObs.subscribe(async (value: any) => {
+        this.turnos = value;
+        let index;
 
-      for(let item of this.turnos)
-      {
-        index = this.especialidades.indexOf(item.especialidad);
-        if(index === -1)
-        {
-          this.especialidades.push(item.especialidad)
+        for (let item of this.turnos) {
+          for(let aux of this.especialidades)
+          {
+            if(aux.especialidad === item.especialidad)
+            {
+              index = this.array.indexOf(aux);
+              if (index === -1) {
+                this.array.push(aux)
+              }
+            }
+          }
         }
 
-      }
 
+        await this.getPacientes();
+        await this.getEspecialistas();
 
-      await this.getPacientes();
-      await this.getEspecialistas();
-      // await this.getEspecialistas();
-
-      this.turnosMostrar = this.turnos;
+        this.turnosMostrar = this.turnos;
+      });
     });
   }
 
   ngOnInit(): void {
   }
 
-  async getPacientes(){    
-    
-    for(let turno of this.turnos)
-    {
+  async getPacientes() {
+
+    for (let turno of this.turnos) {
       turno.pacienteCompleto = await this.firestore.getPaciente(turno.paciente);
     }
   }
 
-  async getEspecialistas(){    
-    
+  async getEspecialistas() {
+
     let index = 0;
     this.especialistas = [];
-      let especialista: any;
-      for(let turno of this.turnos)
-      {
-        especialista = await this.firestore.getEspecialista(turno.especialista);
-        turno.especialistaCompleto = especialista;
-        this.especialistas.push(especialista);
-      }
-  
-      this.especialistas = this.eliminarObjetosDuplicados(this.especialistas, 'dni');
+    let especialista: any;
+    for (let turno of this.turnos) {
+      especialista = await this.firestore.getEspecialista(turno.especialista);
+      turno.especialistaCompleto = especialista;
+      this.especialistas.push(especialista);
+    }
+
+    this.especialistas = this.eliminarObjetosDuplicados(this.especialistas, 'dni');
   }
 
-  limpiarFiltros(){
+  limpiarFiltros() {
     this.mensaje = '';
     this.turnosMostrar = this.turnos;
   }
 
-  seleccionarEspecialista(especialista: any){
+  seleccionarEspecialista(especialista: any) {
     this.turnosMostrar = [];
     this.especialista = especialista;
-    for(let turno of this.turnos)
-    {
-      if(turno.especialista === especialista.dni)
-      {
+    for (let turno of this.turnos) {
+      if (turno.especialista === especialista.dni) {
         this.turnosMostrar.push(turno);
       }
     }
 
-    if(this.turnosMostrar.length === 0)
-    {
+    if (this.turnosMostrar.length === 0) {
       this.mensaje = "No hay turnos con el especialista seleccionado";
     }
   }
 
-  seleccionarEspecialidad(especialidad: any){
+  seleccionarEspecialidad(objeto: any) {
     this.mensaje = '';
     this.turnosMostrar = [];
-    this.especialidad = especialidad;
-    for(let turno of this.turnos)
-    {
-      if(turno.especialidad === especialidad)
-      {
+    this.especialidad = objeto.especialidad;
+    for (let turno of this.turnos) {
+      if (turno.especialidad === objeto.especialidad) {
         this.turnosMostrar.push(turno);
       }
     }
 
-    if(this.turnosMostrar.length === 0)
-    {
+    if (this.turnosMostrar.length === 0) {
       this.mensaje = "No hay turnos con la especialidad seleccionada";
     }
   }
 
   eliminarObjetosDuplicados(arr: any, prop: any) {
     var nuevoArray: any = [];
-    var lookup: any  = {};
+    var lookup: any = {};
 
     for (let i in arr) {
-        lookup[arr[i][prop]] = arr[i];
+      lookup[arr[i][prop]] = arr[i];
     }
 
     for (let i in lookup) {
-        nuevoArray.push(lookup[i]);
+      nuevoArray.push(lookup[i]);
     }
 
     return nuevoArray;
   }
 
 
-  async cancelarTurno(turno: any){
+  async cancelarTurno(turno: any) {
     const { value: razon } = await Swal.fire({
       title: 'Cancelación de turno',
       input: 'text',
@@ -140,8 +137,7 @@ export class TurnosComponent implements OnInit {
         if (!value) {
           return 'Debe especificar el motivo de la cancelación'
         }
-        else
-        {
+        else {
           return '';
         }
       },
@@ -151,26 +147,22 @@ export class TurnosComponent implements OnInit {
       },
     });
 
-    if(razon)
-    {
+    if (razon) {
       turno.estado = 'cancelado';
       turno.razon = razon;
       this.firestore.modificarEstadoTurno(turno);
     }
-    else
-    {
-      Swal.fire({text: 'El turno no ha podido ser cancelado. Motivo: Debe especificar una razon', timer: 2500, timerProgressBar: true, icon: 'error', position: 'bottom', toast: true});
+    else {
+      Swal.fire({ text: 'El turno no ha podido ser cancelado. Motivo: Debe especificar una razon', timer: 2500, timerProgressBar: true, icon: 'error', position: 'bottom', toast: true });
     }
   }
 
-  verComentario(turno: any){
-    if(turno?.comentario)
-    {
-      Swal.fire({title: 'Comentario sobre el turno',text: turno.comentario});
+  verComentario(turno: any) {
+    if (turno?.comentario) {
+      Swal.fire({ title: 'Comentario sobre el turno', text: turno.comentario });
     }
-    else if(turno?.razon)
-    {
-      Swal.fire({title: 'Motivo de cancelacion/rechazo del turno',text: turno.razon});
+    else if (turno?.razon) {
+      Swal.fire({ title: 'Motivo de cancelacion/rechazo del turno', text: turno.razon });
     }
   }
 }

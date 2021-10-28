@@ -1,55 +1,52 @@
 <div class="container">
-    <div *ngIf='this.turnosMostrar.length else spinner'>
-            <h2 class="text-center text-light">Listado de mis turnos</h2>
-            <i (click)="limpiarFiltros()" class="bi bi-funnel-fill text-info noselect">Limpiar filtros</i>
-            <div class="col-12 col-sm-6">
-              <span *ngFor="let item of especialistas" (click)="seleccionarEspecialista(item)" class="badge rounded-pill bg-dark text-light m-1 mt-2 p-2 noselect">{{item?.nombre}} {{item.apellido}} - {{item.dni}}</span>
-            </div>
-            <div class="col-12 col-sm-6">
-              <span *ngFor="let item of especialidades" (click)="seleccionarEspecialidad(item)" class="badge rounded-pill bg-dark text-light m-1 mt-2 p-2 noselect">{{item}}</span>
-            </div>
-            <div class="table-responsive text-center" *ngIf="this.mensaje === ''">
-                <table class="table table-dark table-hover noselect">
-                    <thead>
-                        <th scope='col'>Fecha</th>
-                        <th scope='col'>Hora</th>
-                        <th scope='col'>Especialidad</th>
-                        <th scope='col'>Especialista</th>
-                        <th scope='col'>Paciente</th>
-                        <th scope='col'>Estado</th>
-                        <th scope='col-2'>Accion</th>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let turno of turnosMostrar">
-                            <td>{{turno.fecha}}</td>
-                            <td>{{turno.hora}}</td>
-                            <td>{{turno.especialidad}}</td>
-                            <td>{{turno.especialistaCompleto?.nombre}} {{turno.especialistaCompleto?.apellido}} -
-                                {{turno.especialistaCompleto?.dni}}</td>
-                            <td>{{this.paciente?.nombre}} {{this.paciente?.apellido}} -
-                                {{this.paciente?.dni}}</td>
-                            <td>{{turno.estado | uppercase}}</td>
-                            <td>
-                                <i *ngIf="turno.estado !== 'aceptado' && turno.estado !== 'cancelado' && turno.estado !== 'rechazado' && turno.estado !== 'realizado'"
-                                class="bi bi-x-square-fill" title="Cancelar turno"
-                                (click)="cancelarTurno(turno)"></i>
-                                <i *ngIf="turno?.comentario || turno?.razon" class="bi bi-layout-text-sidebar-reverse ms-1"
-                                   title="Ver reseña"
-                                  (click)="verComentario(turno)"></i>
-                                <i class="bi bi-ui-checks ms-2" *ngIf="turno.estado === 'realizado' && turno?.comentario && !turno.encuesta" data-bs-toggle="modal" data-bs-target="#modal" (click)="this.turnoEncuesta = turno"></i>
-                                <i class="bi bi-emoji-smile ms-2" title="Calificar atención" *ngIf='turno.estado === "realizado" && !turno.satisfaccion' data-bs-toggle="modal" data-bs-target="#modalSatisfaccion" (click)="this.turnoEncuesta = turno"></i>
-                            <td>
-                    </tbody>
-                </table>
-            </div>
-            <div *ngIf="this.mensaje !== ''">
-              <span class="text-danger">{{this.mensaje}}</span>
-            </div>
+  <div *ngIf='this.turnosMostrar.length; else spinner'>
+    <h2 class="text-center">Listado de mis turnos</h2>
+    <i (click)="limpiarFiltros()" class="bi bi-funnel-fill text-info noselect">Limpiar filtros</i>
+    <div class="col-12 col-sm-6">
+      <span *ngFor="let item of especialistas" class="badge rounded-pill bg-dark text-light m-1 mt-2 p-2 noselect"
+        (click)="seleccionarEspecialista(item)">
+        <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%">
+      </span>
     </div>
-    <ng-template #spinner>
-        <app-spinner></app-spinner>
-    </ng-template>
+    <div class="col-12 col-md-6 d-flex text-light">
+      <span *ngFor="let item of array" (click)="seleccionarEspecialidad(item)" class="d-inline-flex flex-column me-2">
+        <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%">
+        <p>{{item.especialidad}}</p>
+      </span>
+    </div>
+    <div class="row justify-content-around" style="column-gap: 40px;row-gap: 15px;">
+      <div class="col-12 col-md-3 row rounded text-white" style="background-color: rgba(0,0,0,.5);"
+        *ngFor="let turno of turnosMostrar">
+        <div class="col-6">
+          <h6>{{turno.fecha}}</h6>
+          <h6>{{turno.hora}}</h6>
+          <h6>{{turno.especialidad}}</h6>
+          <h6 class="text-break">{{turno.especialistaCompleto?.nombre}} {{turno.especialistaCompleto?.apellido}} -
+            {{turno.especialistaCompleto?.dni}}</h6>
+          <h6 class="text-break">{{this.paciente?.nombre}} {{this.paciente?.apellido}} -
+            {{this.paciente?.dni}}</h6>
+          <h6>{{turno.estado | uppercase}}</h6>
+        </div>
+        <div class="col-6 d-flex h-100 justify-content-end">
+          <div class="d-flex flex-column">
+            <i *ngIf="turno.estado !== 'aceptado' && turno.estado !== 'cancelado' && turno.estado !== 'rechazado' && turno.estado !== 'realizado'"
+              class="bi bi-x-square-fill" title="Cancelar turno" (click)="cancelarTurno(turno)"></i>
+            <i *ngIf="turno?.comentario || turno?.razon" class="bi bi-layout-text-sidebar-reverse ms-1"
+              title="Ver reseña" (click)="verComentario(turno)"></i>
+            <i class="bi bi-ui-checks ms-2" *ngIf="turno.estado === 'realizado' && turno?.comentario && !turno.encuesta"
+              data-bs-toggle="modal" data-bs-target="#modal" (click)="this.turnoEncuesta = turno"></i>
+            <i class="bi bi-emoji-smile ms-2" title="Calificar atención"
+              *ngIf='turno.estado === "realizado" && !turno.satisfaccion' data-bs-toggle="modal"
+              data-bs-target="#modalSatisfaccion" (click)="this.turnoEncuesta = turno"></i>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  <ng-template #spinner>
+    <app-spinner></app-spinner>
+  </ng-template>
+</div>
 
 <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -61,21 +58,23 @@
       <div class="modal-body">
         <form>
           <div class="mb-3">
-            <label for="tiempo" class="col-form-label">Desde su llegada al servicio de urgencias hasta que le atendió el médico, ¿cuánto tiempo pasó? <br>
-                Nota: Ingrese el tiempo en minutos</label>
+            <label for="tiempo" class="col-form-label">Desde su llegada al servicio de urgencias hasta que le atendió el
+              médico, ¿cuánto tiempo pasó? <br>
+              Nota: Ingrese el tiempo en minutos</label>
             <input type="number" class="form-control" id="tiempo">
           </div>
           <div class="mb-3">
-              <label class="col-form-label" for="preguntas">
-                Mientras estuvo en la consulta, ¿pudo comentar al médico todas las cosas que le preocupaban por su salud?
-              </label>
+            <label class="col-form-label" for="preguntas">
+              Mientras estuvo en la consulta, ¿pudo comentar al médico todas las cosas que le preocupaban por su salud?
+            </label>
             <input class="form-check-input" type="checkbox" value="" id="preguntas">
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="enviarEncuesta()">Enviar encuesta</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="enviarEncuesta()">Enviar
+          encuesta</button>
       </div>
     </div>
   </div>
@@ -96,16 +95,17 @@
             <input type="range" min="1" max="10" step="1" class="form-range" id="satisfaccion">
           </div>
           <div class="mb-3">
-              <label class="col-form-label" for="atencion">
-                Atencion del especialista
-              </label>
+            <label class="col-form-label" for="atencion">
+              Atencion del especialista
+            </label>
             <input class="form-control" type="text" autocomplete="off" id="atencion">
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="satisfaccion()">Enviar comentario</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="satisfaccion()">Enviar
+          comentario</button>
       </div>
     </div>
   </div>

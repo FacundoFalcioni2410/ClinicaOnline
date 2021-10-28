@@ -29,6 +29,7 @@ export class RegistroComponent implements OnInit {
   user: any;
   especialidades: any;
   especialidadActual: any = [];
+  fotosOk = false;
 
   @Input() set tipo(value: any){
     this.tipoUser = value;
@@ -66,7 +67,11 @@ export class RegistroComponent implements OnInit {
   }
 
   agregarNuevaEspecialidad(){
-    let especialidad = this.form.controls.nuevaEspecialidad?.value;
+    let especialidad = {
+      especialidad: this.form.controls.nuevaEspecialidad?.value,
+      imagen: "https://firebasestorage.googleapis.com/v0/b/clinicaonline-ee233.appspot.com/o/default.png?alt=media&token=28e9a67e-ec8f-4b97-bd54-2840abb7ec8b"
+    }
+    
     if(this.agregarEspecialidad(especialidad))
     {
       let flag = false;
@@ -144,22 +149,52 @@ export class RegistroComponent implements OnInit {
 
   cambioArchivo(event: any)
   {
-    if (event.target.files.length > 0) 
+    if(this.tipoUser === 'paciente')
     {
-      for (let i = 0; i < event.target.files.length; i++)
+      if(event.target.files.length === 2)
       {
-        if(i === 0)
+        for (let i = 0; i < 2; i++)
         {
-          this.nombreArchivo0 = event.target.files[i].name;
+          if(i === 0)
+          {
+            this.nombreArchivo0 = event.target.files[i].name;
+          }
+          else
+          {
+            this.nombreArchivo1 = event.target.files[i].name;
+          }
+          this.formData.delete(`archivo${i}`);
+          this.formData.append(`archivo${i}`, event.target.files[i], event.target.files[i].name);
+          this.fotosOk = true;
         }
-        else
-        {
-          this.nombreArchivo1 = event.target.files[i].name;
-        }
-        this.formData.delete(`archivo${i}`);
-        this.formData.append(`archivo${i}`, event.target.files[i], event.target.files[i].name);
+      }
+      else
+      {
+        event.target.value = null;
+        Swal.fire({text: "Debe subir dos fotos", timer:1500, timerProgressBar: true, icon: "error", toast:true, position: 'bottom'});
       }
     }
+    else
+    {
+      if (event.target.files.length > 0) 
+      {
+        for (let i = 0; i < event.target.files.length; i++)
+        {
+          if(i === 0)
+          {
+            this.nombreArchivo0 = event.target.files[i].name;
+          }
+          else
+          {
+            this.nombreArchivo1 = event.target.files[i].name;
+          }
+          this.formData.delete(`archivo${i}`);
+          this.formData.append(`archivo${i}`, event.target.files[i], event.target.files[i].name);
+          this.fotosOk = true;
+        }
+      }
+    }
+
   }
 
   async subirArchivo(){
@@ -176,7 +211,7 @@ export class RegistroComponent implements OnInit {
       await this.firebaseStorage.upload(this.nombreArchivo1, archivo1);
     }
     
-    referencia0.getDownloadURL().subscribe((url0: any) => {
+    referencia0.getDownloadURL().subscribe(async (url0: any) => {
       if(this.tipoUser === 'especialista')
       {
         this.user.imagen = url0;
@@ -201,6 +236,10 @@ export class RegistroComponent implements OnInit {
           this.nombreArchivo0 = '';
           this.nombreArchivo1 = '';
         }
+        else
+        {
+          this.auth.deleteCurrentUser();
+        }
      }
     });
   }
@@ -217,48 +256,51 @@ export class RegistroComponent implements OnInit {
   }
 
   signUp(){
-    if(this.tipoUser === 'paciente')
+    if(this.fotosOk)
     {
-      this.user = {
-        email: this.form.get('email')?.value,
-        nombre: this.form.get('nombre')?.value,
-        apellido: this.form.get('apellido')?.value,
-        dni: this.form.get('dni')?.value,
-        edad: this.form.get('edad')?.value,
-        obraSocial: this.form.get('obraSocial')?.value,
-        password: this.form.get('password')?.value,
-        perfil: this.tipoUser,
-        imagenes: [],
+        if(this.tipoUser === 'paciente')
+        {
+          this.user = {
+          email: this.form.get('email')?.value,
+          nombre: this.form.get('nombre')?.value,
+          apellido: this.form.get('apellido')?.value,
+          dni: this.form.get('dni')?.value,
+          edad: this.form.get('edad')?.value,
+          obraSocial: this.form.get('obraSocial')?.value,
+          password: this.form.get('password')?.value,
+          perfil: this.tipoUser,
+          imagenes: [],
+        }
+        this.registrar();
       }
-      this.registrar();
-    }
-    else if(this.tipoUser === "especialista")
-    {
-      this.user = {
-        email: this.form.get('email')?.value,
-        nombre: this.form.get('nombre')?.value,
-        apellido: this.form.get('apellido')?.value,
-        dni: this.form.get('dni')?.value,
-        edad: this.form.get('edad')?.value,
-        especialidad: this.form.get('especialidad')?.value,
-        password: this.form.get('password')?.value,
-        perfil: this.tipoUser,
-        habilitado: true
+      else if(this.tipoUser === "especialista")
+      {
+        this.user = {
+          email: this.form.get('email')?.value,
+          nombre: this.form.get('nombre')?.value,
+          apellido: this.form.get('apellido')?.value,
+          dni: this.form.get('dni')?.value,
+          edad: this.form.get('edad')?.value,
+          especialidad: this.form.get('especialidad')?.value,
+          password: this.form.get('password')?.value,
+          perfil: this.tipoUser,
+          habilitado: true
+        }
+        this.registrar();
       }
-      this.registrar();
-    }
-    else
-    {
-      this.user = {
-        email: this.form.get('email')?.value,
-        nombre: this.form.get('nombre')?.value,
-        apellido: this.form.get('apellido')?.value,
-        dni: this.form.get('dni')?.value,
-        edad: this.form.get('edad')?.value,
-        password: this.form.get('password')?.value,
-        perfil: "admin",
+      else
+      {
+        this.user = {
+          email: this.form.get('email')?.value,
+          nombre: this.form.get('nombre')?.value,
+          apellido: this.form.get('apellido')?.value,
+          dni: this.form.get('dni')?.value,
+          edad: this.form.get('edad')?.value,
+          password: this.form.get('password')?.value,
+          perfil: "admin",
+        }
+        this.registrar();
       }
-      this.registrar();
     }
   }
 

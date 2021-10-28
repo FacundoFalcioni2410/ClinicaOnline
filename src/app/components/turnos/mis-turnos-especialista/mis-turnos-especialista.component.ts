@@ -18,32 +18,50 @@ export class MisTurnosEspecialistaComponent implements OnInit {
   especialistas: any;
   especialista: any;
 
-  especialidades: any;
+  especialidades: any = [];
+  array: any = [];
   especialidad: any;
 
   mensaje: string = '';
 
   
   constructor(public firestore: FirestoreService) { 
-    this.firestore.turnosObs.subscribe( async value =>{
-      this.especialista = JSON.parse(localStorage.getItem('usuario') as string);
-      this.turnos = [];
-      let index = 0;
-      this.especialidades = [];
-      for(let item of value)
-      {
-        if(item.especialista === this?.especialista?.dni)
+    
+    this.especialista = JSON.parse(localStorage.getItem('usuario') as string);
+      
+      this.firestore.especialidadesObs.subscribe( res =>{
+        this.firestore.turnosObs.subscribe( async value =>{
+        this.especialidades = res;
+        this.turnos = [];
+        let index = 0;
+        
+        for(let item of value)
         {
-          this.turnos.push(item);
-          index = this.especialidades.indexOf(item?.especialidad);
-          if(index === -1)
+          if(item.especialista === this?.especialista?.dni)
           {
-            this.especialidades.push(item?.especialidad);
+            this.turnos.push(item);
+            for(let especialidad of this.especialista.especialidad)
+            {
+              for(let aux of this.especialidades)
+              {
+                if(especialidad === aux.especialidad)
+                {
+                  index = this.array.indexOf(aux);
+                  if(index === -1)
+                  {
+                    this.array.push(aux);
+                  }
+                }  
+              }
+            }
+            
           }
         }
-      }
-      await this.getPacientes();
-      this.turnosMostrar = this.turnos;
+        await this.getPacientes();
+        this.turnosMostrar = this.turnos;
+      });
+
+     
     });
   }
 
@@ -100,13 +118,13 @@ export class MisTurnosEspecialistaComponent implements OnInit {
     }
   }
 
-  seleccionarEspecialidad(especialidad: any){
+  seleccionarEspecialidad(objeto: any){
     this.mensaje = '';
     this.turnosMostrar = [];
-    this.especialidad = especialidad;
+    this.especialidad = objeto.especialidad;
     for(let turno of this.turnos)
     {
-      if(turno.especialidad === especialidad)
+      if(turno.especialidad === this.especialidad)
       {
         this.turnosMostrar.push(turno);
       }

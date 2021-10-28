@@ -34,6 +34,7 @@ export class SolicitarTurnoComponent implements OnInit {
   
   mensaje = '';
   recibido = false;
+  shortcutHorario: boolean = false;
   
   constructor(public firestore: FirestoreService, private datePipe: DatePipe) {
     this.turnosM = ["08:00","08:30", "09:00","09:30","10:00","10:30","11:00","11:30", "12:00","12:30"];
@@ -51,6 +52,7 @@ export class SolicitarTurnoComponent implements OnInit {
   }
   
   cambiarEspecialista(especialista: any){
+    this.shortcutHorario = false;
     if(this.firestore.usuarioActual?.perfil === "paciente" && !this.paciente)
     {
       this.paciente = this.firestore.usuarioActual;
@@ -62,8 +64,50 @@ export class SolicitarTurnoComponent implements OnInit {
       this.especialista = especialista;
       this.fechasEspecialistaActual = [];
 
-      this.cargarHorarios();
+      if(especialista.especialidad.length === 1)
+      {
+        this.shortcutHorario = true;
+        this.fechaSeleccionada = null;
+        this.especialidadActual = this.especialista.especialidad[0];
+        this.cargarHorarios();
+        return true;
+      }
+
+      this.array = [];
+
+      for(let item of this.especialidades)
+      {
+        for(let especialidad of this.especialista.especialidad)
+        {
+          if(item.especialidad === especialidad)
+          {
+            this.array.push(item);
+          }
+        }
+      }
+
+      // this.array = this.especialista.especialidad;
+      console.log(this.array);
     }
+    return true;
+
+    // this.array = this.especialistas.filter( (item: any) =>{
+    //   if()
+    // })
+
+    // this.array = this.especialistas.filter( (item: any) =>{
+    //   let flag = false;
+    //   for(let aux of item.especialidad)
+    //   {
+    //     if(especialidad === aux)
+    //     {
+    //       flag = true;
+    //       break;
+    //     }
+    //   }
+      
+    //   return flag ? item : null;
+    // });
   }
 
   seleccionarFecha(fecha: any)
@@ -146,8 +190,30 @@ export class SolicitarTurnoComponent implements OnInit {
     }
   }
 
-  seleccionarHora(hora: any){
-    this.hora = hora;
+  seleccionarHora(dia: any, hora: any){
+    this.fechaSeleccionada = {
+      dia: dia,
+      hora: hora,
+    }
+
+    for(let item of this.fechasEspecialistaActual)
+    {
+      if(item.dia === dia )
+      {
+        for(let aux of item.turnosDelDia)
+        {
+          if(aux === hora)
+          {
+            console.log(item.dia);
+            console.log(dia);
+            item.turnosDelDia.splice(item.turnosDelDia.indexOf(hora),1);
+            break;
+          }
+        }
+      }
+    }
+
+    this.solicitarTurno();
   }
 
   getEspecialidades(){
@@ -175,30 +241,19 @@ export class SolicitarTurnoComponent implements OnInit {
     });
   }
 
-  cambioEspecialidad(especialidad: any){
+  cambioEspecialidad(objeto: any){
     this.hora = '';
-    this.especialista = null;
     this.fechaSeleccionada = null;
-    this.especialidadActual = especialidad;
-    this.array = this.especialistas.filter( (item: any) =>{
-      let flag = false;
-      for(let aux of item.especialidad)
-      {
-        if(especialidad === aux)
-        {
-          flag = true;
-          break;
-        }
-      }
-      
-      return flag ? item : null;
-    });
+    this.especialidadActual = objeto.especialidad;
+
+    this.fechasEspecialistaActual = [];
+    this.cargarHorarios();
   }
 
   solicitarTurno(){
     let turno = {
       fecha: this.fechaSeleccionada.dia,
-      hora: this.hora,
+      hora: this.fechaSeleccionada.hora,
       dniPaciente: this.paciente.dni,
       especialidad: this.especialidadActual
     }
@@ -212,14 +267,13 @@ export class SolicitarTurnoComponent implements OnInit {
     {
       this.paciente.turno = [];
     }
-
     
     this.especialista.turno.push(turno);
     let objeto: any = {
       especialidad: this.especialidadActual,
       especialista: this.especialista?.dni,
       fecha: this.fechaSeleccionada.dia,
-      hora: this.hora
+      hora: this.fechaSeleccionada.hora
     }
     this.paciente.turno.push(objeto);
 

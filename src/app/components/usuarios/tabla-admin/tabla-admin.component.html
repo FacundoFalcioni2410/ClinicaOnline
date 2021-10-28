@@ -1,21 +1,16 @@
 <div class="container">
-    <div class="table-responsive text-center">
-        <table class="table table-dark">
-            <thead>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Edad</th>
-                <th>DNI</th>
-                <th>Email</th>
-            </thead>
-            <tbody>
-                <tr *ngFor="let admin of admins">
-                <td>{{admin.nombre}}</td>
-                <td>{{admin.apellido}}</td>
-                <td>{{admin.edad}}</td>
-                <td>{{admin.dni}}</td>
-                <td>{{admin.email}}</td>
-            </tbody>
-        </table>
+    <div class="row justify-content-around text-dark"  style="column-gap: 40px;row-gap: 15px;">
+        <div class="col-3 row bg-light rounded" *ngFor="let admin of admins">
+            <div class="col-6">
+                <h6>{{admin.nombre}}</h6>
+                <h6>{{admin.apellido}}</h6>
+                <h6>{{admin.edad}}</h6>
+                <h6>{{admin.dni}}</h6>
+                <h6>{{admin.email}}</h6>
+            </div>
+            <div class="col-6">
+                <img [defaultImage]="spinner" [lazyLoad]="admin.imagen" alt="" width="100%">
+            </div>
+        </div>
     </div>
 </div>

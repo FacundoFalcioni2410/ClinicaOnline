@@ -1,10 +1,12 @@
-<div class="row justify-content-center my-5 gap-3 p-0 mx-0" *ngIf='!this.tipo'>
-    <button class="col-5 btn btn-danger" (click)='tipo = "paciente"'>
-        Paciente
-    </button>
-    <button class="col-5 btn btn-danger" (click)='tipo = "especialista"'>
-        Especialista
-    </button>
+<div class="container">
+    <div class="row justify-content-center my-2 gap-3 p-0 mx-0" *ngIf='!this.tipo'>
+            <button class="col-12 col-md-5 btn btn-danger" (click)='tipo = "paciente"' style="background-color: #80BAD8; border-radius: 50%;">
+                <img src="../../../assets/paciente.png" alt="" width="80%">
+            </button>
+        <button class="col-12 col-md-5 btn btn-danger" (click)='tipo = "especialista"' style="background-color: #80BAD8;border-radius: 50%;overflow: hidden;">
+            <img src="../../../assets/especialista.jpg" alt="" width="100%">
+        </button>
+    </div>
 </div>
 
 <app-registro *ngIf='this.tipo' [tipo]="tipo"></app-registro>

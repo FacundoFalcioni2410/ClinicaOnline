@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SpinnerComponent } from 'src/app/components/spinner/spinner.component';
 import { RegistroComponent } from 'src/app/components/registro/registro.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 
 
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LazyLoadImageModule
   ],
   exports: [
     SpinnerComponent,
