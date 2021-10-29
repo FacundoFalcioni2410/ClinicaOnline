@@ -17,13 +17,15 @@
                     {{paciente?.nombre}} {{paciente?.apellido}} con DNI:
                     {{paciente?.dni}}</span>
             </div>
-            <div class="col-12 col-md-6 d-flex text-light" *ngIf="!this.shortcutHorario">
+            <div class="col-12 col-md-6 d-flex flex-wrap text-light" *ngIf="!this.shortcutHorario">
                 <span *ngFor="let item of array" (click)="cambioEspecialidad(item)"
                     class="d-inline-flex flex-column me-2">
                     <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%">
                     <p>{{item.especialidad}}</p>
                 </span>
             </div>
+            <span class="badge rounded-pill bg-warning text-dark m-1 mt-2 p-2
+                        noselect">{{this.especialidadActual}}</span>
             <div class="col-12 mt-1">
                 <div class="row" *ngIf="mensaje === '' && especialista">
                     <div class="col-12 col-md-4 border border-warning" *ngFor="let item of fechasEspecialistaActual">

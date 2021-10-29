@@ -85,29 +85,9 @@ export class SolicitarTurnoComponent implements OnInit {
           }
         }
       }
-
-      // this.array = this.especialista.especialidad;
       console.log(this.array);
     }
     return true;
-
-    // this.array = this.especialistas.filter( (item: any) =>{
-    //   if()
-    // })
-
-    // this.array = this.especialistas.filter( (item: any) =>{
-    //   let flag = false;
-    //   for(let aux of item.especialidad)
-    //   {
-    //     if(especialidad === aux)
-    //     {
-    //       flag = true;
-    //       break;
-    //     }
-    //   }
-      
-    //   return flag ? item : null;
-    // });
   }
 
   seleccionarFecha(fecha: any)
@@ -286,7 +266,7 @@ export class SolicitarTurnoComponent implements OnInit {
 
     this.firestore.addTurno(objeto);
 
-    Swal.fire({text: 'Turno sacado con exito', timer: 2000,timerProgressBar: true, icon: 'success', toast: true, position: 'bottom'});
+    Swal.fire({text: `Turno sacado con exito el dia: ${this.fechaSeleccionada.dia} a la hora: ${this.fechaSeleccionada.hora}`, timer: 2500,timerProgressBar: true, icon: 'success', toast: true, position: 'bottom'});
   }
 
   obtenerProximosDias(fecha: any, dias: number){
