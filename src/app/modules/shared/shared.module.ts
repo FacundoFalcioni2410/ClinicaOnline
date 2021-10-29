@@ -4,6 +4,7 @@ import { SpinnerComponent } from 'src/app/components/spinner/spinner.component';
 import { RegistroComponent } from 'src/app/components/registro/registro.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { HistoriaClinicaComponent } from 'src/app/components/historia-clinica/historia-clinica.component';
 
 
 
@@ -11,6 +12,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
   declarations: [
     SpinnerComponent,
     RegistroComponent,
+    HistoriaClinicaComponent
   ],
   imports: [
     CommonModule,
@@ -21,6 +23,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
   exports: [
     SpinnerComponent,
     RegistroComponent,
+    HistoriaClinicaComponent
   ]
 })
 export class SharedModule { }

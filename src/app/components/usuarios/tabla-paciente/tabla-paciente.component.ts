@@ -7,6 +7,7 @@ import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 })
 export class TablaPacienteComponent implements OnInit {
 
+  spinner: string = "../../../../assets/spinnerImage.gif";
   @Input() pacientes: any;
   @Output() enviar: EventEmitter<any> = new EventEmitter();
 

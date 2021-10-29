@@ -1,5 +1,7 @@
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Component, OnInit } from '@angular/core';
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
 
 @Component({
   selector: 'app-usuarios',
@@ -19,7 +21,10 @@ export class UsuariosComponent implements OnInit {
   administradores: any;
   tipoUser: string = 'Pacientes';
   detalle = false;
-  botonDetalle = `Ver ${this.tipoUser} en detalle`;
+  botonDetalle = `en detalle`;
+  allUsers: any = [];
+  historiaClinica: any = false;
+  botonHistoriaClinica: string = 'Ver';
 
   constructor(private firestore: FirestoreService) {
     this.getUsers();
@@ -33,19 +38,38 @@ export class UsuariosComponent implements OnInit {
       setTimeout(()=>{
         this.pacientes = pacientes;
         this.usuarios = pacientes;
+        this.allUsers = this.allUsers.concat(this.pacientes);
       },1000)
     });
     this.firestore.getEspecialistas().subscribe(especialistas =>{
       this.especialistas = especialistas;
+      this.allUsers = this.allUsers.concat(this.especialistas);
     });
     this.firestore.getAdmins().subscribe(administradores =>{
       this.administradores = administradores;
+      this.allUsers = this.allUsers.concat(this.administradores);
     });
   }
 
+  toggleHistoriaClinica(){
+    this.historiaClinica = !this.historiaClinica;
+    if(this.historiaClinica)
+    {
+      this.botonHistoriaClinica = `Ocultar`;
+    }
+    else
+    {
+      this.botonHistoriaClinica = `Ver`;
+    }
+  }
+
   cambiarTipoUser(tipo: string){
-    this.tipoUser = tipo
+    this.historiaClinica = false;
+    this.botonHistoriaClinica = 'Ver'
     this.registroAdministrador = false;
+
+    this.tipoUser = tipo;
+
     if(this.tipoUser === 'Pacientes')
     {
       this.usuarios = null;
@@ -84,11 +108,33 @@ export class UsuariosComponent implements OnInit {
     this.detalle = !this.detalle;
     if(!this.detalle)
     {
-      this.botonDetalle = `Ver ${this.tipoUser} en detalle`;
+      this.botonDetalle = `en detalle`;
     }
     else
     {
-      this.botonDetalle = `Ver ${this.tipoUser} en formato reducido`;
+      this.botonDetalle = `en formato reducido`;
     }
+  }
+
+  downloadExcel(){
+    let workbook = new Workbook();
+
+    let worksheet = workbook.addWorksheet("Usuarios");
+
+    let header = ["Nombre", "Apellido", "DNI", "Edad", "Correo", "Perfil"];
+    let headerRow = worksheet.addRow(header);
+
+    for (let item of this.allUsers) {
+      let auxRow = [item.nombre ,  item.apellido , item.dni , item.edad , item.email , item.perfil ];
+
+      worksheet.addRow(auxRow);
+    }
+    
+    let fileName = "UsuariosClinicaOnline";
+
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, fileName + '.xlsx');
+    });
   }
 }

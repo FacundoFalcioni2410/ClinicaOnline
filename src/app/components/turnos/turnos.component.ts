@@ -127,6 +127,7 @@ export class TurnosComponent implements OnInit {
 
 
   async cancelarTurno(turno: any) {
+    let i = 0;
     const { value: razon } = await Swal.fire({
       title: 'Cancelación de turno',
       input: 'text',
@@ -151,6 +152,30 @@ export class TurnosComponent implements OnInit {
       turno.estado = 'cancelado';
       turno.razon = razon;
       this.firestore.modificarEstadoTurno(turno);
+
+      for(let [index, value] of turno.pacienteCompleto.turno.entries())
+      {
+        if(turno.fecha === value.fecha && turno.hora === value.hora)
+        {
+          i = index;
+          break; 
+        }
+      }
+
+
+      turno.pacienteCompleto.turno.splice(i, 1);
+      this.firestore.finalizarTurnoPaciente(turno.pacienteCompleto);
+
+      for(let [index, value] of turno.especialistaCompleto.turno.entries())
+      {
+        if(turno.fecha === value.fecha && turno.hora === value.hora)
+        {
+          i = index;
+          break; 
+        }
+      }
+      turno.especialistaCompleto.turno.splice(i, 1);
+      this.firestore.finalizarTurnoEspecialista(turno.especialistaCompleto);
     }
     else {
       Swal.fire({ text: 'El turno no ha podido ser cancelado. Motivo: Debe especificar una razon', timer: 2500, timerProgressBar: true, icon: 'error', position: 'bottom', toast: true });

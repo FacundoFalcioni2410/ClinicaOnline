@@ -27,6 +27,7 @@ import { SinPermisosComponent } from './components/sin-permisos/sin-permisos.com
 import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
 import { MisHorariosComponent } from './components/mis-horarios/mis-horarios.component';
 import { EncuestaComponent } from './components/encuesta/encuesta.component';
+import { PacientesComponent } from './components/pacientes/pacientes.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { EncuestaComponent } from './components/encuesta/encuesta.component';
     MiPerfilComponent,
     MisHorariosComponent,
     EncuestaComponent,
+    PacientesComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,8 @@ export class MiPerfilComponent implements OnInit {
   horarios: boolean = false;
   verHorariosBtn: string = 'Ver horarios';
   defaultImage = '../../../assets/spinnerImage.gif';
+  historiaClinica: boolean = false;
+  botonHistoriaClinica: string = 'Ver';
 
   constructor(public firestore: FirestoreService) {    
   }
@@ -23,6 +25,18 @@ export class MiPerfilComponent implements OnInit {
     setTimeout(() =>{
       this.usuario = this.firestore.usuarioActual;
     },1000);
+  }
+
+  toggleHistoriaClinica(){
+    this.historiaClinica = !this.historiaClinica;
+    if(this.historiaClinica)
+    {
+      this.botonHistoriaClinica = "Ocultar";
+    }
+    else
+    {
+      this.botonHistoriaClinica = "Ver";
+    }
   }
 
   verHorarios(){

@@ -9,6 +9,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { PacienteGuard } from './guards/paciente.guard';
 import { SinPermisosComponent } from './components/sin-permisos/sin-permisos.component';
 import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
+import { PacientesComponent } from './components/pacientes/pacientes.component';
+import { EspecialistaGuard } from './guards/especialista.guard';
 
 const routes: Routes = [
   {
@@ -44,6 +46,11 @@ const routes: Routes = [
   {
     path: 'mi-perfil',
     component: MiPerfilComponent,
+  },
+  {
+    path: 'pacientes',
+    component: PacientesComponent,
+    canActivate: [EspecialistaGuard]
   }
 
 ];

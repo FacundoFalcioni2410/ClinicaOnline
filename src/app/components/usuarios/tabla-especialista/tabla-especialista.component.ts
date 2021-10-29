@@ -8,6 +8,7 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 })
 export class TablaEspecialistaComponent implements OnInit {
 
+  spinner: string = "../../../../assets/spinnerImage.gif";
   @Input() especialistas: any;
 
   constructor(private firestore: FirestoreService) {
