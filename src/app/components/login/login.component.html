@@ -35,14 +35,14 @@
                 <div class="col-12">
                     <button type="submit" [disabled]='form.invalid' class="btn">Ingresar</button>
                 </div>
-                <div class="col-sm-4 col-4 d-flex justify-content-center" *ngFor="let admin of this.admin">
-                    <img [src]="admin.imagen" alt="" width="80px" height="80px" style="border-radius: 50%" (click)="this.loginAdmin()">
+                <div class="col-sm-4 col-4 d-flex justify-content-center mb-1" *ngFor="let admin of this.admin">
+                    <img [src]="admin.imagen" alt="" width="80px" height="80px" style="border-radius: 50%" (click)="this.logIn(admin.email, admin.password)">
                 </div>
-                <div class="col-sm-4 col-4 d-flex justify-content-center" *ngFor="let paciente of pacientes;let i = index" [ngClass]="{'d-none': i > 2}">
-                    <img [src]="paciente?.imagenes[0]" alt="" width="80px" height="80px" style="border-radius: 50%" (click)="this.loginAdmin()">
+                <div class="col-sm-4 col-4 d-flex justify-content-center mb-1" *ngFor="let paciente of pacientes;let i = index" [ngClass]="{'d-none': i > 2}">
+                    <img [src]="paciente?.imagenes[0]" alt="" width="80px" height="80px" style="border-radius: 50%" (click)="this.logIn(paciente.email, paciente.password)">
                 </div>
-                <div class="col-sm-4 col-4 d-flex justify-content-center" *ngFor="let especialista of especialistas;let i = index" [ngClass]="{'d-none': i > 1}">
-                    <img [src]="especialista?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%" (click)="this.loginAdmin()">
+                <div class="col-sm-4 col-4 d-flex justify-content-center mb-1" *ngFor="let especialista of especialistas;let i = index" [ngClass]="{'d-none': i > 1}">
+                    <img [src]="especialista?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%" (click)="this.logIn(especialista.email, especialista.password)">
                 </div>
             </div>
         </div>

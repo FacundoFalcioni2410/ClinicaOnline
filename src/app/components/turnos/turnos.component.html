@@ -1,5 +1,5 @@
 <div class="container">
-    <div *ngIf='this.turnosMostrar; else spinner'>
+    <div *ngIf='this.turnosMostrar.length else spinner'>
         <div *ngIf="this.turnos[0].especialistaCompleto; else spinner" class="text-light">
             <h2 class="text-center text-light">Listado de turnos</h2>
             <i (click)="limpiarFiltros()" class="bi bi-funnel-fill text-info noselect">Limpiar filtros</i>
@@ -19,14 +19,14 @@
                 <div class="col-12 col-md-3 row rounded text-white" style="background-color: rgba(0,0,0,.5);"
                     *ngFor="let turno of turnosMostrar">
                     <div class="col-6">
-                        <h6>{{turno.fecha}}</h6>
-                        <h6>{{turno.hora}}</h6>
-                        <h6>{{turno.especialidad}}</h6>
-                        <h6 class="text-break">{{turno.especialistaCompleto?.nombre}} {{turno.especialistaCompleto?.apellido}} -
+                        <h6>{{turno?.fecha}}</h6>
+                        <h6>{{turno?.hora}}</h6>
+                        <h6>{{turno?.especialidad}}</h6>
+                        <h6 class="text-break">{{turno?.especialistaCompleto?.nombre}} {{turno?.especialistaCompleto?.apellido}} -
                             {{turno.especialistaCompleto?.dni}}</h6>
-                        <h6 class="text-break">{{turno.pacienteCompleto?.nombre}} {{turno.pacienteCompleto?.apellido}} -
-                            {{turno.pacienteCompleto?.dni}}</h6>
-                        <h6>{{turno.estado | uppercase}}</h6>
+                        <h6 class="text-break">{{turno?.pacienteCompleto?.nombre}} {{turno?.pacienteCompleto?.apellido}} -
+                            {{turno?.pacienteCompleto?.dni}}</h6>
+                        <h6>{{turno?.estado | uppercase}}</h6>
                     </div>
                     <div class="col-6 d-flex h-100 justify-content-end">
                         <div class="d-flex flex-column">

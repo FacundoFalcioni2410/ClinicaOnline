@@ -30,6 +30,7 @@ export class RegistroComponent implements OnInit {
   especialidades: any;
   especialidadActual: any = [];
   fotosOk = false;
+  especialidadesCompletas: any = [];
 
   @Input() set tipo(value: any){
     this.tipoUser = value;
@@ -58,7 +59,11 @@ export class RegistroComponent implements OnInit {
     let index = this.especialidadActual.indexOf(especialidad);
     if(index === -1)
     {
-      this.especialidadActual.push(especialidad);
+      console.log(especialidad);
+      this.especialidadesCompletas.push(especialidad);
+      this.especialidadActual.push(especialidad.especialidad);
+      console.log(this.especialidadActual);
+
       this.form.controls.especialidad?.setValue(this.especialidadActual);
       return true;
     }

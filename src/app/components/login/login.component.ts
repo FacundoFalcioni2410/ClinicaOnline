@@ -26,17 +26,15 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
 
-    var subscription = this.firestore.getPacientes().subscribe( res =>{
+    this.firestore.getPacientes().subscribe( res =>{
       this.pacientes = res;
       this.usuarios = this.usuarios.concat(this.pacientes);
-    });
-    this.firestore.getEspecialistas().subscribe( async res =>{
-      this.especialistas = res;
-      this.admin = await this.firestore.getGenerico('administradores', 'email', 'admin@admin.com');
-      this.usuarios.push(this.admin[0]);
-      this.usuarios = this.usuarios.concat(this.especialistas);
-      console.log(this.usuarios);
-      subscription.unsubscribe();
+      this.firestore.getEspecialistas().subscribe( async res =>{
+        this.especialistas = res;
+        this.admin = await this.firestore.getGenerico('administradores', 'email', 'admin@admin.com');
+        this.usuarios.push(this.admin[0]);
+        this.usuarios = this.usuarios.concat(this.especialistas);
+      });
     });
   }
 
@@ -45,24 +43,12 @@ export class LoginComponent implements OnInit {
 
   signIn(){
     this.auth.signIn(this.form.value);
-    this.form.reset();
   }
 
-  loginEspecialista(){
-    this.form.get('email')?.setValue('especialista@especialista.com');
-    this.form.get('password')?.setValue('especialista');
-    this.signIn();
-  }
-
-  loginPaciente(){
-    this.form.get('email')?.setValue('paciente@paciente.com');
-    this.form.get('password')?.setValue('paciente');
-    this.signIn();
-  }
-
-  loginAdmin(){
-    this.form.get('email')?.setValue('admin@admin.com');
-    this.form.get('password')?.setValue('adminadmin');
+  logIn(email: string, password: string){
+    console.log(email, password);
+    this.form.get('email')?.setValue(email);
+    this.form.get('password')?.setValue(password);
     this.signIn();
   }
 }
