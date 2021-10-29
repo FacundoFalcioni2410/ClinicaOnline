@@ -24,6 +24,7 @@ export class MisTurnosEspecialistaComponent implements OnInit {
 
   mensaje: string = '';
 
+  turnoActual: any;
   
   constructor(public firestore: FirestoreService) { 
     
@@ -177,22 +178,93 @@ export class MisTurnosEspecialistaComponent implements OnInit {
     }
   }
 
-  async finalizarTurno(turno: any){
-    const { value: comentario } = await Swal.fire({
-      title: 'Finalizar turno',
-      input: 'text',
-      inputLabel: 'Ingrese un comentario sobre el turno: ',
-      inputAttributes:{
-        autocomplete: 'off'
-      }
-    });
+  async finalizarTurno(){
+    let i = 0;
 
-    if(comentario)
-    {
-      turno.estado = "realizado";
-      turno.comentario = comentario;
-      this.firestore.modificarEstadoTurno(turno);
+    let altura = (<HTMLInputElement> document.getElementById('altura')).value;
+    let peso = (<HTMLInputElement> document.getElementById('peso')).value;
+    let temperatura = (<HTMLInputElement> document.getElementById('temperatura')).value;
+    let presion = (<HTMLInputElement> document.getElementById('presion')).value;
+
+    let dinamico1 = {
+      clave: (<HTMLInputElement> document.getElementById('dinamicoClave1')).value,
+      valor: (<HTMLInputElement> document.getElementById('dinamicoValor1')).value,
     }
+
+    let dinamico2 = {
+      clave: (<HTMLInputElement> document.getElementById('dinamicoClave2')).value,
+      valor: (<HTMLInputElement> document.getElementById('dinamicoValor2')).value,
+    }
+
+    let dinamico3 = {
+      clave: (<HTMLInputElement> document.getElementById('dinamicoClave3')).value,
+      valor: (<HTMLInputElement> document.getElementById('dinamicoValor3')).value,
+    }
+
+    let dinamico4 = {
+      clave: (<HTMLInputElement> document.getElementById('dinamicoClave4')).value,
+      valor: (<HTMLInputElement> document.getElementById('dinamicoValor4')).value,
+    }
+
+    if(altura && peso && presion && temperatura && (dinamico1.clave && dinamico1.valor) && (dinamico2.valor && dinamico2.clave) && (dinamico3.valor && dinamico3.clave) && (dinamico4.valor && dinamico4.clave))
+    {
+      const { value: comentario } = await Swal.fire({
+        title: 'Finalizar turno',
+        input: 'text',
+        inputLabel: 'Ingrese un comentario sobre el turno: ',
+        inputAttributes:{
+          autocomplete: 'off'
+        }
+      });
+
+      let historiaClinica = {
+        altura: altura,
+        peso: peso,
+        presion: presion,
+        temperatura: temperatura,
+        dinamico1: dinamico1,
+        dinamico2: dinamico2,
+        dinamico3: dinamico3,
+        dinamico4: dinamico4,
+      }
+
+      this.turnoActual.pacienteCompleto.historiaClinica = historiaClinica;
+
+      if(comentario && this.turnoActual.pacienteCompleto.historiaClinica)
+      {
+        this.turnoActual.estado = "realizado";
+        this.turnoActual.comentario = comentario;
+        this.firestore.modificarEstadoTurno(this.turnoActual);
+        for(let [index, value] of this.turnoActual.pacienteCompleto.turno.entries())
+        {
+          if(this.turnoActual.fecha === value.fecha && this.turnoActual.hora === value.hora)
+          {
+            i = index;
+            break; 
+          }
+        }
+
+        this.firestore.addHistoriaClinica(this.turnoActual.pacienteCompleto);
+
+        this.turnoActual.pacienteCompleto.turno.splice(i, 1);
+        this.firestore.finalizarTurnoPaciente(this.turnoActual.pacienteCompleto);
+
+        for(let [index, value] of this.especialista.turno.entries())
+        {
+          if(this.turnoActual.fecha === value.fecha && this.turnoActual.hora === value.hora)
+          {
+            i = index;
+            break; 
+          }
+        }
+        this.especialista.turno.splice(i, 1);
+        this.firestore.finalizarTurnoEspecialista(this.especialista);
+      }
+    }
+    else
+    {
+      Swal.fire({title: 'Error',text: `Asegurese de completar todos los campos`, toast: true, timer: 1500, icon: 'error', timerProgressBar: true, position: 'bottom'});
+    } 
   }
 
   verComentario(turno: any){

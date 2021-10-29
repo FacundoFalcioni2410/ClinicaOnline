@@ -3,15 +3,17 @@
         <h2 class="text-center text-light">Listado de mis turnos</h2>
         <i (click)="limpiarFiltros()" class="bi bi-funnel-fill text-info noselect">Limpiar filtros</i>
         <div class="col-12 col-sm-6">
-            <span *ngFor="let item of pacientes" (click)="seleccionarPaciente(item)" class="badge rounded-pill bg-dark text-light m-1 mt-2 p-2 noselect">
+            <span *ngFor="let item of pacientes" (click)="seleccionarPaciente(item)"
+                class="badge rounded-pill bg-dark text-light m-1 mt-2 p-2 noselect">
                 <img [src]="item?.imagenes[0]" alt="" width="80px" height="80px" style="border-radius: 50%">
             </span>
         </div>
         <div class="col-12 col-md-6 d-flex text-light">
-            <span *ngFor="let item of array" (click)="seleccionarEspecialidad(item)" class="d-inline-flex flex-column me-2">
+            <span *ngFor="let item of array" (click)="seleccionarEspecialidad(item)"
+                class="d-inline-flex flex-column me-2">
                 <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%">
                 <p>{{item.especialidad}}</p>
-          </span>
+            </span>
         </div>
         <div class="row justify-content-around" style="column-gap: 40px;row-gap: 15px;">
             <div class="col-12 col-md-3 row rounded text-white" style="background-color: rgba(0,0,0,.5);"
@@ -35,7 +37,7 @@
                         <i *ngIf="(turno.estado !== 'realizado' && turno.estado !== 'cancelado' && turno.estado !== 'rechazado') && turno.estado !== 'aceptado'"
                             class="bi bi-check-circle ms-1" title="Aceptar turno" (click)="aceptarTurno(turno)"></i>
                         <i *ngIf="turno.estado === 'aceptado'" class="bi bi-check-square-fill ms-1"
-                            title="Finalizar turno" (click)="finalizarTurno(turno)"></i>
+                            title="Finalizar turno" data-bs-toggle="modal" data-bs-target="#modal" (click)="this.turnoActual = turno"></i>
                         <i *ngIf="(turno?.atencion || turno?.razon) || turno?.satisfaccion"
                             class="bi bi-layout-text-sidebar-reverse ms-1" title="Ver reseña"
                             (click)="verComentario(turno)"></i>
@@ -50,4 +52,64 @@
     <ng-template #spinner>
         <app-spinner></app-spinner>
     </ng-template>
+</div>
+
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Carga de historia clinica</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="altura" class="col-form-label">Altura</label>
+                        <input type="number" class="form-control" id="altura">
+                    </div>
+                    <div class="mb-3">
+                        <label for="peso" class="col-form-label">Peso</label>
+                        <input type="number" class="form-control" id="peso">
+                    </div>
+                    <div class="mb-3">
+                        <label for="temperatura" class="col-form-label">temperatura</label>
+                        <input type="number" class="form-control" id="temperatura">
+                    </div>
+                    <div class="mb-3">
+                        <label for="presion" class="col-form-label">Presión</label>
+                        <input type="number" class="form-control" id="presion">
+                    </div>
+                    <!-- DATOS DINAMICOS -->
+                    <div class="mb-3">
+                        <label for="altura" class="col-form-label">A continuacion ingrese los datos que crea conveniente. Teniendo en cuenta que primero debe cargar que dato es, y luego la informacion sobre el mismo</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dinamico1Clave" class="col-form-label">Dato 1</label>
+                        <input type="text" class="form-control mb-2" id="dinamicoClave1">
+                        <input type="text" class="form-control" id="dinamicoValor1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="dinamico2Clave" class="col-form-label">Dato 2</label>
+                        <input type="text" class="form-control mb-2" id="dinamicoClave2">
+                        <input type="text" class="form-control" id="dinamicoValor2">
+                    </div>
+                    <div class="mb-3">
+                        <label for="dinamico3Clave" class="col-form-label">Dato 3</label>
+                        <input type="text" class="form-control mb-2" id="dinamicoClave3">
+                        <input type="text" class="form-control" id="dinamicoValor3">
+                    </div>
+                    <div class="mb-3">
+                        <label for="dinamico4Clave" class="col-form-label">Dato 4</label>
+                        <input type="text" class="form-control mb-2" id="dinamicoClave4">
+                        <input type="text" class="form-control" id="dinamicoValor4">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="finalizarTurno()">Enviar
+                    encuesta</button>
+            </div>
+        </div>
+    </div>
 </div>

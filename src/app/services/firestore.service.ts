@@ -84,6 +84,18 @@ export class FirestoreService {
     this.turnosCollectionReference.add(turno);
   }
 
+  finalizarTurnoPaciente(paciente: any){
+    this.pacienteCollectionReference.doc(paciente.id).update({turno: paciente.turno})
+  }
+
+  addHistoriaClinica(paciente: any){
+    this.pacienteCollectionReference.doc(paciente.id).update({historiaClinica: paciente.historiaClinica})
+  }
+
+  finalizarTurnoEspecialista(especialista: any){
+    this.especialistaCollectionReference.doc(especialista.id).update({turno: especialista.turno})
+  }
+
   addEspecialista(especialista: Especialista)
   {
     this.especialistaCollectionReference.add({...especialista});
