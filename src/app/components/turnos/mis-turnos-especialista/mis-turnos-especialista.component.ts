@@ -274,7 +274,8 @@ export class MisTurnosEspecialistaComponent implements OnInit {
           }
         }
 
-
+        this.turnoActual.historiaClinica = historiaClinica;
+        this.firestore.addHistoriaTurno(this.turnoActual);
         this.turnoActual.pacienteCompleto.turno.splice(i, 1);
         this.firestore.finalizarTurnoPaciente(this.turnoActual.pacienteCompleto);
 

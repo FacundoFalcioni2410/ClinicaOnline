@@ -8,7 +8,7 @@
                 <img [src]="item?.imagenes[0]" alt="" width="80px" height="80px" style="border-radius: 50%">
             </span>
         </div>
-        <div class="col-12 col-md-6 d-flex text-light">
+        <div class="col-12 d-flex flex-wrap text-light">
             <span *ngFor="let item of array" (click)="seleccionarEspecialidad(item)"
                 class="d-inline-flex flex-column me-2">
                 <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%">
@@ -16,7 +16,7 @@
             </span>
         </div>
         <div class="row justify-content-around" style="column-gap: 40px;row-gap: 15px;">
-            <div class="col-12 col-md-3 row rounded text-white" style="background-color: rgba(0,0,0,.5);"
+            <div class="col-12 col-md-4 row rounded text-white" style="background-color: rgba(0,0,0,.5);"
                 *ngFor="let turno of turnosMostrar">
                 <div class="col-6">
                     <h6>{{turno.fecha}}</h6>

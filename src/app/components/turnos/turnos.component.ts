@@ -20,6 +20,7 @@ export class TurnosComponent implements OnInit {
   especialidades: any;
   especialidad: any;
   array: any = [];
+  searchParam = '';
 
   mensaje: string = '';
 
@@ -190,4 +191,64 @@ export class TurnosComponent implements OnInit {
       Swal.fire({ title: 'Motivo de cancelacion/rechazo del turno', text: turno.razon });
     }
   }
+
+  filterData(data: any, filterValues: any) {
+    return data.filter((value: any) => {
+      return filterValues.trim().split(', ').every((filterValue: any) => this.checkValue(value, filterValue));
+    });
+  }
+  
+  // checkValue(value:any, filterValue:any): any {
+  //   console.log(value);
+  //   if(typeof value === 'number'){
+  //     value = value.toString();
+  //   }
+  //   if (typeof value === 'string') {
+  //     return value.toLowerCase().includes(filterValue.toLowerCase());
+  //   } else if (typeof value === 'object' && value !== null && Object.keys(value).length > 0) {
+  //     if (Array.isArray(value)) {
+  //       return value.some((v) => this.checkValue(v, filterValue));
+  //     } else {
+  //       return Object.values(value).some((v) => this.checkValue(v, filterValue));
+  //     }
+  //   } else {
+  //     return false;
+  //   }
+  // }
+
+  // test(){
+  //   this.turnosMostrar = this.filterData(this.turnos, this.searchParam);
+  // }
+
+  checkValue(value: any, search: any): any{
+    if(typeof value === 'number')
+    {
+      value = value.toString();
+    }
+
+    if(typeof value === 'string')
+    {
+      return value.toLowerCase().includes(search.toLowerCase());
+    }
+    else if(typeof value === 'object' && value !== null && Object.keys(value).length > 0)
+    {
+      if(Array.isArray(value))
+      {
+        return value.some((v) => this.checkValue(v, search));
+      }
+      else
+      {
+        return Object.values(value).some(v => this.checkValue(v,search));
+      }
+    }
+    else
+    {
+      return false;
+    }
+  }
+    
+    test(){
+    this.turnosMostrar = this.filterData(this.turnos, this.searchParam);
+    }
+
 }
