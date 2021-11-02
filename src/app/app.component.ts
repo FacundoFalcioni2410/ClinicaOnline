@@ -1,12 +1,19 @@
 import { Component } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { FirestoreService } from './services/firestore.service';
+import { slider } from './route-animations'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [ // <-- add your animations here
+    // fader,
+    slider,
+    // transformer,
+  ]
 })
 export class AppComponent {
 
@@ -20,4 +27,8 @@ export class AppComponent {
   }
 
   title = 'ClinicaOnline';
+
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
+  }
 }

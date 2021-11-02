@@ -22,6 +22,7 @@ export class MisTurnosEspecialistaComponent implements OnInit {
   array: any = [];
   especialidad: any;
 
+  searchParam: string = '';
   mensaje: string = '';
 
   turnoActual: any;
@@ -229,12 +230,7 @@ export class MisTurnosEspecialistaComponent implements OnInit {
       valor: (<HTMLInputElement>document.getElementById('dinamicoValor3')).value,
     }
 
-    let dinamico4 = {
-      clave: (<HTMLInputElement>document.getElementById('dinamicoClave4')).value,
-      valor: (<HTMLInputElement>document.getElementById('dinamicoValor4')).value,
-    }
-
-    if (altura && peso && presion && temperatura && (dinamico1.clave && dinamico1.valor) && (dinamico2.valor && dinamico2.clave) && (dinamico3.valor && dinamico3.clave) && (dinamico4.valor && dinamico4.clave)) {
+    if (altura && peso && presion && temperatura && (dinamico1.clave && dinamico1.valor) && (dinamico2.valor && dinamico2.clave) && (dinamico3.valor && dinamico3.clave)) {
       const { value: comentario } = await Swal.fire({
         title: 'Finalizar turno',
         input: 'text',
@@ -252,7 +248,6 @@ export class MisTurnosEspecialistaComponent implements OnInit {
         dinamico1: dinamico1,
         dinamico2: dinamico2,
         dinamico3: dinamico3,
-        dinamico4: dinamico4,
       }
 
       if(!this.turnoActual.pacienteCompleto.historiaClinica)
@@ -300,6 +295,39 @@ export class MisTurnosEspecialistaComponent implements OnInit {
     }
     else if (turno?.razon) {
       Swal.fire({ title: 'Motivo de cancelacion/rechazo del turno', text: turno.razon });
+    }
+  }
+
+  filtrar(): any{
+    this.searchParam = this.searchParam.trim().toLowerCase().trim();
+    this.turnosMostrar = [];
+    
+    for(let turno of this.turnos)
+    {
+      if(turno?.comentario?.toLowerCase().trim().includes(this.searchParam) || turno?.especialidad?.toLowerCase().trim().includes(this.searchParam) || turno?.estado?.toLowerCase().trim().includes(this.searchParam) || turno?.fecha?.toLowerCase().trim().includes(this.searchParam) || turno?.hora?.toLowerCase().trim().includes(this.searchParam))
+      {
+        this.turnosMostrar.push(turno);
+      }
+      else
+      {
+        if(turno.pacienteCompleto?.dni?.toString().toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.apellido?.toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.edad?.toString().toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.email?.toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.nombre?.toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.obraSocial?.includes(this.searchParam) || turno.pacienteCompleto?.perfil?.toLowerCase().trim().includes(this.searchParam))
+        {
+          this.turnosMostrar.push(turno);
+        }
+
+        if(turno?.historiaClinica)
+        {
+            if(turno?.historiaClinica.dinamico1.clave?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico1.valor?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico1.clave?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico2.valor?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico2.clave?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico3.valor?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico3.clave?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica?.altura?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.peso?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.presion?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.temperatura?.toLowerCase().includes(this.searchParam))
+            {
+              this.turnosMostrar.push(turno);
+            }
+        }
+
+        if(this.especialista?.dni?.toString().trim().toLowerCase().includes(this.searchParam) || this.especialista?.apellido?.toLowerCase().trim().includes(this.searchParam) || this.especialista?.edad?.toString().toLowerCase().trim().includes(this.searchParam) ||  this.especialista?.email?.toLowerCase().trim().includes(this.searchParam) || this.especialista?.nombre?.toLowerCase().trim().includes(this.searchParam))
+        {
+          this.turnosMostrar.push(turno);
+        }
+      }
     }
   }
 }

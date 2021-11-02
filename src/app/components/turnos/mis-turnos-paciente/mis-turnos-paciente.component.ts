@@ -25,6 +25,7 @@ export class MisTurnosPacienteComponent implements OnInit {
 
   mensaje: string = '';
   test: any;
+  searchParam: string = '';
 
   constructor(public firestore: FirestoreService) {
     this.paciente = JSON.parse(localStorage.getItem('usuario') as string);
@@ -204,5 +205,36 @@ export class MisTurnosPacienteComponent implements OnInit {
       this.firestore.addEncuestaTurno(this.turnoEncuesta, datosEncuesta);
     }
   }
-}
 
+  filtrar(): any{
+    this.searchParam = this.searchParam.trim().toLowerCase().trim();
+    this.turnosMostrar = [];
+    
+    for(let turno of this.turnos)
+    {
+      if(turno?.comentario?.toLowerCase().trim().includes(this.searchParam) || turno?.especialidad?.toLowerCase().trim().includes(this.searchParam) || turno?.estado?.toLowerCase().trim().includes(this.searchParam) || turno?.fecha?.toLowerCase().trim().includes(this.searchParam) || turno?.hora?.toLowerCase().trim().includes(this.searchParam))
+      {
+        this.turnosMostrar.push(turno);
+      }
+      else
+      {
+
+          if(turno.especialistaCompleto?.dni?.toString().toLowerCase().trim().includes(this.searchParam) || turno.especialistaCompleto?.apellido?.toLowerCase().trim().includes(this.searchParam) || turno.especialistaCompleto?.edad?.toString().toLowerCase().trim().includes(this.searchParam) || turno.especialistaCompleto?.email?.toLowerCase().trim().includes(this.searchParam) || turno.especialistaCompleto?.nombre?.toLowerCase().trim().includes(this.searchParam) || turno.especialistaCompleto?.obraSocial?.includes(this.searchParam) || turno.especialistaCompleto?.perfil?.toLowerCase().trim().includes(this.searchParam))
+          {
+            this.turnosMostrar.push(turno);
+          }
+        if(turno?.historiaClinica)
+        {
+            if(turno?.historiaClinica.dinamico1.clave?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico1.valor?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico1.clave?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico2.valor?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico2.clave?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico3.valor?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico3.clave?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica?.altura?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.peso?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.presion?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.temperatura?.toLowerCase().includes(this.searchParam))
+            {
+              this.turnosMostrar.push(turno);
+            }
+        }
+        if(this.paciente?.dni?.toString().trim().toLowerCase().includes(this.searchParam) || this.paciente?.apellido?.toLowerCase().trim().includes(this.searchParam) || this.paciente?.edad?.toString().toLowerCase().trim().includes(this.searchParam) ||  this.paciente?.email?.toLowerCase().trim().includes(this.searchParam) || this.paciente?.nombre?.toLowerCase().trim().includes(this.searchParam))
+        {
+          this.turnosMostrar.push(turno);
+        }
+      }
+    }
+  }
+}

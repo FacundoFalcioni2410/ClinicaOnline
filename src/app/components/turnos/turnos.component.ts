@@ -192,63 +192,36 @@ export class TurnosComponent implements OnInit {
     }
   }
 
-  filterData(data: any, filterValues: any) {
-    return data.filter((value: any) => {
-      return filterValues.trim().split(', ').every((filterValue: any) => this.checkValue(value, filterValue));
-    });
-  }
-  
-  // checkValue(value:any, filterValue:any): any {
-  //   console.log(value);
-  //   if(typeof value === 'number'){
-  //     value = value.toString();
-  //   }
-  //   if (typeof value === 'string') {
-  //     return value.toLowerCase().includes(filterValue.toLowerCase());
-  //   } else if (typeof value === 'object' && value !== null && Object.keys(value).length > 0) {
-  //     if (Array.isArray(value)) {
-  //       return value.some((v) => this.checkValue(v, filterValue));
-  //     } else {
-  //       return Object.values(value).some((v) => this.checkValue(v, filterValue));
-  //     }
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
-  // test(){
-  //   this.turnosMostrar = this.filterData(this.turnos, this.searchParam);
-  // }
-
-  checkValue(value: any, search: any): any{
-    if(typeof value === 'number')
+  filtrar(): any{
+    this.searchParam = this.searchParam.trim().toLowerCase().trim();
+    this.turnosMostrar = [];
+    
+    for(let turno of this.turnos)
     {
-      value = value.toString();
-    }
-
-    if(typeof value === 'string')
-    {
-      return value.toLowerCase().includes(search.toLowerCase());
-    }
-    else if(typeof value === 'object' && value !== null && Object.keys(value).length > 0)
-    {
-      if(Array.isArray(value))
+      if(turno?.comentario?.toLowerCase().trim().includes(this.searchParam) || turno?.especialidad?.toLowerCase().trim().includes(this.searchParam) || turno?.estado?.toLowerCase().trim().includes(this.searchParam) || turno?.fecha?.toLowerCase().trim().includes(this.searchParam) || turno?.hora?.toLowerCase().trim().includes(this.searchParam))
       {
-        return value.some((v) => this.checkValue(v, search));
+        this.turnosMostrar.push(turno);
       }
       else
       {
-        return Object.values(value).some(v => this.checkValue(v,search));
+
+          if(turno.pacienteCompleto?.dni?.toString().toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.apellido?.toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.edad?.toString().toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.email?.toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.nombre?.toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.obraSocial?.includes(this.searchParam) || turno.pacienteCompleto?.perfil?.toLowerCase().trim().includes(this.searchParam))
+          {
+            this.turnosMostrar.push(turno);
+          }
+        if(turno?.historiaClinica)
+        {
+            if(turno?.historiaClinica.dinamico1.clave?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico1.valor?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico1.clave?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico2.valor?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico2.clave?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico3.valor?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico3.clave?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica?.altura?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.peso?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.presion?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.temperatura?.toLowerCase().includes(this.searchParam))
+            {
+              this.turnosMostrar.push(turno);
+            }
+        }
+        if(turno?.especialistaCompleto.dni?.toString().trim().toLowerCase().includes(this.searchParam) || turno?.especialistaCompleto.apellido?.toLowerCase().trim().includes(this.searchParam) || turno?.especialistaCompleto.edad?.toString().toLowerCase().trim().includes(this.searchParam) ||  turno?.especialistaCompleto.email?.toLowerCase().trim().includes(this.searchParam) || turno?.especialistaCompleto.nombre?.toLowerCase().trim().includes(this.searchParam))
+        {
+          this.turnosMostrar.push(turno);
+        }
       }
     }
-    else
-    {
-      return false;
-    }
   }
-    
-    test(){
-    this.turnosMostrar = this.filterData(this.turnos, this.searchParam);
-    }
 
 }

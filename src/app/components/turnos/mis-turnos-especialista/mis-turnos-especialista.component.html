@@ -1,7 +1,13 @@
 <div class="container">
-    <div *ngIf='this.turnosMostrar.length; else spinner'>
-        <h2 class="text-center text-light">Listado de mis turnos</h2>
+    <h2 class="text-center text-light">Listado de mis turnos</h2>
+    <div class="d-flex justify-content-between flex-wrap" *ngIf="this.turnos.length">
         <i (click)="limpiarFiltros()" class="bi bi-funnel-fill text-info noselect">Limpiar filtros</i>
+        <div class="d-flex">
+            <input type="text" class="mt-1 form-control d-inline" [(ngModel)]='searchParam'>
+            <button class="btn btn-info d-inline ms-2" type="button" (click)="filtrar()">BUSCAR</button>
+        </div>
+    </div>
+    <div *ngIf='this.turnosMostrar.length; else spinner'>
         <div class="col-12 col-sm-6">
             <span *ngFor="let item of pacientes" (click)="seleccionarPaciente(item)"
                 class="badge rounded-pill bg-dark text-light m-1 mt-2 p-2 noselect">
@@ -97,11 +103,6 @@
                         <label for="dinamico3Clave" class="col-form-label">Dato 3</label>
                         <input type="text" class="form-control mb-2" id="dinamicoClave3">
                         <input type="text" class="form-control" id="dinamicoValor3">
-                    </div>
-                    <div class="mb-3">
-                        <label for="dinamico4Clave" class="col-form-label">Dato 4</label>
-                        <input type="text" class="form-control mb-2" id="dinamicoClave4">
-                        <input type="text" class="form-control" id="dinamicoValor4">
                     </div>
                 </form>
             </div>
