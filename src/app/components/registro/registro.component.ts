@@ -59,10 +59,8 @@ export class RegistroComponent implements OnInit {
     let index = this.especialidadActual.indexOf(especialidad);
     if(index === -1)
     {
-      console.log(especialidad);
       this.especialidadesCompletas.push(especialidad);
       this.especialidadActual.push(especialidad.especialidad);
-      console.log(this.especialidadActual);
 
       this.form.controls.especialidad?.setValue(this.especialidadActual);
       return true;

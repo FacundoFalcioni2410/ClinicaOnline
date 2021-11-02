@@ -10,8 +10,6 @@ export class HistoriaClinicaComponent implements OnInit {
   @Input() pacientes: any;
   @Input() paciente: any;
   constructor() {
-    console.log(this.pacientes);
-    console.log(this.paciente);
   }
 
   ngOnInit(): void {

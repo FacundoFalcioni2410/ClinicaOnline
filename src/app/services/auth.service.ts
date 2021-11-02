@@ -105,7 +105,6 @@ export class AuthService {
     let user = await this.auth.currentUser;
 
     user!.delete().then( () =>{
-      console.log('deleted');
     });
   }
 }

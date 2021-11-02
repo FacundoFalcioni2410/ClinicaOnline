@@ -14,7 +14,6 @@ export class HomeComponent implements OnInit {
   }
 
   test(){
-    console.log(this.firestore.usuarioActual);
   }
 
 }

@@ -1,10 +1,9 @@
 <div class="container">
     <h2 class="text-center text-light">Listado de turnos</h2>
-    <div class="d-flex justify-content-between flex-wrap" *ngIf="this.turnos.length">
+    <div class="d-flex justify-content-between flex-wrap" *ngIf="this.turnos?.length">
         <i (click)="limpiarFiltros()" class="bi bi-funnel-fill text-info noselect">Limpiar filtros</i>
         <div class="d-flex">
-            <input type="text" class="mt-1 form-control d-inline" [(ngModel)]='searchParam'>
-            <button class="btn btn-info d-inline ms-2" type="button" (click)="filtrar()">BUSCAR</button>
+            <input type="text" class="mt-1 form-control d-inline" [(ngModel)]='searchParam' (ngModelChange)="filtrar()">
         </div>
     </div>
     <div *ngIf="this.turnosMostrar; else spinner">

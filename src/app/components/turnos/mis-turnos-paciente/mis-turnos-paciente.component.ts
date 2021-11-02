@@ -162,7 +162,6 @@ export class MisTurnosPacienteComponent implements OnInit {
   }
 
   async satisfaccion() {
-    console.log(this.turnoEncuesta);
     let satisfaccion = (document.getElementById("satisfaccion") as HTMLInputElement).value;
     (document.getElementById("satisfaccion") as HTMLInputElement).value = '';
     let atencion: any;
@@ -180,7 +179,7 @@ export class MisTurnosPacienteComponent implements OnInit {
   }
 
   enviarEncuesta() {
-    console.log(this.turnoEncuesta);
+    (this.turnoEncuesta);
     let tiempo = (document.getElementById("tiempo") as HTMLInputElement).value;
     (document.getElementById("tiempo") as HTMLInputElement).value = '';
     let consulta: any;

@@ -85,7 +85,6 @@ export class SolicitarTurnoComponent implements OnInit {
           }
         }
       }
-      console.log(this.array);
     }
     return true;
   }
@@ -184,8 +183,6 @@ export class SolicitarTurnoComponent implements OnInit {
         {
           if(aux === hora)
           {
-            console.log(item.dia);
-            console.log(dia);
             item.turnosDelDia.splice(item.turnosDelDia.indexOf(hora),1);
             break;
           }

@@ -21,7 +21,6 @@ export class AppComponent {
     let usuario = JSON.parse(localStorage.getItem('usuario') as string);
     if(usuario)
     {
-      console.log(usuario);
       this.auth.signInReload(usuario);
     }
   }

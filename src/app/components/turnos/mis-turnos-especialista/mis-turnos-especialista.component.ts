@@ -37,24 +37,8 @@ export class MisTurnosEspecialistaComponent implements OnInit {
         this.turnos = [];
         let index = 0;
 
-        // for (let item of value) {
-        //   if (item.especialista === this?.especialista?.dni) {
-        //     this.turnos.push(item);
-        //     for (let especialidad of this.especialista.especialidad) {
-        //       for (let aux of this.especialidades) {
-        //         if (especialidad === aux.especialidad) {
-        //           index = this.array.indexOf(aux);
-        //           if (index === -1) {
-        //             this.array.push(aux);
-        //           }
-        //         }
-        //       }
-        //     }
-
-        //   }
-        // }
         for (let turno of value) {
-          if(turno.especialista === this.especialista.dni)
+          if(turno.especialista === this.especialista?.dni)
           {
             this.turnos.push(turno);
             for(let especialidadAll of this.especialidades)
@@ -66,7 +50,6 @@ export class MisTurnosEspecialistaComponent implements OnInit {
                   if(especialidadActual === especialidadAll.especialidad)
                   {
                     index = this.array.indexOf(especialidadAll);
-                    console.log('entra, index: ', index)
                     if (index === -1)
                     {
                       this.array.push(especialidadAll);

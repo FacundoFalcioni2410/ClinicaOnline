@@ -46,7 +46,6 @@ export class LoginComponent implements OnInit {
   }
 
   logIn(email: string, password: string){
-    console.log(email, password);
     this.form.get('email')?.setValue(email);
     this.form.get('password')?.setValue(password);
     this.signIn();
