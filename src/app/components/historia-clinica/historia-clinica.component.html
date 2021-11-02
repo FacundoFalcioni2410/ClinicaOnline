@@ -1,10 +1,10 @@
 <div class="row justify-content-around mt-2" style="column-gap: 40px;row-gap: 15px;" *ngIf="this.pacientes; else unPaciente">
-    <div class="col-12 col-md-3 row rounded text-white" style="background-color: rgba(0,0,0,.5);"
+    <div class="col-12 col-md-4 row rounded text-white" style="row-gap: 60px !important;"
         *ngFor="let aux of pacientes" [ngClass]="{'d-none': !aux.historiaClinica}">
-        <div>
-            <div *ngFor="let historiaClinica of aux.historiaClinica">
-                <p>Historia clinica del paciente {{aux.nombre}} {{aux.apellido}} - DNI: {{aux.dni}}</p>
-                <div class="col-6">
+        <div style="background-color: rgba(0,0,0,.5);">
+            <div *ngFor="let historiaClinica of aux.historiaClinica; let isFirst = first">
+                <p *ngIf="isFirst">Historia clinica del paciente {{aux.nombre}} {{aux.apellido}} - DNI: {{aux.dni}}</p>
+                <div class="col-12">
                     <div>
                         <label>Altura</label>
                         <h6 class="d-inline ms-2">{{historiaClinica.altura}}</h6>
@@ -33,9 +33,8 @@
                         <label>{{historiaClinica.dinamico3.clave}}</label>
                         <h6 class="d-inline ms-2">{{historiaClinica.dinamico3.valor}}</h6>
                     </div>
-                    <div class="mb-1">
-                        <label>{{historiaClinica.dinamico4.clave}}</label>
-                        <h6 class="d-inline ms-2">{{historiaClinica.dinamico4.valor}}</h6>
+                    <div style="height:2px;width: 100%; background-color: #d3d3d3;">
+
                     </div>
                 </div>
             </div>

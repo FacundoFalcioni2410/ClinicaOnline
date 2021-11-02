@@ -1,5 +1,5 @@
 <div class="container">
-    <div *ngIf="this.firestore?.usuarioActual?.perfil === 'admin'">
+    <div *ngIf="this.firestore?.usuarioActual?.perfil === 'admin'" class="mt-2">
         <app-tabla-paciente *ngIf="this.pacientes !== undefined; else spinner" [pacientes]='pacientes'
             (enviar)="recibirPaciente($event)"></app-tabla-paciente>
     </div>
