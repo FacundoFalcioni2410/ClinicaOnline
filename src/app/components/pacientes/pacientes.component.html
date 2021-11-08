@@ -2,7 +2,7 @@
     <div *ngIf="this.terminado">
         <div *ngIf="this.pacientesEspecialista.length; else mensaje" class="text-white">
             <h1 class="text-center">Historia clinica de los pacientes atendidos</h1>
-            <app-historia-clinica [pacientes]="pacientesEspecialista"></app-historia-clinica>
+            <!-- <app-historia-clinica [pacientes]="pacientesEspecialista"></app-historia-clinica> -->
         </div>
     </div>
     <ng-template #mensaje>

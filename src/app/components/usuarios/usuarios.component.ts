@@ -2,11 +2,15 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 import { Component, OnInit } from '@angular/core';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
+import { slider } from 'src/app/route-animations';
 
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
-  styleUrls: ['./usuarios.component.scss']
+  styleUrls: ['./usuarios.component.scss'],
+  animations: [
+    slider,
+  ]
 })
 export class UsuariosComponent implements OnInit {
 
@@ -25,6 +29,7 @@ export class UsuariosComponent implements OnInit {
   allUsers: any = [];
   historiaClinica: any = false;
   botonHistoriaClinica: string = 'Ver';
+  pacienteSeleccionado: any;
 
   constructor(private firestore: FirestoreService) {
     this.getUsers();
@@ -136,5 +141,9 @@ export class UsuariosComponent implements OnInit {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       fs.saveAs(blob, fileName + '.xlsx');
     });
+  }
+
+  seleccionarPaciente(item: any){
+    this.pacienteSeleccionado = item;
   }
 }

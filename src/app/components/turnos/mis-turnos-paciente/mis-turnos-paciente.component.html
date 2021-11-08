@@ -20,8 +20,8 @@
       </span>
     </div>
     <div class="row justify-content-around" style="column-gap: 40px;row-gap: 15px;">
-      <div class="col-12 col-md-4 row rounded text-white" style="background-color: rgba(0,0,0,.5);"
-        *ngFor="let turno of turnosMostrar">
+      <div class="col-12 col-md-4 row rounded" style="background-color: rgba(0,0,0,.5);"
+        *ngFor="let turno of turnosMostrar" [appEstados]="turno?.estado">
         <div class="col-6">
           <h6>{{turno.fecha}}</h6>
           <h6>{{turno.hora}}</h6>
@@ -35,8 +35,8 @@
         <div class="col-6 d-flex h-100 justify-content-end">
           <div class="d-flex flex-column">
             <i *ngIf="turno.estado !== 'aceptado' && turno.estado !== 'cancelado' && turno.estado !== 'rechazado' && turno.estado !== 'realizado'"
-              class="bi bi-x-square-fill" title="Cancelar turno" (click)="cancelarTurno(turno)"></i>
-            <i *ngIf="turno?.comentario || turno?.razon" class="bi bi-layout-text-sidebar-reverse ms-1"
+              class="bi bi-x-square-fill ms-2" title="Cancelar turno" (click)="cancelarTurno(turno)"></i>
+            <i *ngIf="turno?.comentario || turno?.razon" class="bi bi-layout-text-sidebar-reverse ms-2"
               title="Ver reseña" (click)="verComentario(turno)"></i>
             <i class="bi bi-ui-checks ms-2" *ngIf="turno.estado === 'realizado' && turno?.comentario && !turno.encuesta"
               data-bs-toggle="modal" data-bs-target="#modal" (click)="this.turnoEncuesta = turno"></i>

@@ -16,15 +16,23 @@
 
     <div class="row justify-content-center aling-items-center">
         <div class="col-12 col-md-6 d-flex justify-content-center">
-            <button class="btn btn-warning" (click)="downloadExcel()">Descargar excel con todos los usuarios</button>
+            <button class="btn btn-warning mb-2" (click)="downloadExcel()">Descargar excel con todos los usuarios</button>
         </div>
-        <div class="col-12 col-md-6 d-flex justify-content-center">
-            <button class="btn btn-warning" *ngIf="this.tipoUser === 'Pacientes'" (click)="toggleHistoriaClinica()">{{botonHistoriaClinica}} historia clinica de los pacientes</button>
-        </div>
+        <!-- <div class="col-12 col-md-6 d-flex justify-content-center">
+            <button *ngIf="this.usuarios !== null" class="btn btn-info w-50 d-block m-auto mt-2" (click)="toggleDetalle()">Ver {{this.tipoUser}} {{botonDetalle}}</button>
+        </div> -->
     </div>
 	<div class="row">
-        <div *ngIf="this.usuarios !== null && !registroAdministrador && !this.detalle">
+        <div class="col-12 text-light" *ngIf="!this.detalle">
             <h2>{{tipoUser}}</h2>
+
+            <span *ngFor="let item of usuarios" class="d-inline-flex flex-column me-2"
+                (click)="seleccionarPaciente(item)">
+                <img [src]="item?.imagenes[0]" alt="" class="m-auto" width="80px" height="80px" style="border-radius: 50%">
+                <p>{{item.nombre}} {{item.apellido}}</p>
+            </span>
+        </div>
+        <!-- <div *ngIf="this.usuarios !== null && !registroAdministrador && !this.detalle">
             <div class="p-0" *ngIf="this.tipoUser === 'Pacientes' && !historiaClinica">
                 <app-tabla-paciente [pacientes]="this.pacientes"></app-tabla-paciente>
             </div>
@@ -34,11 +42,11 @@
             <div *ngIf="this.tipoUser === 'Administradores'">
                 <app-tabla-admin [admins]="this.administradores"></app-tabla-admin>
             </div>
-        </div>
+        </div> -->
         <div *ngIf="this.registroAdministrador">
             <app-registro [tipo]="this.tipoUser" (finalizado)="recibirEstado($event)" ></app-registro>
         </div>
-        <div *ngIf="this.usuarios !== null && !registroAdministrador && this.detalle && !historiaClinica">
+        <!-- <div *ngIf="this.usuarios !== null && !registroAdministrador && this.detalle && !historiaClinica">
             <h2>{{tipoUser}}</h2>
             <div *ngFor='let usuario of usuarios; let i = index'>
                <div class="col-md-7">
@@ -146,11 +154,10 @@
                         </div>            
                     </div> 
             </div>
+        </div> -->
+        <div *ngIf="this.tipoUser === 'Pacientes' && this.pacienteSeleccionado && !this.detalle">
+            <app-historia-clinica [pacienteInput]="this.pacienteSeleccionado"></app-historia-clinica>
         </div>
-        <div *ngIf="this.tipoUser === 'Pacientes' && historiaClinica">
-            <app-historia-clinica [pacientes]="this.pacientes"></app-historia-clinica>
-        </div>
-        <button *ngIf="this.usuarios !== null && !historiaClinica" class="btn btn-info w-50 d-block m-auto mt-2" (click)="toggleDetalle()">Ver {{this.tipoUser}} {{botonDetalle}}</button>
         <div *ngIf="this.usuarios === null">
             <app-spinner></app-spinner>
         </div>

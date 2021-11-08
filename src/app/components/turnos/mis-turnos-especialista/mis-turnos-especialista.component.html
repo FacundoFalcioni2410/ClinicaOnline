@@ -21,8 +21,8 @@
             </span>
         </div>
         <div class="row justify-content-around" style="column-gap: 40px;row-gap: 15px;">
-            <div class="col-12 col-md-4 row rounded text-white" style="background-color: rgba(0,0,0,.5);"
-                *ngFor="let turno of turnosMostrar">
+            <div class="col-12 col-md-4 row rounded" style="background-color: rgba(0,0,0,.5);"
+                *ngFor="let turno of turnosMostrar" [appEstados]="turno?.estado">
                 <div class="col-6">
                     <h6>{{turno.fecha}}</h6>
                     <h6>{{turno.hora}}</h6>
@@ -36,15 +36,15 @@
                 <div class="col-6 d-flex h-100 justify-content-end">
                     <div class="d-flex flex-column">
                         <i *ngIf="turno.estado !== 'aceptado' && turno.estado !== 'cancelado' && turno.estado !== 'rechazado' && turno.estado !== 'realizado'"
-                            class="bi bi-x-square-fill" title="Cancelar turno" (click)="cancelarTurno(turno)"></i>
+                            class="bi bi-x-square-fill ms-2" title="Cancelar turno" (click)="cancelarTurno(turno)"></i>
                         <i *ngIf="turno.estado !== 'aceptado' && turno.estado !== 'realizado' && turno.estado !== 'rechazado' && turno.estado !== 'cancelado'"
-                            class="bi bi-x-lg ms-1" title="Rechazar turno" (click)="rechazarTurno(turno)"></i>
+                            class="bi bi-x-lg ms-2" title="Rechazar turno" (click)="rechazarTurno(turno)"></i>
                         <i *ngIf="(turno.estado !== 'realizado' && turno.estado !== 'cancelado' && turno.estado !== 'rechazado') && turno.estado !== 'aceptado'"
-                            class="bi bi-check-circle ms-1" title="Aceptar turno" (click)="aceptarTurno(turno)"></i>
-                        <i *ngIf="turno.estado === 'aceptado'" class="bi bi-check-square-fill ms-1"
+                            class="bi bi-check-circle ms-2" title="Aceptar turno" (click)="aceptarTurno(turno)"></i>
+                        <i *ngIf="turno.estado === 'aceptado'" class="bi bi-check-square-fill ms-2"
                             title="Finalizar turno" data-bs-toggle="modal" data-bs-target="#modal" (click)="this.turnoActual = turno"></i>
                         <i *ngIf="(turno?.atencion || turno?.razon) || turno?.satisfaccion"
-                            class="bi bi-layout-text-sidebar-reverse ms-1" title="Ver reseña"
+                            class="bi bi-layout-text-sidebar-reverse ms-2" title="Ver reseña"
                             (click)="verComentario(turno)"></i>
                     </div>
                 </div>

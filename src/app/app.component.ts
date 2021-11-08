@@ -9,10 +9,8 @@ import { slider } from './route-animations'
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [ // <-- add your animations here
-    // fader,
+  animations: [
     slider,
-    // transformer,
   ]
 })
 export class AppComponent {

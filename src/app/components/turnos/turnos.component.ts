@@ -1,17 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+import { slider } from 'src/app/route-animations';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-turnos',
   templateUrl: './turnos.component.html',
-  styleUrls: ['./turnos.component.scss']
+  styleUrls: ['./turnos.component.scss'],
+  animations: [
+    slider,
+  ]
 })
 export class TurnosComponent implements OnInit {
 
   turnos: any;
   turnosMostrar: any;
-
   paciente: any;
 
   especialistas: any;

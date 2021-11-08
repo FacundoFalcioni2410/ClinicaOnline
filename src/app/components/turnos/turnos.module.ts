@@ -10,6 +10,7 @@ import { UsuariosModule } from '../usuarios/usuarios.module';
 import { DatePipe } from '@angular/common';
 import { TurnosComponent } from './turnos.component';
 import { MisTurnosPacienteComponent } from './mis-turnos-paciente/mis-turnos-paciente.component';
+import { EstadosDirective } from 'src/app/directivas/estados.directive';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { MisTurnosPacienteComponent } from './mis-turnos-paciente/mis-turnos-pac
     MisTurnosEspecialistaComponent,
     SolicitarTurnoComponent,
     TurnosComponent,
-    MisTurnosPacienteComponent
+    MisTurnosPacienteComponent,
+    EstadosDirective
   ],
   imports: [
     CommonModule,

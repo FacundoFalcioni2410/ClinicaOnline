@@ -14,25 +14,25 @@ const routes: Routes = [
     path: 'mis-turnos/especialista',
     component: MisTurnosEspecialistaComponent,
     canActivate: [EspecialistaGuard],
-    data: {animation: 'isLeft'}
+    data: {animation: ''}
   },
   {
     path: 'mis-turnos/paciente',
     component: MisTurnosPacienteComponent,
     canActivate: [PacienteGuard],
-    data: {animation: 'isLeft'}
+    data: {animation: ''}
   },
   {
     path: 'solicitar-turno',
     component: SolicitarTurnoComponent,
     canActivate: [AdminPacienteGuard],
-    data: {animation: 'isLeft'}
+    data: {animation: ''}
   },
   {
     path: '',
     component: TurnosComponent,
     canActivate: [AdminGuard],
-    data: {animation: 'isLeft'}
+    data: {animation: ''}
   }
 ];
 

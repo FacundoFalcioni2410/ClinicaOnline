@@ -223,48 +223,59 @@ export class MisTurnosEspecialistaComponent implements OnInit {
         }
       });
 
-      let historiaClinica = {
-        altura: altura,
-        peso: peso,
-        presion: presion,
-        temperatura: temperatura,
-        dinamico1: dinamico1,
-        dinamico2: dinamico2,
-        dinamico3: dinamico3,
-      }
-
-      if(!this.turnoActual.pacienteCompleto.historiaClinica)
+      if(comentario)
       {
-        this.turnoActual.pacienteCompleto.historiaClinica = [];
+        let historiaClinica = {
+          especialista: this.especialista.dni,
+          altura: altura,
+          peso: peso,
+          presion: presion,
+          temperatura: temperatura,
+          dinamico1: dinamico1,
+          dinamico2: dinamico2,
+          dinamico3: dinamico3,
+          comentario: comentario,
+          dia: this.turnoActual.fecha,
+          hora: this.turnoActual.hora
+        }
+  
+        if(!this.turnoActual.pacienteCompleto.historiaClinica)
+        {
+          this.turnoActual.pacienteCompleto.historiaClinica = [];
+        }
+  
+        this.turnoActual.pacienteCompleto.historiaClinica.push(historiaClinica);
+  
+        if (this.turnoActual.pacienteCompleto.historiaClinica) {
+          this.firestore.addHistoriaClinica(this.turnoActual.pacienteCompleto);
+          this.turnoActual.estado = "realizado";
+          this.turnoActual.comentario = comentario;
+          this.firestore.modificarEstadoTurno(this.turnoActual);
+          for (let [index, value] of this.turnoActual.pacienteCompleto.turno.entries()) {
+            if (this.turnoActual.fecha === value.fecha && this.turnoActual.hora === value.hora) {
+              i = index;
+              break;
+            }
+          }
+  
+          this.turnoActual.historiaClinica = historiaClinica;
+          this.firestore.addHistoriaTurno(this.turnoActual);
+          this.turnoActual.pacienteCompleto.turno.splice(i, 1);
+          this.firestore.finalizarTurnoPaciente(this.turnoActual.pacienteCompleto);
+  
+          for (let [index, value] of this.especialista.turno.entries()) {
+            if (this.turnoActual.fecha === value.fecha && this.turnoActual.hora === value.hora) {
+              i = index;
+              break;
+            }
+          }
+          this.especialista.turno.splice(i, 1);
+          this.firestore.finalizarTurnoEspecialista(this.especialista);
+        }
       }
-
-      this.turnoActual.pacienteCompleto.historiaClinica.push(historiaClinica);
-
-      if (comentario && this.turnoActual.pacienteCompleto.historiaClinica) {
-        this.firestore.addHistoriaClinica(this.turnoActual.pacienteCompleto);
-        this.turnoActual.estado = "realizado";
-        this.turnoActual.comentario = comentario;
-        this.firestore.modificarEstadoTurno(this.turnoActual);
-        for (let [index, value] of this.turnoActual.pacienteCompleto.turno.entries()) {
-          if (this.turnoActual.fecha === value.fecha && this.turnoActual.hora === value.hora) {
-            i = index;
-            break;
-          }
-        }
-
-        this.turnoActual.historiaClinica = historiaClinica;
-        this.firestore.addHistoriaTurno(this.turnoActual);
-        this.turnoActual.pacienteCompleto.turno.splice(i, 1);
-        this.firestore.finalizarTurnoPaciente(this.turnoActual.pacienteCompleto);
-
-        for (let [index, value] of this.especialista.turno.entries()) {
-          if (this.turnoActual.fecha === value.fecha && this.turnoActual.hora === value.hora) {
-            i = index;
-            break;
-          }
-        }
-        this.especialista.turno.splice(i, 1);
-        this.firestore.finalizarTurnoEspecialista(this.especialista);
+      else
+      {
+        Swal.fire({ title: 'Error', text: `Debe agregar un comentario al finalizar el turno`, toast: true, timer: 1500, icon: 'error', timerProgressBar: true, position: 'bottom' });
       }
     }
     else {

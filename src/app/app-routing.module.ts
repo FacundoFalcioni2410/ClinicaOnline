@@ -21,28 +21,28 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    data: { animation: 'isRight' }
+    data: { animation: '' }
   },
   {
     path: 'login',
     component: LoginComponent,
-    data: {animation: 'isLeft'}
+    data: {animation: ''}
   },
   {
     path: 'registro',
     component: PageRegistroComponent,
-    data: {animation: 'isRight'}
+    data: {animation: ''}
   },
   {
     path: 'usuarios',
     loadChildren: () => import('./components/usuarios/usuarios.module').then(m => m.UsuariosModule),
     canActivate: [AdminGuard],
-    data: {animation: 'isLeft'}
+    data: {animation: ''}
   },
   {
     path: 'turnos',
     loadChildren: () => import('./components/turnos/turnos.module').then(m => m.TurnosModule),
-    data: {animation: 'isLeft'}
+    data: {animation: ''}
   },
   {
     path: 'sin-permisos',
@@ -51,13 +51,13 @@ const routes: Routes = [
   {
     path: 'mi-perfil',
     component: MiPerfilComponent,
-    data: {animation: 'isRight'}
+    data: {animation: ''}
   },
   {
     path: 'pacientes',
     component: PacientesComponent,
     canActivate: [EspecialistaGuard],
-    data: {animation: 'isLeft'}
+    data: {animation: ''}
   }
 
 ];
