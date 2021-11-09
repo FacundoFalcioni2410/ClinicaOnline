@@ -7,6 +7,8 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { HistoriaClinicaComponent } from 'src/app/components/historia-clinica/historia-clinica.component';
 import { PrimeraMayusculaPipe } from 'src/app/pipes/primera-mayuscula.pipe';
 import { FotoDirective } from 'src/app/directivas/foto.directive';
+import { DniFormatPipe } from 'src/app/pipes/dni-format.pipe';
+import { OpacityDirective } from 'src/app/directivas/opacity.directive';
 
 
 
@@ -17,6 +19,8 @@ import { FotoDirective } from 'src/app/directivas/foto.directive';
     HistoriaClinicaComponent,
     PrimeraMayusculaPipe,
     FotoDirective,
+    DniFormatPipe,
+    OpacityDirective
   ],
   imports: [
     CommonModule,
@@ -30,6 +34,8 @@ import { FotoDirective } from 'src/app/directivas/foto.directive';
     HistoriaClinicaComponent,
     PrimeraMayusculaPipe,
     FotoDirective,
+    DniFormatPipe,
+    OpacityDirective
   ],
   providers: [DatePipe]
 })

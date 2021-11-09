@@ -5,7 +5,7 @@
                 <h6 class="">{{especialista?.nombre | primeraMayuscula}}</h6>
                 <h6 class="">{{especialista?.apellido | primeraMayuscula}}</h6>
                 <h6 class="">{{especialista?.edad}}</h6>
-                <h6 class="">{{especialista?.dni}}</h6>
+                <h6 class="">{{especialista?.dni | dniFormat}}</h6>
                 <h6 class="text-break" *ngFor="let item of especialista?.especialidad">{{item}}</h6>
                 <h6 class="">{{especialista?.email}}</h6>
                 <h6 [ngClass]="{'bi-check-lg': especialista?.habilitado === true, 'bi-x-lg': especialista?.habilitado === false}" (click)="actualizarEstado(especialista)"><i class="bi "></i></h6>

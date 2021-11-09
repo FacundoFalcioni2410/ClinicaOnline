@@ -85,6 +85,17 @@
                                 <div class="bot-border"></div>
                             </div>
 
+                            <div>
+                                <div class="col-sm-5 col-xs-6 title ">
+                                    DNI:
+                                </div>
+                                <div class="col-sm-7">
+                                    {{usuario?.dni | dniFormat}}
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="bot-border"></div>
+                            </div>
+
                             <div *ngIf="usuario?.perfil === 'paciente'">
                                 <div class="col-sm-5 col-xs-6 title ">
                                     Obra social:

@@ -22,9 +22,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 text-light" *ngIf="!this.detalle">
+        <div class="col-12 text-light" *ngIf="this.tipoUser === 'Pacientes';else otros">
             <h2>{{tipoUser}}</h2>
-
             <span *ngFor="let item of usuarios" class="d-inline-flex flex-column me-2"
                 (click)="seleccionarPaciente(item)">
                 <img [src]="item?.imagenes[0]" alt="" class="m-auto" width="80px" height="80px"
@@ -32,6 +31,14 @@
                 <p>{{item.nombre | primeraMayuscula}} {{item.apellido | primeraMayuscula}}</p>
             </span>
         </div>
+        <ng-template #otros>
+            <div class="col-12 text-light" *ngIf="this.tipoUser === 'Especialistas'">
+                <app-tabla-especialista [especialistas]="this.usuarios"></app-tabla-especialista>
+            </div>
+            <div class="col-12 text-light" *ngIf="this.tipoUser === 'Administradores'">
+                <app-tabla-admin [admins]="this.usuarios"></app-tabla-admin>
+            </div>
+        </ng-template>
         <div *ngIf="this.registroAdministrador">
             <app-registro [tipo]="this.tipoUser" (finalizado)="recibirEstado($event)"></app-registro>
         </div>

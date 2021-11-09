@@ -25,17 +25,17 @@
                 </div>
                 <div class="row justify-content-around" style="column-gap: 40px;row-gap: 15px;">
                     <div class="col-12 col-md-4 row rounded" style="background-color: rgba(0,0,0,.5);"
-                        *ngFor="let turno of turnosMostrar" [appEstados]="turno?.estado">
+                        *ngFor="let turno of turnosMostrar" [appEstados]="turno?.estado" appOpacity>
                         <div class="col-6">
                             <h6>{{turno?.fecha}}</h6>
                             <h6>{{turno?.hora}}</h6>
                             <h6>{{turno?.especialidad | primeraMayuscula}}</h6>
                             <h6 class="text-break">{{turno?.especialistaCompleto?.nombre | primeraMayuscula}}
                                 {{turno?.especialistaCompleto?.apellido | primeraMayuscula}} -
-                                {{turno.especialistaCompleto?.dni}}</h6>
+                                {{turno.especialistaCompleto?.dni | dniFormat}}</h6>
                             <h6 class="text-break">{{turno?.pacienteCompleto?.nombre | primeraMayuscula}}
                                 {{turno?.pacienteCompleto?.apellido | primeraMayuscula}} -
-                                {{turno?.pacienteCompleto?.dni}}</h6>
+                                {{turno?.pacienteCompleto?.dni | dniFormat}}</h6>
                             <h6>{{turno?.estado | uppercase}}</h6>
                         </div>
                         <div class="col-6 d-flex h-100 justify-content-end">

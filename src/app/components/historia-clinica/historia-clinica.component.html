@@ -8,9 +8,9 @@
         </div>
         <div class="row justify-content-around mt-2" style="column-gap: 40px;row-gap: 15px;" *ngIf="this.paciente">
             <div class="col-12 col-md-4 row rounded text-white" *ngFor="let historiaClinica of historiaClinicaMostrar"
-                style="background-color: rgba(0,0,0,.5);column-gap: 40px;row-gap: 15px;">
+                style="background-color: rgba(0,0,0,.5);column-gap: 40px;row-gap: 15px;" appOpacity>
                 <div>
-                    <p>Historia clinica del paciente {{paciente.nombre | primeraMayuscula}} {{paciente.apellido | primeraMayuscula}} - DNI: {{paciente.dni}}</p>
+                    <p>Historia clinica del paciente {{paciente.nombre | primeraMayuscula}} {{paciente.apellido | primeraMayuscula}} - DNI: {{paciente.dni | dniFormat}}</p>
                     <p>Especialista: {{historiaClinica.especialistaCompleto.nombre | primeraMayuscula}}
                         {{historiaClinica.especialistaCompleto.apellido | primeraMayuscula}}</p>
                     <div class="col-12">
@@ -55,7 +55,7 @@
             <div class="col-12 col-md-4 row rounded text-white" *ngFor="let historiaClinica of historiaClinicaMostrar"
                 style="background-color: rgba(0,0,0,.5);column-gap: 40px;row-gap: 15px;">
                 <div>
-                    <p>Historia clinica del paciente {{historiaClinica.pacienteCompleto.nombre | primeraMayuscula}} {{historiaClinica.pacienteCompleto.apellido | primeraMayuscula}} - DNI: {{historiaClinica.pacienteCompleto.dni}}</p>
+                    <p>Historia clinica del paciente {{historiaClinica.pacienteCompleto.nombre | primeraMayuscula}} {{historiaClinica.pacienteCompleto.apellido | primeraMayuscula}} - DNI: {{historiaClinica.pacienteCompleto.dni | dniFormat}}</p>
                     <p>Especialista: {{historiaClinica.especialistaCompleto.nombre | primeraMayuscula}}
                         {{historiaClinica.especialistaCompleto.apellido | primeraMayuscula}}</p>
                     <div class="col-12">

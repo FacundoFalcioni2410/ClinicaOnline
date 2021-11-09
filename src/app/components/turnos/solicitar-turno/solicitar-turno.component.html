@@ -21,7 +21,7 @@
             <div class="col-12 col-sm-6 text-light">
                 <span *ngIf="this.firestore.usuarioActual?.perfil === 'admin'">Turno para el paciente
                     {{paciente?.nombre | primeraMayuscula}} {{paciente?.apellido | primeraMayuscula}} con DNI:
-                    {{paciente?.dni}}</span>
+                    {{paciente?.dni | dniFormat}}</span>
             </div>
             <div class="col-12 col-md-6 d-flex flex-wrap text-light" *ngIf="!this.shortcutHorario && this.paciente">
                 <span *ngFor="let item of array" (click)="cambioEspecialidad(item)"
