@@ -29,6 +29,7 @@ import { MisHorariosComponent } from './components/mis-horarios/mis-horarios.com
 import { EncuestaComponent } from './components/encuesta/encuesta.component';
 import { PacientesComponent } from './components/pacientes/pacientes.component';
 import { InformesComponent } from './components/informes/informes.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -57,8 +58,8 @@ import { InformesComponent } from './components/informes/informes.component';
       preventDuplicates: true,
     }),
     LazyLoadImageModule,
-    SharedModule
-    // SweetAlert2Module.forRoot()
+    SharedModule,
+    ChartsModule
   ],
   providers: [
     {
