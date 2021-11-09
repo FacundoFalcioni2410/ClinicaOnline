@@ -1,114 +1,119 @@
 <div class="container">
-    <div class="row mt-2 fs-5">
-        <div class="col-12 col-md-4" *ngIf="!log">
-            <span class="badge rounded-pill bg-warning text-dark ms-2" (click)="mostrarLogs()">Logs inicio de sesión</span>
+    <div *ngIf="logs?.length; else spinner">
+        <div class="row mt-2 fs-5">
+            <div class="col-12 col-md-4" *ngIf="!log">
+                <span class="badge rounded-pill bg-warning text-dark ms-2" (click)="mostrarLogs()">Logs inicio de
+                    sesión</span>
+            </div>
+            <div class="col-12 col-md-4" *ngIf="!cantidadTurnosDia">
+                <span class="badge rounded-pill bg-warning text-dark ms-2" (click)="mostrarTurnosDia()">Cantidad de
+                    turnos por día</span>
+            </div>
+            <div class="col-12 col-md-4" *ngIf="!cantidadEspecialidadTurno">
+                <span class="badge rounded-pill bg-warning text-dark ms-2"
+                    (click)="mostrarCantidadEspecialidad()">Cantidad de turnos por especialidad</span>
+            </div>
+            <div class="col-12 col-md-4" *ngIf="!cantidadEspecialidadTurno">
+                <span class="badge rounded-pill bg-warning text-dark ms-2" (click)="generateChart()"
+                    *ngIf="!this.chartTerminado">Generar graficos</span>
+            </div>
         </div>
-        <div class="col-12 col-md-4" *ngIf="!cantidadTurnosDia">
-            <span class="badge rounded-pill bg-warning text-dark ms-2" (click)="mostrarTurnosDia()">Cantidad de turnos por día</span>
+        <div class="table-responsive" *ngIf="log">
+            <h4 class="text-light">Inicio de sesión de los usuarios en la aplicación</h4>
+            <table class="table text-light">
+                <tr>
+                    <th>Usuario</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                </tr>
+                <tr *ngFor="let item of this?.logs">
+                    <th>
+                        {{item?.usuario}}
+                    </th>
+                    <th>
+                        {{item?.fecha}}
+                    </th>
+                    <th>
+                        {{item?.hora}}
+                    </th>
+                </tr>
+            </table>
         </div>
-        <div class="col-12 col-md-4" *ngIf="!cantidadEspecialidadTurno">
-            <span class="badge rounded-pill bg-warning text-dark ms-2" (click)="mostrarCantidadEspecialidad()">Cantidad de turnos por especialidad</span>
-        </div>
-        <div class="col-12 col-md-4" *ngIf="!cantidadEspecialidadTurno">
-            <span class="badge rounded-pill bg-warning text-dark ms-2" (click)="generateChart()">Generar graficos</span>
-        </div>
-    </div>
-    <div class="table-responsive" *ngIf="log">
-        <h4 class="text-light">Inicio de sesión de los usuarios en la aplicación</h4>
-        <table class="table text-light">
-            <tr>
-                <th>Usuario</th>
-                <th>Fecha</th>
-                <th>Hora</th>
-            </tr>
-            <tr *ngFor="let item of this?.logs">
-                <th>
-                    {{item?.usuario}}
-                </th>
-                <th>
-                    {{item?.fecha}}
-                </th>
-                <th>
-                    {{item?.hora}}
-                </th>
-            </tr>
-        </table>
-      </div>
 
-      <div class="table-responsive row align-items-center justify-content-center" style="height:80vh;" *ngIf="cantidadEspecialidadTurno">
-        <h4 class="text-light">Cantidad de turnos por especialidad</h4>
-        <table class="table text-light">
-            <tr>
-                <th>Especialidad</th>
-                <th>Cantidad</th>
-            </tr>
-            <tr *ngFor="let item of this?.turnosEspecialidad">
-                <th>
-                    {{item.especialidad | primeraMayuscula}}
-                </th>
-                <th>
-                    {{item.cantidad}}
-                </th>
-            </tr>
-        </table>
-      </div>
+        <div class="table-responsive row align-items-center justify-content-center" style="height:80vh;"
+            *ngIf="cantidadEspecialidadTurno">
+            <h4 class="text-light">Cantidad de turnos por especialidad</h4>
+            <table class="table text-light">
+                <tr>
+                    <th>Especialidad</th>
+                    <th>Cantidad</th>
+                </tr>
+                <tr *ngFor="let item of this?.turnosEspecialidad">
+                    <th>
+                        {{item.especialidad | primeraMayuscula}}
+                    </th>
+                    <th>
+                        {{item.cantidad}}
+                    </th>
+                </tr>
+            </table>
+        </div>
 
-      <div class="table-responsive row align-items-center justify-content-center" style="height:80vh;" *ngIf="cantidadTurnosDia">
-        <h4 class="text-light">Cantidad de turnos por día</h4>
-        <table class="table text-light">
-            <tr>
-                <th>Dia</th>
-                <th>Cantidad turnos</th>
-            </tr>
-            <tr *ngFor="let item of this?.turnosPorDia">
-                <th>
-                    {{item.dia}}
-                </th>
-                <th>
-                    {{item.cantidad}}
-                </th>
-            </tr>
-        </table>
-      </div>
-      <div #informe>
-        <div *ngIf="chartTerminado" #informe style="display: block">
-            <div class="row justify-content-center" style="margin-bottom: 30px;">
-                <div class="col-12 col-md-6">
-                    <h3 class="text-warning" style="margin-top: 60px;">Cantidad turnos por dia</h3>
-                    <canvas baseChart
-                            [data]="chart.primero.pieChartData"
-                            [labels]="chart.primero.pieChartLabels"
+        <div class="table-responsive row align-items-center justify-content-center" style="height:80vh;"
+            *ngIf="cantidadTurnosDia">
+            <h4 class="text-light">Cantidad de turnos por día</h4>
+            <table class="table text-light">
+                <tr>
+                    <th>Dia</th>
+                    <th>Cantidad turnos</th>
+                </tr>
+                <tr *ngFor="let item of this?.turnosPorDia">
+                    <th>
+                        {{item.dia}}
+                    </th>
+                    <th>
+                        {{item.cantidad}}
+                    </th>
+                </tr>
+            </table>
+        </div>
+        <div #informe>
+            <div *ngIf="chartTerminado" #informe style="display: block">
+                <div class="row justify-content-center" style="margin-bottom: 30px;">
+                    <div class="col-12 col-md-6">
+                        <h3 class="text-warning" style="margin-top: 60px;">Cantidad turnos por dia</h3>
+                        <canvas baseChart [data]="chart.primero.pieChartData" [labels]="chart.primero.pieChartLabels"
                             [chartType]="chart.primero.pieChartType">
-                    </canvas>
-                </div>
-                <div class="col-12 col-md-6">
-                    <h3 class="text-warning" style="margin-top: 60px;">Cantidad de especialidad por turno</h3>
-                    <canvas baseChart
-                            [data]="chart.segundo.pieChartData"
-                            [labels]="chart.segundo.pieChartLabels"
+                        </canvas>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <h3 class="text-warning" style="margin-top: 60px;">Cantidad de especialidad por turno</h3>
+                        <canvas baseChart [data]="chart.segundo.pieChartData" [labels]="chart.segundo.pieChartLabels"
                             [chartType]="chart.segundo.pieChartType">
-                    </canvas>
-                </div>
-                <div class="col-12 col-md-6">
-                    <h3 class="text-warning" style="margin-top: 60px;">Cantidad de turnos solicitados por especialista</h3>
-                    <canvas baseChart
-                            [data]="chart.tercero.pieChartData"
-                            [labels]="chart.tercero.pieChartLabels"
+                        </canvas>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <h3 class="text-warning" style="margin-top: 60px;">Cantidad de turnos solicitados por
+                            especialista</h3>
+                        <canvas baseChart [data]="chart.tercero.pieChartData" [labels]="chart.tercero.pieChartLabels"
                             [chartType]="chart.tercero.pieChartType">
-                    </canvas>
-                </div>
-                
-                <div class="col-12 col-md-6">
-                    <h3 class="text-warning" style="margin-top: 60px;">Cantidad de turnos finalizados por especialista</h3>
-                    <canvas baseChart
-                            [data]="chart.cuarto.pieChartData"
-                            [labels]="chart.cuarto.pieChartLabels"
+                        </canvas>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <h3 class="text-warning" style="margin-top: 60px;">Cantidad de turnos finalizados por
+                            especialista</h3>
+                        <canvas baseChart [data]="chart.cuarto.pieChartData" [labels]="chart.cuarto.pieChartLabels"
                             [chartType]="chart.cuarto.pieChartType">
-                    </canvas>
+                        </canvas>
+                    </div>
                 </div>
             </div>
-          </div>
-      </div>
-      <button *ngIf="this.chartTerminado" (click)="downloadPdf()" class="btn btn-success btn-block mb-2" style="width: 100%;">Descargar en PDF</button>
-
+        </div>
+        <button *ngIf="this.chartTerminado" (click)="downloadPdf()" class="btn btn-success btn-block mb-2"
+            style="width: 100%;">Descargar en PDF</button>
+    </div>
+    <ng-template #spinner>
+        <app-spinner></app-spinner>
+    </ng-template>
 </div>

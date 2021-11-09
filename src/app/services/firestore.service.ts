@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Paciente } from '../models/paciente';
 import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
-import { take } from 'rxjs/operators'
+import { min, take } from 'rxjs/operators'
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Injectable({
@@ -138,9 +138,22 @@ export class FirestoreService {
 
   guardarLog(){
     let day = new Date();
+    let hora: any = day.getHours();
+    let minutos: any = day.getMinutes();
+
+    if(hora < 10)
+    {
+      hora = '0' + hora;
+    }
+
+    if(minutos < 10)
+    {
+      minutos = '0' + minutos;
+    }
+
     let log = {
       usuario: this.usuarioActual.email,
-      hora: day.getHours() + ':' + day.getMinutes() + ':' + day.getSeconds(),
+      hora: hora + ':' + minutos,
       fecha: day.getDate() + '/' + ( day.getMonth() + 1 ) + '/' + day.getFullYear(),
     }
     this.af.collection('log').add(log);
