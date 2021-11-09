@@ -21,13 +21,13 @@ import {
             left: 0,
             width: '100%'
           })
-        ]),
-        query(':enter', [style({ transform: 'translateY(150%)', opacity: 0 })]),
-        query(':leave', animateChild()),
+        ], { optional: true }),
+        query(':enter', [style({ transform: 'translateY(150%)', opacity: 0 })], { optional: true }),
+        query(':leave', animateChild(), { optional: true }),
         group([
-          query(':leave', [animate('.8s ease-out', style({ transform: 'translateY(-150%)', opacity: 0 }))]),
-          query(':enter', [animate('.8s ease-out', style({ transform: 'translatey(0%)', opacity: 1 }))])
+          query(':leave', [animate('.8s ease-out', style({ transform: 'translateY(-150%)', opacity: 0 }))], { optional: true }),
+          query(':enter', [animate('.8s ease-out', style({ transform: 'translatey(0%)', opacity: 1 }))], { optional: true })
          ]),
-         query(':enter', animateChild())
+         query(':enter', animateChild(), { optional: true })
     ])
   ]);

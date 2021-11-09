@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="table-responsive row align-items-center justify-content-center" style="height:80vh;" *ngIf="log">
+        <table class="table text-light">
+            <tr>
+                <th>Usuario</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+            </tr>
+            <tr *ngFor="let item of this?.logs">
+                <th>
+                    {{item?.usuario}}
+                </th>
+                <th>
+                    {{item?.fecha}}
+                </th>
+                <th>
+                    {{item?.hora}}
+                </th>
+            </tr>
+        </table>
+      </div>
+
+      <div class="table-responsive row align-items-center justify-content-center" style="height:80vh;" *ngIf="cantidadEspecialidadTurno">
+        <table class="table text-light">
+            <tr>
+                <th>Especialidad</th>
+                <th>Cantidad</th>
+            </tr>
+            <tr *ngFor="let item of this?.turnosEspecialidad">
+                <th>
+                    {{item.especialidad}}
+                </th>
+                <th>
+                    {{item.cantidad}}
+                </th>
+            </tr>
+        </table>
+      </div>
+
+      <div class="table-responsive row align-items-center justify-content-center" style="height:80vh;" *ngIf="cantidadEspecialidadTurno">
+        <table class="table text-light">
+            <tr>
+                <th>Especialidad</th>
+                <th>Cantidad</th>
+            </tr>
+            <tr *ngFor="let item of this?.turnosEspecialidad">
+                <th>
+                    {{item.especialidad}}
+                </th>
+                <th>
+                    {{item.cantidad}}
+                </th>
+            </tr>
+        </table>
+      </div>
+</div>

@@ -228,7 +228,10 @@ export class SolicitarTurnoComponent implements OnInit {
   }
 
   solicitarTurno(){
+    let time = Date.now();
+
     let turno = {
+      time: time,
       fecha: this.fechaSeleccionada.dia,
       hora: this.fechaSeleccionada.hora,
       dniPaciente: this.paciente.dni,
@@ -250,7 +253,8 @@ export class SolicitarTurnoComponent implements OnInit {
       especialidad: this.especialidadActual,
       especialista: this.especialista?.dni,
       fecha: this.fechaSeleccionada.dia,
-      hora: this.fechaSeleccionada.hora
+      hora: this.fechaSeleccionada.hora,
+      time: time,
     }
     this.paciente.turno.push(objeto);
 
@@ -274,7 +278,7 @@ export class SolicitarTurnoComponent implements OnInit {
     }
   }
 
-  recibirPaciente(paciente: any){
+  seleccionarPaciente(paciente: any){
     this.recibido = true;
     this.paciente = paciente;
   }

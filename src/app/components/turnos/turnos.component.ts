@@ -7,9 +7,6 @@ import Swal from 'sweetalert2';
   selector: 'app-turnos',
   templateUrl: './turnos.component.html',
   styleUrls: ['./turnos.component.scss'],
-  animations: [
-    slider,
-  ]
 })
 export class TurnosComponent implements OnInit {
 
@@ -49,6 +46,10 @@ export class TurnosComponent implements OnInit {
 
         await this.getPacientes();
         await this.getEspecialistas();
+
+        this.turnos.sort((x: any,y: any)=>{
+          return y.time - x.time;
+        });
 
         this.turnosMostrar = this.turnos;
       });

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { PdfMakeWrapper, Img, Table  } from 'pdfmake-wrapper';
-import * as pdfFomts from "pdfmake/build/vfs_fonts";
+import * as pdfFonts from "pdfmake/build/vfs_fonts";
 
 @Component({
   selector: 'app-historia-clinica',
@@ -15,6 +15,14 @@ export class HistoriaClinicaComponent implements OnInit {
     this.historiaClinica = [];
     this.cargarHistoriaClinica();
   }
+
+  @Input() set pacientesInput(value: any){
+    this.pacientes = value;
+    this.historiaClinica = [];
+    this.cargarHistoriaClinica();
+  }
+
+  pacientes: any;
   especialistas: any;
   paciente: any;
   historiaClinica: any;
@@ -33,24 +41,43 @@ export class HistoriaClinicaComponent implements OnInit {
     this.firestore.getEspecialistas().subscribe(res =>{
       this.especialistas = res;
 
-      if(this.paciente?.historiaClinica)
+      if(this.paciente)
       {
-        for(let historia of this.paciente.historiaClinica)
+        if(this.paciente?.historiaClinica)
         {
-          for(let item of this.especialistas)
+          for(let historia of this.paciente.historiaClinica)
           {
-            if(historia.especialista === item.dni)
+            for(let item of this.especialistas)
             {
-              historia.especialistaCompleto = item;
-            }  
+              if(historia.especialista === item.dni)
+              {
+                historia.especialistaCompleto = item;
+              }  
+            }
+            this.historiaClinica.push(historia);
           }
-          this.historiaClinica.push(historia);
+          this.historiaClinicaMostrar = this.historiaClinica;
         }
-        this.historiaClinicaMostrar = this.historiaClinica;
+        else
+        {
+          this.mensaje = 'Este paciente todavia no tiene datos cargados';
+        }
       }
       else
       {
-        this.mensaje = 'Este paciente todavia no tiene datos cargados';
+        for(let paciente of this.pacientes)
+        {
+          for(let historia of paciente.historiaClinica)
+          {
+            if(historia.especialista === this.firestore.usuarioActual?.dni)
+            {
+              historia.especialistaCompleto = this.firestore?.usuarioActual;
+              historia.pacienteCompleto = paciente;
+              this.historiaClinica.push(historia);
+            }
+          }
+        }
+          this.historiaClinicaMostrar = this.historiaClinica;
       }
     });
   }
@@ -82,7 +109,7 @@ export class HistoriaClinicaComponent implements OnInit {
   }
 
   async generatePDF(){
-    PdfMakeWrapper.setFonts(pdfFomts);
+    PdfMakeWrapper.setFonts(pdfFonts);
     const pdf = new PdfMakeWrapper();
     pdf.add((await new Img('./../../../assets/clinica.png').width(100).alignment('center').build()))
     let fecha = new Date();

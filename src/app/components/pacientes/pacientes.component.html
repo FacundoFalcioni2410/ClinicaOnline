@@ -1,11 +1,15 @@
 <div class="container">
-    <div *ngIf="this.terminado">
-        <div *ngIf="this.pacientesEspecialista.length; else mensaje" class="text-white">
+    <div class="row">
+    <div *ngIf="this.pacientesEspecialista.length; else spinner">
+        <div class="text-white">
             <h1 class="text-center">Historia clinica de los pacientes atendidos</h1>
-            <!-- <app-historia-clinica [pacientes]="pacientesEspecialista"></app-historia-clinica> -->
+            <app-historia-clinica [pacientesInput]="pacientesEspecialista"></app-historia-clinica>
         </div>
     </div>
     <ng-template #mensaje>
         <h1 class="text-danger">No has cargado la historia clinica de ningun paciente</h1>
+    </ng-template>
+    <ng-template #spinner>
+        <app-spinner></app-spinner>
     </ng-template>
 </div>

@@ -64,6 +64,7 @@ export class AuthService {
         else
         {
           this.firestore.usuarioActual = userF;
+          this.firestore.guardarLog();
           Swal.fire({text: "Datos correctos", timer:1500, timerProgressBar: true, icon: "success", toast:true, position: 'bottom'});
           this.loading = false;
           this.router.navigate(['/home']);

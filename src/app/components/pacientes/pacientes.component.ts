@@ -9,7 +9,7 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 export class PacientesComponent implements OnInit {
 
   especialista: any;
-  
+  paciente: any;
   turnos: any = [];
   pacientesEspecialista: any = [];
 
@@ -51,4 +51,7 @@ export class PacientesComponent implements OnInit {
     return nuevoArray;
   }
 
+  seleccionarPaciente(paciente: any){
+    this.paciente = paciente;
+  }
 }

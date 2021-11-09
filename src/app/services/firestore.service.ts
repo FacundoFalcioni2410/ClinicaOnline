@@ -55,6 +55,10 @@ export class FirestoreService {
     return this.adminObs;
   }
 
+  getLogs(){
+    return this.af.collection('log').valueChanges({idField: 'id'});
+  }
+
   addPaciente(paciente: Paciente){
     this.pacienteCollectionReference.add({...paciente})
   }
@@ -130,6 +134,16 @@ export class FirestoreService {
 
   addEncuestaTurno(turno: any, encuesta: any){
     this.turnosCollectionReference.doc(turno.id).update({encuesta: encuesta});
+  }
+
+  guardarLog(){
+    let day = new Date();
+    let log = {
+      usuario: this.usuarioActual.email,
+      hora: day.getHours() + ':' + day.getMinutes() + ':' + day.getSeconds(),
+      fecha: day.getDate() + '/' + ( day.getMonth() + 1 ) + '/' + day.getFullYear(),
+    }
+    this.af.collection('log').add(log);
   }
 
   async getUser(email: string){

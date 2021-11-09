@@ -28,6 +28,7 @@ import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
 import { MisHorariosComponent } from './components/mis-horarios/mis-horarios.component';
 import { EncuestaComponent } from './components/encuesta/encuesta.component';
 import { PacientesComponent } from './components/pacientes/pacientes.component';
+import { InformesComponent } from './components/informes/informes.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { PacientesComponent } from './components/pacientes/pacientes.component';
     MisHorariosComponent,
     EncuestaComponent,
     PacientesComponent,
+    InformesComponent,
   ],
   imports: [
     BrowserModule,

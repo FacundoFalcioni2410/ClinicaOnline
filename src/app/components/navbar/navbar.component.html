@@ -36,6 +36,9 @@
             <a class="nav-link text-white noselect" [routerLink]="['/turnos']" *ngIf='this.firestore?.usuarioActual && this.firestore.usuarioActual?.perfil === "admin"' >Turnos</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link text-white noselect" [routerLink]="['/informes']" *ngIf='this.firestore?.usuarioActual && this.firestore.usuarioActual?.perfil === "admin"' >Informes</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link text-white noselect" [routerLink]="['/pacientes']" *ngIf='this.firestore?.usuarioActual && this.firestore.usuarioActual?.perfil === "especialista"' >Pacientes</a>
           </li>
         </ul>

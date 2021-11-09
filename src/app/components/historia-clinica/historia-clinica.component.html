@@ -1,13 +1,12 @@
-<!-- <ng-template #unPaciente> -->
 <div *ngIf="this.historiaClinicaMostrar">
     <div *ngIf="this.historiaClinicaMostrar.length && this.mensaje === '';">
-        <div class="col-12 col-sm-6">
+        <div class="col-12 col-sm-6" *ngIf="this.paciente">
             <span *ngFor="let item of especialistas" class="badge rounded-pill bg-dark text-light m-1 mt-2 p-2 noselect"
                 (click)="seleccionarEspecialista(item)">
                 <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%">
             </span>
         </div>
-        <div class="row justify-content-around mt-2" style="column-gap: 40px;row-gap: 15px;">
+        <div class="row justify-content-around mt-2" style="column-gap: 40px;row-gap: 15px;" *ngIf="this.paciente">
             <div class="col-12 col-md-4 row rounded text-white" *ngFor="let historiaClinica of historiaClinicaMostrar"
                 style="background-color: rgba(0,0,0,.5);column-gap: 40px;row-gap: 15px;">
                 <div>
@@ -29,7 +28,52 @@
                         </div>
                         <div>
                             <label>Presion</label>
-                            <h6 class="d-inline ms-2">{{historiaClinica.Presion}}</h6>
+                            <h6 class="d-inline ms-2">{{historiaClinica.presion}}</h6>
+                        </div>
+                        <div>
+                            <label>{{historiaClinica.dinamico1.clave}}</label>
+                            <h6 class="d-inline ms-2">{{historiaClinica.dinamico1.valor}}</h6>
+                        </div>
+                        <div>
+                            <label>{{historiaClinica.dinamico2.clave}}</label>
+                            <h6 class="d-inline ms-2">{{historiaClinica.dinamico2.valor}}</h6>
+                        </div>
+                        <div>
+                            <label>{{historiaClinica.dinamico3.clave}}</label>
+                            <h6 class="d-inline ms-2">{{historiaClinica.dinamico3.valor}}</h6>
+                        </div>
+                        <div>
+                            <label class="d-inline">Comentario del especialista sobre el turno: </label>
+                            <h6 class="d-inline mb-2">{{historiaClinica.comentario}}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-success mb-2" (click)="generatePDF()">Generar PDF</button>
+        </div>
+        <div class="row justify-content-around mt-2" style="column-gap: 40px;row-gap: 15px;" *ngIf="this.pacientes">
+            <div class="col-12 col-md-4 row rounded text-white" *ngFor="let historiaClinica of historiaClinicaMostrar"
+                style="background-color: rgba(0,0,0,.5);column-gap: 40px;row-gap: 15px;">
+                <div>
+                    <p>Historia clinica del paciente {{historiaClinica.pacienteCompleto.apellido}} {{historiaClinica.pacienteCompleto.apellido}} - DNI: {{historiaClinica.pacienteCompleto.apellido}}</p>
+                    <p>Especialista: {{historiaClinica.especialistaCompleto.nombre}}
+                        {{historiaClinica.especialistaCompleto.apellido}}</p>
+                    <div class="col-12">
+                        <div>
+                            <label>Altura</label>
+                            <h6 class="d-inline ms-2">{{historiaClinica.altura}}</h6>
+                        </div>
+                        <div>
+                            <label>Peso</label>
+                            <h6 class="d-inline ms-2">{{historiaClinica.peso}}</h6>
+                        </div>
+                        <div>
+                            <label>Temperatura</label>
+                            <h6 class="d-inline ms-2">{{historiaClinica.temperatura}}</h6>
+                        </div>
+                        <div>
+                            <label>Presion</label>
+                            <h6 class="d-inline ms-2">{{historiaClinica.presion}}</h6>
                         </div>
                         <div>
                             <label>{{historiaClinica.dinamico1.clave}}</label>

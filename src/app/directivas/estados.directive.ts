@@ -12,7 +12,6 @@ export class EstadosDirective implements OnInit {
   }
 
   ngOnInit(){
-    console.log(this.appEstados);
     if(this.appEstados === 'aceptado')
     {
       this.renderer.addClass(this.el.nativeElement,'bg-warning');

@@ -11,6 +11,7 @@ import { SinPermisosComponent } from './components/sin-permisos/sin-permisos.com
 import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
 import { PacientesComponent } from './components/pacientes/pacientes.component';
 import { EspecialistaGuard } from './guards/especialista.guard';
+import { InformesComponent } from './components/informes/informes.component';
 
 const routes: Routes = [
   {
@@ -58,8 +59,13 @@ const routes: Routes = [
     component: PacientesComponent,
     canActivate: [EspecialistaGuard],
     data: {animation: ''}
+  },
+  {
+    path: 'informes',
+    component: InformesComponent,
+    canActivate: [AdminGuard],
+    data: {animation: ''}
   }
-
 ];
 
 @NgModule({

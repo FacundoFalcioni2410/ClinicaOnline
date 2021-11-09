@@ -1,7 +1,13 @@
 <div class="container">
     <div *ngIf="this.firestore?.usuarioActual?.perfil === 'admin'" class="mt-2">
-        <app-tabla-paciente *ngIf="this.pacientes !== undefined; else spinner" [pacientes]='pacientes'
-            (enviar)="recibirPaciente($event)"></app-tabla-paciente>
+        <div class="col-12 text-light" *ngIf="this.pacientes !== undefined;else spinner">
+            <span *ngFor="let item of pacientes" class="d-inline-flex flex-column me-2"
+                (click)="seleccionarPaciente(item)">
+                <img [src]="item?.imagenes[0]" alt="" class="m-auto" width="80px" height="80px"
+                    style="border-radius: 50%">
+                <p>{{item.nombre}} {{item.apellido}}</p>
+            </span>
+        </div>
     </div>
     <div>
         <form>
@@ -17,7 +23,7 @@
                     {{paciente?.nombre}} {{paciente?.apellido}} con DNI:
                     {{paciente?.dni}}</span>
             </div>
-            <div class="col-12 col-md-6 d-flex flex-wrap text-light" *ngIf="!this.shortcutHorario">
+            <div class="col-12 col-md-6 d-flex flex-wrap text-light" *ngIf="!this.shortcutHorario && this.paciente">
                 <span *ngFor="let item of array" (click)="cambioEspecialidad(item)"
                     class="d-inline-flex flex-column me-2">
                     <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%">

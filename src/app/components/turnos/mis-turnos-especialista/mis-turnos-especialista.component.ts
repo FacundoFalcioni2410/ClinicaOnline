@@ -61,6 +61,11 @@ export class MisTurnosEspecialistaComponent implements OnInit {
           }
         }
         await this.getPacientes();
+
+        this.turnos.sort((x: any,y: any)=>{
+          return y.time - x.time;
+        });
+
         this.turnosMostrar = this.turnos;
       });
 
