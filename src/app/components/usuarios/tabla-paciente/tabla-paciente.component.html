@@ -2,15 +2,15 @@
     <div class="row justify-content-around text-dark" style="column-gap: 40px;row-gap: 15px;">
         <div class="col-12 col-md-4 row bg-light rounded" *ngFor="let paciente of pacientes" (click)="enviarPaciente(paciente)">
             <div class="col-6">
-                <h6>{{paciente.nombre}}</h6>
-                <h6>{{paciente.apellido}}</h6>
+                <h6>{{paciente.nombre | primeraMayuscula}}</h6>
+                <h6>{{paciente.apellido | primeraMayuscula}}</h6>
                 <h6>{{paciente.edad}}</h6>
                 <h6>{{paciente.dni}}</h6>
-                <h6>{{paciente.obraSocial}}</h6>
+                <h6>{{paciente.obraSocial | primeraMayuscula}}</h6>
                 <h6>{{paciente.email}}</h6>
             </div>
             <div class="col-6">
-                <img [defaultImage]="spinner" [lazyLoad]="paciente.imagenes[0]" alt="" height="120px" width="120px" style="border-radius: 50%;">
+                <img [defaultImage]="spinner" [lazyLoad]="paciente.imagenes[0]" alt="" height="120px" width="120px" style="border-radius: 50%;" appFoto>
             </div>
         </div>
     </div>

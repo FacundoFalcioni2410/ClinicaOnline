@@ -28,8 +28,8 @@
             <span *ngFor="let item of usuarios" class="d-inline-flex flex-column me-2"
                 (click)="seleccionarPaciente(item)">
                 <img [src]="item?.imagenes[0]" alt="" class="m-auto" width="80px" height="80px"
-                    style="border-radius: 50%">
-                <p>{{item.nombre}} {{item.apellido}}</p>
+                    style="border-radius: 50%" appFoto>
+                <p>{{item.nombre | primeraMayuscula}} {{item.apellido | primeraMayuscula}}</p>
             </span>
         </div>
         <div *ngIf="this.registroAdministrador">

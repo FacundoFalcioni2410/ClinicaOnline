@@ -4,8 +4,8 @@
             <span *ngFor="let item of pacientes" class="d-inline-flex flex-column me-2"
                 (click)="seleccionarPaciente(item)">
                 <img [src]="item?.imagenes[0]" alt="" class="m-auto" width="80px" height="80px"
-                    style="border-radius: 50%">
-                <p>{{item.nombre}} {{item.apellido}}</p>
+                    style="border-radius: 50%" appFoto>
+                <p>{{item.nombre | primeraMayuscula}} {{item.apellido | primeraMayuscula}}</p>
             </span>
         </div>
     </div>
@@ -15,23 +15,23 @@
                 <span *ngFor="let item of especialistas"
                     class="badge rounded-pill bg-dark text-light m-1 mt-2 p-2 noselect"
                     (click)="cambiarEspecialista(item)">
-                    <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%">
+                    <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%" appFoto>
                 </span>
             </div>
             <div class="col-12 col-sm-6 text-light">
                 <span *ngIf="this.firestore.usuarioActual?.perfil === 'admin'">Turno para el paciente
-                    {{paciente?.nombre}} {{paciente?.apellido}} con DNI:
+                    {{paciente?.nombre | primeraMayuscula}} {{paciente?.apellido | primeraMayuscula}} con DNI:
                     {{paciente?.dni}}</span>
             </div>
             <div class="col-12 col-md-6 d-flex flex-wrap text-light" *ngIf="!this.shortcutHorario && this.paciente">
                 <span *ngFor="let item of array" (click)="cambioEspecialidad(item)"
                     class="d-inline-flex flex-column me-2">
-                    <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%">
-                    <p>{{item.especialidad}}</p>
+                    <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%" appFoto>
+                    <p>{{item.especialidad | primeraMayuscula}}</p>
                 </span>
             </div>
             <span class="badge rounded-pill bg-warning text-dark m-1 mt-2 p-2
-                        noselect">{{this.especialidadActual}}</span>
+                        noselect">{{this.especialidadActual | primeraMayuscula}}</span>
             <div class="col-12 mt-1">
                 <div class="row" *ngIf="mensaje === '' && especialista">
                     <div class="col-12 col-md-4 border border-warning" *ngFor="let item of fechasEspecialistaActual">

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { PdfMakeWrapper, Img, Table  } from 'pdfmake-wrapper';
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-historia-clinica',
@@ -30,7 +31,7 @@ export class HistoriaClinicaComponent implements OnInit {
   tabla: any;
   mensaje = '';
 
-  constructor(private firestore: FirestoreService) {
+  constructor(private firestore: FirestoreService, private datePipe: DatePipe) {
   }
 
   ngOnInit(): void {
@@ -115,7 +116,7 @@ export class HistoriaClinicaComponent implements OnInit {
     let fecha = new Date();
     pdf.pageSize('A4');
     pdf.pageMargins(40);
-    pdf.footer(fecha.toString());
+    pdf.footer(this.datePipe.transform(fecha, 'dd/MM/yyyy'));
     pdf.add({text: 'Historia clinica', alignment: 'center',fontSize: 22, bold: true,  margin: [50, 20]})
     pdf.add(this.createTable());
     pdf.create().download();
@@ -132,7 +133,7 @@ export class HistoriaClinicaComponent implements OnInit {
     this.tabla = this.historiaClinicaMostrar.map((historiaClinica:any)=>{
       let row = [];
       row.push(
-        historiaClinica.fecha + ' ' + historiaClinica.hora + '\n' +
+        historiaClinica.dia + ' ' + historiaClinica.hora + '\n' +
         historiaClinica.especialistaCompleto.nombre + '\n' + 
         historiaClinica.especialistaCompleto.apellido + '\n' + 
         'Comentario: ' + historiaClinica.comentario + '\n'

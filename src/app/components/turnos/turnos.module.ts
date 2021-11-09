@@ -7,7 +7,6 @@ import { SolicitarTurnoComponent } from './solicitar-turno/solicitar-turno.compo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/modules/shared/shared.module';
 import { UsuariosModule } from '../usuarios/usuarios.module';
-import { DatePipe } from '@angular/common';
 import { TurnosComponent } from './turnos.component';
 import { MisTurnosPacienteComponent } from './mis-turnos-paciente/mis-turnos-paciente.component';
 import { EstadosDirective } from 'src/app/directivas/estados.directive';
@@ -29,6 +28,5 @@ import { EstadosDirective } from 'src/app/directivas/estados.directive';
     SharedModule,
     UsuariosModule
   ],
-  providers: [DatePipe]
 })
 export class TurnosModule { }

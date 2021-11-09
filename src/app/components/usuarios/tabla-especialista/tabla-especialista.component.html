@@ -2,8 +2,8 @@
     <div class="row justify-content-around text-dark"  style="column-gap: 40px;row-gap: 15px;">
         <div class="col-12 col-md-4 row bg-light rounded" *ngFor="let especialista of especialistas">
             <div class="col-6">
-                <h6 class="">{{especialista?.nombre}}</h6>
-                <h6 class="">{{especialista?.apellido}}</h6>
+                <h6 class="">{{especialista?.nombre | primeraMayuscula}}</h6>
+                <h6 class="">{{especialista?.apellido | primeraMayuscula}}</h6>
                 <h6 class="">{{especialista?.edad}}</h6>
                 <h6 class="">{{especialista?.dni}}</h6>
                 <h6 class="text-break" *ngFor="let item of especialista?.especialidad">{{item}}</h6>
@@ -11,7 +11,7 @@
                 <h6 [ngClass]="{'bi-check-lg': especialista?.habilitado === true, 'bi-x-lg': especialista?.habilitado === false}" (click)="actualizarEstado(especialista)"><i class="bi "></i></h6>
             </div>
             <div class="col-6" >
-                <img [defaultImage]="spinner" [lazyLoad]="especialista.imagen" alt=""  height="120px" width="120px" style="border-radius: 50%;">
+                <img [defaultImage]="spinner" [lazyLoad]="especialista.imagen" alt=""  height="120px" width="120px" style="border-radius: 50%;" appFoto>
             </div>
         </div>
     </div>

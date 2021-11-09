@@ -6,7 +6,7 @@
                 <button *ngIf="this.firestore?.usuarioActual?.perfil === 'paciente'" class="btn btn-primary mt-2" (click)="toggleHistoriaClinica()">{{botonHistoriaClinica}} mi historia clinica</button>
                 <div>
                     <div class="panel panel-default">
-                        <div class="panel-heading">{{usuario?.nombre}} {{usuario?.apellido}}</div>
+                        <div class="panel-heading">{{usuario?.nombre | primeraMayuscula}} {{usuario?.apellido | primeraMayuscula}}</div>
                         <div class="panel-body">
                             <div class="box box-info">
                                 <div class="box-body">
@@ -19,11 +19,11 @@
                                                         <div class="carousel-item active">
                                                             <img [defaultImage]="defaultImage"
                                                                 [lazyLoad]="usuario.imagenes[0]" alt=""
-                                                                class="img-circle img-responsive profile-image">
+                                                                class="img-circle img-responsive profile-image" appFoto>
                                                         </div>
                                                         <div class="carousel-item">
                                                             <img [src]="usuario.imagenes[1]" alt=""
-                                                                class="img-circle img-responsive profile-image noselect">
+                                                                class="img-circle img-responsive profile-image noselect" appFoto>
                                                         </div>
                                                     </div>
                                                     <button class="carousel-control-prev" type="button"
@@ -46,7 +46,7 @@
                                         </div>
                                         <div *ngIf="usuario?.perfil !== 'paciente'">
                                             <img [defaultImage]="defaultImage" [lazyLoad]='usuario?.imagen' alt=""
-                                                class="img-circle img-responsive profile-image d-block m-auto noselect">
+                                                class="img-circle img-responsive profile-image d-block m-auto noselect" appFoto>
                                         </div>
                                     </div>
                                 </div>
@@ -58,7 +58,7 @@
                                 Nombre:
                             </div>
                             <div class="col-sm-7 col-xs-6 ">
-                                {{usuario?.nombre}}
+                                {{usuario?.nombre | primeraMayuscula}}
                             </div>
 
                             <div class="clearfix"></div>
@@ -68,7 +68,7 @@
                                 Apellido:
                             </div>
                             <div class="col-sm-7">
-                                {{usuario?.apellido}}
+                                {{usuario?.apellido | primeraMayuscula}}
                             </div>
 
                             <div class="clearfix"></div>
@@ -90,7 +90,7 @@
                                     Obra social:
                                 </div>
                                 <div class="col-sm-7">
-                                    {{usuario?.obraSocial}}
+                                    {{usuario?.obraSocial | primeraMayuscula}}
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="bot-border"></div>
@@ -101,7 +101,7 @@
                                     Especialidad:
                                 </div>
                                 <div class="col-sm-7">
-                                    {{usuario?.especialidad}}
+                                    {{usuario?.especialidad | primeraMayuscula}}
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="bot-border"></div>

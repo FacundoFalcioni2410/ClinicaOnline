@@ -13,13 +13,13 @@
                     <span *ngFor="let item of especialistas"
                         class="badge rounded-pill bg-dark text-light m-1 mt-2 p-2 noselect"
                         (click)="seleccionarEspecialista(item)">
-                        <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%">
+                        <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%" appFoto>
                     </span>
                 </div>
                 <div class="col-12 d-flex flex-wrap text-light">
                     <span *ngFor="let item of array" (click)="seleccionarEspecialidad(item)"
                         class="d-inline-flex flex-column me-2">
-                        <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%">
+                        <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%" appFoto>
                         <p>{{item.especialidad}}</p>
                     </span>
                 </div>
@@ -29,12 +29,12 @@
                         <div class="col-6">
                             <h6>{{turno?.fecha}}</h6>
                             <h6>{{turno?.hora}}</h6>
-                            <h6>{{turno?.especialidad}}</h6>
-                            <h6 class="text-break">{{turno?.especialistaCompleto?.nombre}}
-                                {{turno?.especialistaCompleto?.apellido}} -
+                            <h6>{{turno?.especialidad | primeraMayuscula}}</h6>
+                            <h6 class="text-break">{{turno?.especialistaCompleto?.nombre | primeraMayuscula}}
+                                {{turno?.especialistaCompleto?.apellido | primeraMayuscula}} -
                                 {{turno.especialistaCompleto?.dni}}</h6>
-                            <h6 class="text-break">{{turno?.pacienteCompleto?.nombre}}
-                                {{turno?.pacienteCompleto?.apellido}} -
+                            <h6 class="text-break">{{turno?.pacienteCompleto?.nombre | primeraMayuscula}}
+                                {{turno?.pacienteCompleto?.apellido | primeraMayuscula}} -
                                 {{turno?.pacienteCompleto?.dni}}</h6>
                             <h6>{{turno?.estado | uppercase}}</h6>
                         </div>
