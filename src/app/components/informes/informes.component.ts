@@ -2,6 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { jsPDF } from "jspdf";
 import html2canvas from 'html2canvas';
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
 
 @Component({
   selector: 'app-informes',
@@ -24,6 +26,8 @@ export class InformesComponent implements OnInit {
   chart: any;
   chartTerminado: boolean = false;
 
+  turnosSolicitados: boolean = false;
+  turnosFinalizados: boolean = false;  
   log: boolean = true;
   cantidadEspecialidadTurno: boolean = false;
   cantidadTurnosDia: boolean = false;
@@ -51,6 +55,7 @@ export class InformesComponent implements OnInit {
   }
 
   cargarTurnosEspecialidad(){
+    this.turnosEspecialidad = [];
     let cantidad = 0;
     for(let i = 0; i < this.especialidades.length; i++)
     {
@@ -71,7 +76,7 @@ export class InformesComponent implements OnInit {
   }
 
   cargarTurnosDia(){
-    let cantidad = 0;
+    this.turnosPorDia = [];
     let flag;
 
     for(let turno of this.turnos)
@@ -99,7 +104,7 @@ export class InformesComponent implements OnInit {
   }
 
   cargarTurnosSolicitadoMedico(){
-    let cantidad = 0;
+    this.turnosSolicitadoMedico = [];
     let flag;
 
     for(let turno of this.turnos)
@@ -135,7 +140,7 @@ export class InformesComponent implements OnInit {
   }
 
   cargarTurnosFinalizadoMedico(){
-    let cantidad = 0;
+    this.turnosFinalizadoMedico = [];
     let flag;
 
     for(let turno of this.turnos)
@@ -177,18 +182,40 @@ export class InformesComponent implements OnInit {
     this.log = false;
     this.cantidadEspecialidadTurno = false;
     this.cantidadTurnosDia = true;
+    this.turnosFinalizados = false;
+    this.turnosSolicitados = false;
   }
 
   mostrarLogs(){
     this.log = true;
     this.cantidadEspecialidadTurno = false;
     this.cantidadTurnosDia = false;
+    this.turnosFinalizados = false;
+    this.turnosSolicitados = false;
   }
 
   mostrarCantidadEspecialidad(){
     this.log = false;
     this.cantidadEspecialidadTurno = true;
     this.cantidadTurnosDia = false;
+    this.turnosFinalizados = false;
+    this.turnosSolicitados = false;
+  }
+
+  mostrarTurnosFinalizados(){
+    this.log = false;
+    this.cantidadEspecialidadTurno = false;
+    this.cantidadTurnosDia = false;
+    this.turnosFinalizados = true;
+    this.turnosSolicitados = false;
+  }
+  
+  mostrarTurnosSolicitadosMedico(){
+    this.log = false;
+    this.cantidadEspecialidadTurno = false;
+    this.cantidadTurnosDia = false;
+    this.turnosFinalizados = false;
+    this.turnosSolicitados = true;
   }
 
   generateChart(){
@@ -244,6 +271,116 @@ export class InformesComponent implements OnInit {
       },
     }
     this.chartTerminado = true;
+  }
+
+  downloadExcelLogs(){
+    let workbook = new Workbook();
+
+    let worksheet = workbook.addWorksheet("Logs de usuarios");
+
+    let header = ["Usuario", "Fecha", "Hora"];
+    let headerRow = worksheet.addRow(header);
+
+    for (let item of this.logs) {
+      let auxRow = [item.usuario ,  item.fecha , item.hora];
+
+      worksheet.addRow(auxRow);
+    }
+    
+    let fileName = "LogsUsuarios-Clinica_Online";
+
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, fileName + '.xlsx');
+    });
+  }
+
+  downloadExcelDia(){
+    let workbook = new Workbook();
+
+    let worksheet = workbook.addWorksheet("Turnos por dia");
+
+    let header = ["Dia", "Cantidad de turnos"];
+    let headerRow = worksheet.addRow(header);
+
+    for (let item of this.turnosPorDia) {
+      let auxRow = [item.dia ,  item.cantidad];
+
+      worksheet.addRow(auxRow);
+    }
+    
+    let fileName = "TurnosPorDia-Clinica_Online";
+
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, fileName + '.xlsx');
+    });
+  }
+
+  downloadExcelEspecialidades(){
+    let workbook = new Workbook();
+
+    let worksheet = workbook.addWorksheet("Cantidad de especialidades de los turnos");
+
+    let header = ["Especialidad", "Cantidad"];
+    let headerRow = worksheet.addRow(header);
+
+    for (let item of this.turnosEspecialidad) {
+      let auxRow = [item.especialidad ,  item.cantidad];
+
+      worksheet.addRow(auxRow);
+    }
+    
+    let fileName = "CantidadEspecialidades-Clinica_Online";
+
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, fileName + '.xlsx');
+    });
+  }
+
+  downloadExcelTurnosSolicitados(){
+    let workbook = new Workbook();
+
+    let worksheet = workbook.addWorksheet("Cantidad de turnos solicitados por especialista");
+
+    let header = ["Especialista", "Cantidad"];
+    let headerRow = worksheet.addRow(header);
+
+    for (let item of this.turnosSolicitadoMedico) {
+      let auxRow = [item.especialista ,  item.cantidad];
+
+      worksheet.addRow(auxRow);
+    }
+    
+    let fileName = "TurnosSolicitados-Clinica_Online";
+
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, fileName + '.xlsx');
+    });
+  }
+
+  downloadExcelTurnosFinalizado(){
+    let workbook = new Workbook();
+
+    let worksheet = workbook.addWorksheet("Cantidad de turnos finalizdos por especialista");
+
+    let header = ["Especialista", "Cantidad"];
+    let headerRow = worksheet.addRow(header);
+
+    for (let item of this.turnosFinalizadoMedico) {
+      let auxRow = [item.especialista, item.cantidad];
+
+      worksheet.addRow(auxRow);
+    }
+    
+    let fileName = "TurnosFinalizados-Clinica_Online";
+
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, fileName + '.xlsx');
+    });
   }
 
   downloadPdf(){

@@ -1,21 +1,28 @@
 <div class="container">
-    <div *ngIf="logs?.length; else spinner">
+    <div>
         <div class="row mt-2 fs-5">
-            <div class="col-12 col-md-4" *ngIf="!log">
+            <div class="col-12 col-md-6" *ngIf="!log">
                 <span class="badge rounded-pill bg-warning text-dark ms-2" (click)="mostrarLogs()">Logs inicio de
                     sesión</span>
             </div>
-            <div class="col-12 col-md-4" *ngIf="!cantidadTurnosDia">
+            <div class="col-12 col-md-6" *ngIf="!cantidadTurnosDia">
                 <span class="badge rounded-pill bg-warning text-dark ms-2" (click)="mostrarTurnosDia()">Cantidad de
                     turnos por día</span>
             </div>
-            <div class="col-12 col-md-4" *ngIf="!cantidadEspecialidadTurno">
+            <div class="col-12 col-md-6" *ngIf="!cantidadEspecialidadTurno">
                 <span class="badge rounded-pill bg-warning text-dark ms-2"
                     (click)="mostrarCantidadEspecialidad()">Cantidad de turnos por especialidad</span>
             </div>
-            <div class="col-12 col-md-4" *ngIf="!cantidadEspecialidadTurno">
-                <span class="badge rounded-pill bg-warning text-dark ms-2" (click)="generateChart()"
-                    *ngIf="!this.chartTerminado">Generar graficos</span>
+            <div class="col-12 col-md-6" *ngIf="!turnosSolicitados">
+                <span class="badge rounded-pill bg-warning text-dark ms-2"
+                    (click)="mostrarTurnosSolicitadosMedico()">Cantidad turnos solicitados por especialista</span>
+            </div>
+            <div class="col-12 col-md-6" *ngIf="!turnosFinalizados">
+                <span class="badge rounded-pill bg-warning text-dark ms-2"
+                    (click)="mostrarTurnosFinalizados()">Cantidad turnos finalizados por especialista</span>
+            </div>
+            <div class="col-12 col-md-4" *ngIf="!chartTerminado">
+                <span class="badge rounded-pill bg-warning text-dark ms-2" (click)="generateChart()">Generar graficos</span>
             </div>
         </div>
         <div class="table-responsive" *ngIf="log">
@@ -38,6 +45,7 @@
                     </th>
                 </tr>
             </table>
+            <button class="btn btn-success" style="width: 100%;" (click)="downloadExcelLogs()">Descargar en excel</button>
         </div>
 
         <div class="table-responsive row align-items-center justify-content-center" style="height:80vh;"
@@ -57,6 +65,7 @@
                     </th>
                 </tr>
             </table>
+            <button class="btn btn-success" style="width: 100%;" (click)="downloadExcelEspecialidades()">Descargar en excel</button>
         </div>
 
         <div class="table-responsive row align-items-center justify-content-center" style="height:80vh;"
@@ -76,6 +85,47 @@
                     </th>
                 </tr>
             </table>
+            <button class="btn btn-success" style="width: 100%;" (click)="downloadExcelDia()">Descargar en excel</button>
+        </div>
+
+        <div class="table-responsive row align-items-center justify-content-center" style="height:80vh;"
+            *ngIf="turnosFinalizados">
+            <h4 class="text-light">Cantidad de turnos finalizado por medico</h4>
+            <table class="table text-light">
+                <tr>
+                    <th>Especialista</th>
+                    <th>Cantidad turnos finalizados</th>
+                </tr>
+                <tr *ngFor="let item of this?.turnosFinalizadoMedico">
+                    <th>
+                        {{item.especialista | primeraMayuscula}}
+                    </th>
+                    <th>
+                        {{item.cantidad}}
+                    </th>
+                </tr>
+            </table>
+            <button class="btn btn-success" style="width: 100%;" (click)="downloadExcelTurnosFinalizado()">Descargar en excel</button>
+        </div>
+
+        <div class="table-responsive row align-items-center justify-content-center" style="height:80vh;"
+            *ngIf="turnosSolicitados">
+            <h4 class="text-light">Cantidad de turnos solicitados por medico</h4>
+            <table class="table text-light">
+                <tr>
+                    <th>Especialista</th>
+                    <th>Cantidad de turnos solicitados</th>
+                </tr>
+                <tr *ngFor="let item of this?.turnosSolicitadoMedico">
+                    <th>
+                        {{item.especialista | primeraMayuscula}}
+                    </th>
+                    <th>
+                        {{item.cantidad}}
+                    </th>
+                </tr>
+            </table>
+            <button class="btn btn-success" style="width: 100%;" (click)="downloadExcelTurnosSolicitados()">Descargar en excel</button>
         </div>
         <div #informe>
             <div *ngIf="chartTerminado" #informe style="display: block">
