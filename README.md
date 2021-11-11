@@ -35,11 +35,6 @@ Aqui podremos ver todos nuestros datos
 El administrador desde esta seccion puede ver todos los distintos tipos de usuarios
 ![UsuariosSeccion](./src/assets/clinicaFotos/usuarios.png?raw=true)
 
-#### UsuariosDetalle
-Lo mismo que la sección anterior pero en mas detalle y con la foto de los usuarios
-![UsuariosDetalleSeccion](./src/assets/clinicaFotos/usuariosDetalle.png?raw=true)
-
-
 #### Solicitar Turno
 Desde aqui podremos solicitar un turno con un especialista
 ![SolicitarTurnoSeccion](./src/assets/clinicaFotos/solicitarTurno.png?raw=true)
@@ -50,7 +45,7 @@ Aqui podremos ver nuestros turnos
 
 #### Historia clinica
 Aqui podremos ver la historia clinica
-![MisTurnosSeccion](./src/assets/clinicaFotos/misTurnos.png?raw=true)
+![HistoriaClinicaSeccion](./src/assets/clinicaFotos/historiaClinica.png?raw=true)
 
 #### Informes
 Aqui podremos ver los informes
