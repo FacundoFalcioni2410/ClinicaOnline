@@ -204,40 +204,33 @@ export class TurnosComponent implements OnInit {
       if(turno?.comentario?.toLowerCase().trim().includes(this.searchParam) || turno?.especialidad?.toLowerCase().trim().includes(this.searchParam) || turno?.estado?.toLowerCase().trim().includes(this.searchParam) || turno?.fecha?.toLowerCase().trim().includes(this.searchParam) || turno?.hora?.toLowerCase().trim().includes(this.searchParam))
       {
         this.turnosMostrar.push(turno);
-        return true;
       }
       else
       {
 
-          if(turno.pacienteCompleto?.dni?.toString().toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.apellido?.toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.edad?.toString().toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.email?.toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.nombre?.toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.obraSocial?.includes(this.searchParam) || turno.pacienteCompleto?.perfil?.toLowerCase().trim().includes(this.searchParam))
+        if(turno.pacienteCompleto?.dni?.toString().toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.apellido?.toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.edad?.toString().toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.email?.toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.nombre?.toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.obraSocial?.includes(this.searchParam) || turno.pacienteCompleto?.perfil?.toLowerCase().trim().includes(this.searchParam))
+        {
+          this.turnosMostrar.push(turno);
+        }
+        if(turno?.historiaClinica)
+        {
+          for(let dinamico of turno?.historiaClinica.dinamicos)
+          {
+            if(dinamico.clave.trim().toLowerCase().includes(this.searchParam) || dinamico.valor.trim().toLowerCase().includes(this.searchParam))
+            {
+              this.turnosMostrar.push(turno);
+            }
+          }
+
+          if(turno?.historiaClinica?.altura?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.peso?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.presion?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.temperatura?.toLowerCase().includes(this.searchParam))
           {
             this.turnosMostrar.push(turno);
           }
-          if(turno?.historiaClinica)
-          {
-              for(let dinamico of turno?.historiaClinica.dinamicos)
-              {
-                for(let key in dinamico)
-                {
-                  if(key.trim().includes(this.searchParam) || dinamico[key].trim().includes(this.searchParam))
-                  {
-                    this.turnosMostrar.push(turno);
-                    return true;
-                  }
-                }
-              }
-  
-              if(turno?.historiaClinica?.altura?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.peso?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.presion?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.temperatura?.toLowerCase().includes(this.searchParam))
-              {
-                this.turnosMostrar.push(turno);
-                return true;
-              }
         }
 
         if(turno?.especialistaCompleto?.dni?.toString().trim().toLowerCase().includes(this.searchParam) || turno?.especialistaCompleto?.apellido?.toLowerCase().trim().includes(this.searchParam) || turno?.especialistaCompleto?.edad?.toString().toLowerCase().trim().includes(this.searchParam) ||  turno?.especialistaCompleto?.email?.toLowerCase().trim().includes(this.searchParam) || turno?.especialistaCompleto?.nombre?.toLowerCase().trim().includes(this.searchParam))
         {
           this.turnosMostrar.push(turno);
-          return true;
         }
       }
     }
