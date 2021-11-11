@@ -8,7 +8,10 @@
                 <h6 class="">{{especialista?.dni | dniFormat}}</h6>
                 <h6 class="text-break" *ngFor="let item of especialista?.especialidad">{{item}}</h6>
                 <h6 class="">{{especialista?.email}}</h6>
-                <h6 [ngClass]="{'bi-check-lg': especialista?.habilitado === true, 'bi-x-lg': especialista?.habilitado === false}" (click)="actualizarEstado(especialista)"><i class="bi "></i></h6>
+                <h6 [ngClass]="{'bi-check-lg': especialista?.habilitado === true, 'bi-x-lg': especialista?.habilitado === false}" (click)="actualizarEstado(especialista)"><i class="bi"></i>
+                    <span class="ms-1" *ngIf="especialista?.habilitado">Habilitado</span>
+                    <span class="ms-1" *ngIf="!especialista?.habilitado">Deshabilitado</span>
+                </h6>
             </div>
             <div class="col-6" >
                 <img [defaultImage]="spinner" [lazyLoad]="especialista.imagen" alt=""  height="120px" width="120px" style="border-radius: 50%;" appFoto>

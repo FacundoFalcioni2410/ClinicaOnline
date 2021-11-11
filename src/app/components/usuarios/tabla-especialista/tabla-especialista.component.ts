@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FirestoreService } from 'src/app/services/firestore.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-tabla-especialista',
@@ -18,7 +19,15 @@ export class TablaEspecialistaComponent implements OnInit {
   }
 
   actualizarEstado(especialista: any){
-    this.firestore.especialistaCollectionReference.doc(especialista.id).update({habilitado: !especialista.habilitado})
+    this.firestore.especialistaCollectionReference.doc(especialista.id).update({habilitado: !especialista.habilitado});
+    if(especialista.habilitado)
+    {
+      Swal.fire({'text': 'Especialista deshabilitado', toast: true, timer: 1500, timerProgressBar: true, position: 'bottom', icon: 'success'});
+    }
+    else
+    {
+      Swal.fire({'text': 'Especialista habilitado', toast: true, timer: 1500, timerProgressBar: true, position: 'bottom', icon: 'success'});
+    }
   }
 
 }

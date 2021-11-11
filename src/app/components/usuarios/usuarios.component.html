@@ -33,7 +33,7 @@
         </div>
         <ng-template #otros>
             <div class="col-12 text-light" *ngIf="this.tipoUser === 'Especialistas'">
-                <app-tabla-especialista [especialistas]="this.usuarios"></app-tabla-especialista>
+                <app-tabla-especialista [especialistas]="this.especialistas"></app-tabla-especialista>
             </div>
             <div class="col-12 text-light" *ngIf="this.tipoUser === 'Administradores'">
                 <app-tabla-admin [admins]="this.usuarios"></app-tabla-admin>
