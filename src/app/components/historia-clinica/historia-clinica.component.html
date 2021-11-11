@@ -30,21 +30,11 @@
                             <label>Presion</label>
                             <h6 class="d-inline ms-2">{{historiaClinica.presion}}</h6>
                         </div>
-                        <div>
-                            <label>{{historiaClinica.dinamico1.clave | primeraMayuscula}}</label>
-                            <h6 class="d-inline ms-2">{{historiaClinica.dinamico1.valor}}</h6>
-                        </div>
-                        <div>
-                            <label>{{historiaClinica.dinamico2.clave | primeraMayuscula}}</label>
-                            <h6 class="d-inline ms-2">{{historiaClinica.dinamico2.valor}}</h6>
-                        </div>
-                        <div>
-                            <label>{{historiaClinica.dinamico3.clave | primeraMayuscula}}</label>
-                            <h6 class="d-inline ms-2">{{historiaClinica.dinamico3.valor}}</h6>
-                        </div>
-                        <div>
-                            <label class="d-inline">Comentario del especialista sobre el turno: </label>
-                            <h6 class="d-inline mb-2">{{historiaClinica.comentario}}</h6>
+                        <div *ngFor="let item of historiaClinica.dinamicos">
+                            <div>
+                                <label>{{item.clave | primeraMayuscula}}</label>
+                                <h6 class="d-inline ms-2">{{item.valor}}</h6>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -75,21 +65,11 @@
                             <label>Presion</label>
                             <h6 class="d-inline ms-2">{{historiaClinica.presion}}</h6>
                         </div>
-                        <div>
-                            <label>{{historiaClinica.dinamico1.clave | primeraMayuscula}}</label>
-                            <h6 class="d-inline ms-2">{{historiaClinica.dinamico1.valor}}</h6>
-                        </div>
-                        <div>
-                            <label>{{historiaClinica.dinamico2.clave | primeraMayuscula}}</label>
-                            <h6 class="d-inline ms-2">{{historiaClinica.dinamico2.valor}}</h6>
-                        </div>
-                        <div>
-                            <label>{{historiaClinica.dinamico3.clave | primeraMayuscula}}</label>
-                            <h6 class="d-inline ms-2">{{historiaClinica.dinamico3.valor}}</h6>
-                        </div>
-                        <div>
-                            <label class="d-inline">Comentario del especialista sobre el turno: </label>
-                            <h6 class="d-inline mb-2">{{historiaClinica.comentario}}</h6>
+                        <div *ngFor="let item of historiaClinica.dinamicos">
+                            <div>
+                                <label>{{item.clave | primeraMayuscula}}</label>
+                                <h6 class="d-inline ms-2">{{item.valor}}</h6>
+                            </div>
                         </div>
                     </div>
                 </div>

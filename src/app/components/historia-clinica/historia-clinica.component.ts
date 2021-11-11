@@ -46,7 +46,7 @@ export class HistoriaClinicaComponent implements OnInit {
       {
         if(this.paciente?.historiaClinica)
         {
-          for(let historia of this.paciente.historiaClinica)
+          for(let historia of this.paciente?.historiaClinica)
           {
             for(let item of this.especialistas)
             {
@@ -68,13 +68,16 @@ export class HistoriaClinicaComponent implements OnInit {
       {
         for(let paciente of this.pacientes)
         {
-          for(let historia of paciente.historiaClinica)
+          if(paciente?.historiaClinica)
           {
-            if(historia.especialista === this.firestore.usuarioActual?.dni)
+            for(let historia of paciente?.historiaClinica)
             {
-              historia.especialistaCompleto = this.firestore?.usuarioActual;
-              historia.pacienteCompleto = paciente;
-              this.historiaClinica.push(historia);
+              if(historia.especialista === this.firestore.usuarioActual?.dni)
+              {
+                historia.especialistaCompleto = this.firestore?.usuarioActual;
+                historia.pacienteCompleto = paciente;
+                this.historiaClinica.push(historia);
+              }
             }
           }
         }
@@ -132,6 +135,11 @@ export class HistoriaClinicaComponent implements OnInit {
 
     this.tabla = this.historiaClinicaMostrar.map((historiaClinica:any)=>{
       let row = [];
+      let dinamicosString = '';
+      historiaClinica.dinamicos.forEach((item: any) => {
+        console.log(item);
+        dinamicosString += item.clave + ': ' + item.valor + '\n';
+      });
       row.push(
         historiaClinica.dia + ' ' + historiaClinica.hora + '\n' +
         historiaClinica.especialistaCompleto.nombre + '\n' + 
@@ -143,9 +151,7 @@ export class HistoriaClinicaComponent implements OnInit {
         'Altura: ' + historiaClinica.altura + '\n' + 
         'Presion: ' + historiaClinica.presion + '\n' + 
         'Temperatura: ' +  historiaClinica.temperatura + '\n' + 
-        historiaClinica.dinamico1.clave + ':' + historiaClinica.dinamico1.valor + '\n' +
-        historiaClinica.dinamico2.clave + ':' + historiaClinica.dinamico2.valor + '\n' +
-        historiaClinica.dinamico3.clave + ':' + historiaClinica.dinamico3.valor + '\n'
+        dinamicosString
         );
         return row;
       });

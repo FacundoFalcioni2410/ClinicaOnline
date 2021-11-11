@@ -12,6 +12,9 @@ export class MisTurnosEspecialistaComponent implements OnInit {
   turnos: any = [];
   turnosMostrar: any = [];
 
+  mostrarTurnosBool: boolean = true;
+  mostrarHistoria: boolean = false;
+
   pacientes: any = [];
   paciente: any;
 
@@ -26,6 +29,13 @@ export class MisTurnosEspecialistaComponent implements OnInit {
   mensaje: string = '';
 
   turnoActual: any;
+
+  datosDinamicos: any = [
+    {
+      clave: '',
+      valor: ''
+    }
+  ];
 
   constructor(public firestore: FirestoreService) {
 
@@ -162,7 +172,7 @@ export class MisTurnosEspecialistaComponent implements OnInit {
   async cancelarTurno(turno: any) {
     let i = 0;
     const { value: razon } = await Swal.fire({
-      title: 'Finalizar turno',
+      title: 'Cancelar turno',
       input: 'text',
       inputLabel: 'Ingrese la razon por la que cancela el turno: ',
       inputAttributes: {
@@ -195,6 +205,15 @@ export class MisTurnosEspecialistaComponent implements OnInit {
     }
   }
 
+  agregarDatoDinamico(){
+    let objeto = {
+      clave: '',
+      valor: ''
+    }
+
+    this.datosDinamicos.push(objeto);
+  }
+
   async finalizarTurno() {
     let i = 0;
 
@@ -203,22 +222,7 @@ export class MisTurnosEspecialistaComponent implements OnInit {
     let temperatura = (<HTMLInputElement>document.getElementById('temperatura')).value;
     let presion = (<HTMLInputElement>document.getElementById('presion')).value;
 
-    let dinamico1 = {
-      clave: (<HTMLInputElement>document.getElementById('dinamicoClave1')).value,
-      valor: (<HTMLInputElement>document.getElementById('dinamicoValor1')).value,
-    }
-
-    let dinamico2 = {
-      clave: (<HTMLInputElement>document.getElementById('dinamicoClave2')).value,
-      valor: (<HTMLInputElement>document.getElementById('dinamicoValor2')).value,
-    }
-
-    let dinamico3 = {
-      clave: (<HTMLInputElement>document.getElementById('dinamicoClave3')).value,
-      valor: (<HTMLInputElement>document.getElementById('dinamicoValor3')).value,
-    }
-
-    if (altura && peso && presion && temperatura && (dinamico1.clave && dinamico1.valor) && (dinamico2.valor && dinamico2.clave) && (dinamico3.valor && dinamico3.clave)) {
+    if (altura && peso && presion && temperatura) {
       const { value: comentario } = await Swal.fire({
         title: 'Finalizar turno',
         input: 'text',
@@ -236,9 +240,7 @@ export class MisTurnosEspecialistaComponent implements OnInit {
           peso: peso,
           presion: presion,
           temperatura: temperatura,
-          dinamico1: dinamico1,
-          dinamico2: dinamico2,
-          dinamico3: dinamico3,
+          dinamicos: this.datosDinamicos,
           comentario: comentario,
           dia: this.turnoActual.fecha,
           hora: this.turnoActual.hora
@@ -286,6 +288,10 @@ export class MisTurnosEspecialistaComponent implements OnInit {
     else {
       Swal.fire({ title: 'Error', text: `Asegurese de completar todos los campos`, toast: true, timer: 1500, icon: 'error', timerProgressBar: true, position: 'bottom' });
     }
+
+    this.mostrarHistoria = false;
+    this.mostrarTurnosBool = true;
+
   }
 
   verComentario(turno: any) {
@@ -306,27 +312,49 @@ export class MisTurnosEspecialistaComponent implements OnInit {
       if(turno?.comentario?.toLowerCase().trim().includes(this.searchParam) || turno?.especialidad?.toLowerCase().trim().includes(this.searchParam) || turno?.estado?.toLowerCase().trim().includes(this.searchParam) || turno?.fecha?.toLowerCase().trim().includes(this.searchParam) || turno?.hora?.toLowerCase().trim().includes(this.searchParam))
       {
         this.turnosMostrar.push(turno);
+        return true;
       }
       else
       {
         if(turno.pacienteCompleto?.dni?.toString().toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.apellido?.toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.edad?.toString().toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.email?.toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.nombre?.toLowerCase().trim().includes(this.searchParam) || turno.pacienteCompleto?.obraSocial?.includes(this.searchParam) || turno.pacienteCompleto?.perfil?.toLowerCase().trim().includes(this.searchParam))
         {
           this.turnosMostrar.push(turno);
+          return true;
         }
 
         if(turno?.historiaClinica)
         {
-            if(turno?.historiaClinica.dinamico1.clave?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico1.valor?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico1.clave?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico2.valor?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico2.clave?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico3.valor?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica.dinamico3.clave?.toLowerCase().trim().includes(this.searchParam) || turno?.historiaClinica?.altura?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.peso?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.presion?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.temperatura?.toLowerCase().includes(this.searchParam))
+            for(let dinamico of turno?.historiaClinica.dinamicos)
+            {
+              for(let key in dinamico)
+              {
+                if(key.trim().includes(this.searchParam) || dinamico[key].trim().includes(this.searchParam))
+                {
+                  this.turnosMostrar.push(turno);
+                  return true;
+                }
+              }
+            }
+
+            if(turno?.historiaClinica?.altura?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.peso?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.presion?.toLowerCase().includes(this.searchParam) || turno?.historiaClinica?.temperatura?.toLowerCase().includes(this.searchParam))
             {
               this.turnosMostrar.push(turno);
+              return true;
             }
         }
 
         if(this.especialista?.dni?.toString().trim().toLowerCase().includes(this.searchParam) || this.especialista?.apellido?.toLowerCase().trim().includes(this.searchParam) || this.especialista?.edad?.toString().toLowerCase().trim().includes(this.searchParam) ||  this.especialista?.email?.toLowerCase().trim().includes(this.searchParam) || this.especialista?.nombre?.toLowerCase().trim().includes(this.searchParam))
         {
           this.turnosMostrar.push(turno);
+          return true;
         }
       }
     }
+  }
+
+  finalizar(turno: any){
+    this.turnoActual = turno;
+    this.mostrarTurnosBool = false;
+    this.mostrarHistoria = true;
   }
 }

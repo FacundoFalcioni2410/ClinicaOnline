@@ -1,58 +1,102 @@
 <div class="container">
-    <h2 class="text-center text-light">Listado de mis turnos</h2>
-    <div class="d-flex justify-content-between flex-wrap" *ngIf="this.turnos?.length">
-        <i (click)="limpiarFiltros()" class="bi bi-funnel-fill text-info noselect">Limpiar filtros</i>
-        <div class="d-flex">
-            <input type="text" class="mt-1 form-control d-inline" [(ngModel)]='searchParam' (ngModelChange)="filtrar()">
+    <div *ngIf="this.mostrarTurnosBool">
+        <h2 class="text-center text-light">Listado de mis turnos</h2>
+        <div class="d-flex justify-content-between flex-wrap" *ngIf="this.turnos?.length">
+            <i (click)="limpiarFiltros()" class="bi bi-funnel-fill text-info noselect">Limpiar filtros</i>
+            <div class="d-flex">
+                <input type="text" class="mt-1 form-control d-inline" [(ngModel)]='searchParam'
+                    (ngModelChange)="filtrar()">
+            </div>
         </div>
-    </div>
-    <div *ngIf='this.turnosMostrar.length; else spinner'>
-        <div class="col-12 col-sm-6">
-            <span *ngFor="let item of pacientes" (click)="seleccionarPaciente(item)"
-                class="badge rounded-pill bg-dark text-light m-1 mt-2 p-2 noselect">
-                <img [src]="item?.imagenes[0]" alt="" width="80px" height="80px" style="border-radius: 50%" appFoto>
-            </span>
-        </div>
-        <div class="col-12 d-flex flex-wrap text-light">
-            <span *ngFor="let item of array" (click)="seleccionarEspecialidad(item)"
-                class="d-inline-flex flex-column me-2">
-                <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%" appFoto>
-                <p>{{item.especialidad | primeraMayuscula}}</p>
-            </span>
-        </div>
-        <div class="row justify-content-around" style="column-gap: 40px;row-gap: 15px;">
-            <div class="col-12 col-md-4 row rounded" style="background-color: rgba(0,0,0,.5);"
-                *ngFor="let turno of turnosMostrar" [appEstados]="turno?.estado" appOpacity>
-                <div class="col-6">
-                    <h6>{{turno.fecha}}</h6>
-                    <h6>{{turno.hora}}</h6>
-                    <h6>{{turno.especialidad}}</h6>
-                    <h6 class="text-break">{{turno.pacienteCompleto?.nombre | primeraMayuscula}} {{turno.pacienteCompleto?.apellido | primeraMayuscula}} -
-                        {{turno.pacienteCompleto?.dni | dniFormat}}</h6>
-                    <h6 class="text-break">{{especialista?.nombre | primeraMayuscula}} {{especialista?.apellido | primeraMayuscula}} -
-                        {{especialista?.dni | dniFormat}}</h6>
-                    <h6>{{turno.estado | uppercase}}</h6>
-                </div>
-                <div class="col-6 d-flex h-100 justify-content-end">
-                    <div class="d-flex flex-column">
-                        <i *ngIf="turno.estado !== 'aceptado' && turno.estado !== 'cancelado' && turno.estado !== 'rechazado' && turno.estado !== 'realizado'"
-                            class="bi bi-x-square-fill ms-2" title="Cancelar turno" (click)="cancelarTurno(turno)"></i>
-                        <i *ngIf="turno.estado !== 'aceptado' && turno.estado !== 'realizado' && turno.estado !== 'rechazado' && turno.estado !== 'cancelado'"
-                            class="bi bi-x-lg ms-2" title="Rechazar turno" (click)="rechazarTurno(turno)"></i>
-                        <i *ngIf="(turno.estado !== 'realizado' && turno.estado !== 'cancelado' && turno.estado !== 'rechazado') && turno.estado !== 'aceptado'"
-                            class="bi bi-check-circle ms-2" title="Aceptar turno" (click)="aceptarTurno(turno)"></i>
-                        <i *ngIf="turno.estado === 'aceptado'" class="bi bi-check-square-fill ms-2"
-                            title="Finalizar turno" data-bs-toggle="modal" data-bs-target="#modal" (click)="this.turnoActual = turno"></i>
-                        <i *ngIf="(turno?.atencion || turno?.razon) || turno?.satisfaccion"
-                            class="bi bi-layout-text-sidebar-reverse ms-2" title="Ver reseña"
-                            (click)="verComentario(turno)"></i>
+        <div *ngIf='this.turnosMostrar.length; else spinner'>
+            <div class="col-12 col-sm-6">
+                <span *ngFor="let item of pacientes" (click)="seleccionarPaciente(item)"
+                    class="badge rounded-pill bg-dark text-light m-1 mt-2 p-2 noselect">
+                    <img [src]="item?.imagenes[0]" alt="" width="80px" height="80px" style="border-radius: 50%" appFoto>
+                </span>
+            </div>
+            <div class="col-12 d-flex flex-wrap text-light">
+                <span *ngFor="let item of array" (click)="seleccionarEspecialidad(item)"
+                    class="d-inline-flex flex-column me-2">
+                    <img [src]="item?.imagen" alt="" width="80px" height="80px" style="border-radius: 50%" appFoto>
+                    <p>{{item.especialidad | primeraMayuscula}}</p>
+                </span>
+            </div>
+            <div class="row justify-content-around" style="column-gap: 40px;row-gap: 15px;">
+                <div class="col-12 col-md-4 row rounded" style="background-color: rgba(0,0,0,.5);"
+                    *ngFor="let turno of turnosMostrar" [appEstados]="turno?.estado" appOpacity>
+                    <div class="col-6">
+                        <h6>{{turno.fecha}}</h6>
+                        <h6>{{turno.hora}}</h6>
+                        <h6>{{turno.especialidad}}</h6>
+                        <h6 class="text-break">{{turno.pacienteCompleto?.nombre | primeraMayuscula}}
+                            {{turno.pacienteCompleto?.apellido | primeraMayuscula}} -
+                            {{turno.pacienteCompleto?.dni | dniFormat}}</h6>
+                        <h6 class="text-break">{{especialista?.nombre | primeraMayuscula}} {{especialista?.apellido |
+                            primeraMayuscula}} -
+                            {{especialista?.dni | dniFormat}}</h6>
+                        <h6>{{turno.estado | uppercase}}</h6>
+                    </div>
+                    <div class="col-6 d-flex h-100 justify-content-end">
+                        <div class="d-flex flex-column">
+                            <i *ngIf="turno.estado !== 'aceptado' && turno.estado !== 'cancelado' && turno.estado !== 'rechazado' && turno.estado !== 'realizado'"
+                                class="bi bi-x-square-fill ms-2" title="Cancelar turno"
+                                (click)="cancelarTurno(turno)"></i>
+                            <i *ngIf="turno.estado !== 'aceptado' && turno.estado !== 'realizado' && turno.estado !== 'rechazado' && turno.estado !== 'cancelado'"
+                                class="bi bi-x-lg ms-2" title="Rechazar turno" (click)="rechazarTurno(turno)"></i>
+                            <i *ngIf="(turno.estado !== 'realizado' && turno.estado !== 'cancelado' && turno.estado !== 'rechazado') && turno.estado !== 'aceptado'"
+                                class="bi bi-check-circle ms-2" title="Aceptar turno" (click)="aceptarTurno(turno)"></i>
+                            <i *ngIf="turno.estado === 'aceptado'" class="bi bi-check-square-fill ms-2"
+                                title="Finalizar turno"
+                                (click)="finalizar(turno)"></i>
+                            <i *ngIf="(turno?.atencion || turno?.razon) || turno?.satisfaccion"
+                                class="bi bi-layout-text-sidebar-reverse ms-2" title="Ver reseña"
+                                (click)="verComentario(turno)"></i>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div *ngIf="this.mensaje !== ''">
+                <span class="text-danger">{{this.mensaje}}</span>
+            </div>
         </div>
-        <div *ngIf="this.mensaje !== ''">
-            <span class="text-danger">{{this.mensaje}}</span>
-        </div>
+    </div>
+    <div class="col-12 col-md-12 row rounded text-light" style="background-color: rgba(0,0,0,.5);"
+        *ngIf="this.mostrarHistoria">
+        <form>
+            <div class="mb-3">
+                <label for="altura" class="col-form-label">Altura</label>
+                <input type="number" class="form-control" id="altura">
+            </div>
+            <div class="mb-3">
+                <label for="peso" class="col-form-label">Peso</label>
+                <input type="number" class="form-control" id="peso">
+            </div>
+            <div class="mb-3">
+                <label for="temperatura" class="col-form-label">temperatura</label>
+                <input type="number" class="form-control" id="temperatura">
+            </div>
+            <div class="mb-3">
+                <label for="presion" class="col-form-label">Presión</label>
+                <input type="number" class="form-control" id="presion">
+            </div>
+            <!-- DATOS DINAMICOS -->
+            <div class="mb-3">
+                <label class="col-form-label">A continuacion ingrese los datos que crea conveniente. Teniendo en cuenta
+                    que primero debe cargar que dato es, y luego la informacion sobre el mismo</label>
+            </div>
+            <div *ngFor="let item of datosDinamicos; let i = index">
+                <div class="mb-3">
+                    <label for="dinamico1Clave" class="col-form-label">Dato {{i + 1}}</label>
+                    <input type="text" class="form-control mb-2" name="{{i}}" [(ngModel)]="item.clave">
+                    <input type="text" class="form-control" name="{{i}}" [(ngModel)]="item.valor">
+                </div>
+            </div>
+            <div class='d-flex justify-content-center'>
+                <i class="bi bi-plus d-block" (click)="agregarDatoDinamico()"></i>
+                <button (click)="finalizarTurno()" class="btn btn-success btn-block">Enviar historia clinica</button>
+            </div>
+        </form>
     </div>
     <ng-template #spinner>
         <app-spinner></app-spinner>
@@ -67,43 +111,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="altura" class="col-form-label">Altura</label>
-                        <input type="number" class="form-control" id="altura">
-                    </div>
-                    <div class="mb-3">
-                        <label for="peso" class="col-form-label">Peso</label>
-                        <input type="number" class="form-control" id="peso">
-                    </div>
-                    <div class="mb-3">
-                        <label for="temperatura" class="col-form-label">temperatura</label>
-                        <input type="number" class="form-control" id="temperatura">
-                    </div>
-                    <div class="mb-3">
-                        <label for="presion" class="col-form-label">Presión</label>
-                        <input type="number" class="form-control" id="presion">
-                    </div>
-                    <!-- DATOS DINAMICOS -->
-                    <div class="mb-3">
-                        <label for="altura" class="col-form-label">A continuacion ingrese los datos que crea conveniente. Teniendo en cuenta que primero debe cargar que dato es, y luego la informacion sobre el mismo</label>
-                    </div>
-                    <div class="mb-3">
-                        <label for="dinamico1Clave" class="col-form-label">Dato 1</label>
-                        <input type="text" class="form-control mb-2" id="dinamicoClave1">
-                        <input type="text" class="form-control" id="dinamicoValor1">
-                    </div>
-                    <div class="mb-3">
-                        <label for="dinamico2Clave" class="col-form-label">Dato 2</label>
-                        <input type="text" class="form-control mb-2" id="dinamicoClave2">
-                        <input type="text" class="form-control" id="dinamicoValor2">
-                    </div>
-                    <div class="mb-3">
-                        <label for="dinamico3Clave" class="col-form-label">Dato 3</label>
-                        <input type="text" class="form-control mb-2" id="dinamicoClave3">
-                        <input type="text" class="form-control" id="dinamicoValor3">
-                    </div>
-                </form>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
