@@ -5,6 +5,8 @@ import { Directive, ElementRef, HostBinding, HostListener } from '@angular/core'
 })
 export class FotoDirective {
 
+  //Se utiliza en las fotos de turnos, mis-turnos-especialista, mis-turnos-paciente, login, usuarios
+
   constructor(private el: ElementRef) {
 
   }

@@ -5,6 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DniFormatPipe implements PipeTransform {
 
+  //Se utiliza en mi perfil, turnos, mis-turnos, mis-turnos-especialista
+
   transform(value: number, ...args: unknown[]): string {
     let aux = value.toString().split('');
 

@@ -5,6 +5,8 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 })
 export class OpacityDirective {
 
+  //Se utiliza en el card de turnos, mis-turnos-especialista, mis-turnos-paciente
+
   constructor(private el: ElementRef) { }
 
 

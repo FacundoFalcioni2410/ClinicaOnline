@@ -5,6 +5,8 @@ import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 })
 export class EstadosDirective implements OnInit {
 
+  //Se utiliza en los estados de turnos, mis-turnos-especialista, mis-turnos-paciente
+
   @Input() appEstados = '';
 
   constructor(private el: ElementRef, private renderer: Renderer2) {

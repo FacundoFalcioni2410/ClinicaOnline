@@ -9,6 +9,7 @@ import { PrimeraMayusculaPipe } from 'src/app/pipes/primera-mayuscula.pipe';
 import { FotoDirective } from 'src/app/directivas/foto.directive';
 import { DniFormatPipe } from 'src/app/pipes/dni-format.pipe';
 import { OpacityDirective } from 'src/app/directivas/opacity.directive';
+import { ToUpperPipe } from 'src/app/pipes/to-upper.pipe';
 
 
 
@@ -20,7 +21,8 @@ import { OpacityDirective } from 'src/app/directivas/opacity.directive';
     PrimeraMayusculaPipe,
     FotoDirective,
     DniFormatPipe,
-    OpacityDirective
+    OpacityDirective,
+    ToUpperPipe
   ],
   imports: [
     CommonModule,
@@ -35,7 +37,8 @@ import { OpacityDirective } from 'src/app/directivas/opacity.directive';
     PrimeraMayusculaPipe,
     FotoDirective,
     DniFormatPipe,
-    OpacityDirective
+    OpacityDirective,
+    ToUpperPipe
   ],
   providers: [DatePipe]
 })
